@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name" : "Exhibitor Deck",
+    "slug" : "exhibitordeck",
+    "sdkVersion": "15.0.0",
+    "privacy" : "public",
+    "orientation" : "portrait",
+    "scheme" : "exhdck"
+  }
+}
