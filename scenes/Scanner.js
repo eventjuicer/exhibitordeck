@@ -1,13 +1,17 @@
 
 
 import React, {Component} from 'react';
-import { BarCodeScanner, Permissions } from 'expo';
+import { BarCodeScanner } from 'expo';
+import { connect } from 'react-redux';
+import {participantScanned as participantScannedAction} from '../redux/actions/scanned';
+
 import { StyleSheet, Text, View, Image, Vibration } from 'react-native';
 import {Button} from 'react-native-elements';
-
+import Modal from '../components/Modal';
 import styles from '../styles'
-
 const tintColor = '#ffcc00'
+
+
 
 class Scanner extends Component {
 
@@ -24,49 +28,50 @@ class Scanner extends Component {
   }
 
 
-  state = {
-    hasCameraPermission: null,
-  }
+    _handleBarCodeRead = (data) => {
 
-  async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({hasCameraPermission: status === 'granted'});
-  }
+      Vibration.vibrate();
+      alert(JSON.stringify(data));
+
+    }
+
 
   render() {
 
-    const { hasCameraPermission } = this.state;
+      const {participantScanned} = this.props;
 
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
-      return <View><Text>No access to camera :/</Text></View>;
-    } else {
       return (
+
         <View style={{flex: 1}}>
 
            <BarCodeScanner
-            onBarCodeRead={this._handleBarCodeRead}
+            //onBarCodeRead={this._handleBarCodeRead}
+            onBarCodeRead={() => participantScanned(data)}
+
             style={StyleSheet.absoluteFill}
           />
 
-          {/* <Button
+        <Button
             onPress={() => this.props.navigation.goBack()}
             title="Go back home"
-          /> */}
+          />
 
+        <Modal />
 
         </View>
       );
     }
   }
 
-  _handleBarCodeRead = (data) => {
-    Vibration.vibrate();
-    alert(JSON.stringify(data));
-  }
-}
 
 
 
-export default Scanner;
+  const mapStateToProps = state => ({
+      nav: state.nav
+  });
+
+  export default connect(mapStateToProps, {
+
+    participantScanned : participantScannedAction
+
+  })(Scanner);

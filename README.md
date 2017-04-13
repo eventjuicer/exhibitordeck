@@ -1,11 +1,24 @@
 
 
+
+## Links for future reference
+
 - https://reactnavigation.org/docs/intro/
 - https://github.com/react-native-community/react-native-elements
 - http://stackoverflow.com/questions/38810725/navigation-experimental-how-to-pass-props-to-scenes
--https://github.com/Thinkmill/react-conf-app
+- https://github.com/Thinkmill/react-conf-app
 - https://medium.com/appandflow/react-native-scrollview-animated-header-10a18cb9469e#.yrmovaymy
-- https://medium.com/appandflow/react-native-scrollview-animated-header-10a18cb9469e#.yrmovaymy
+- http://makeitopen.com/tutorials/building-the-f8-app/data/
+- https://www.codementor.io/vijayst/using-firebase-with-redux-for-building-a-react-app-du1086puw
+- https://www.nginx.com/blog/building-microservices-using-an-api-gateway/
+- https://github.com/FuYaoDe/react-native-app-intro
+
+
+
+
+
+
+
 
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).

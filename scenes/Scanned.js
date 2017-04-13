@@ -1,6 +1,8 @@
 
 
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+
 import { StyleSheet, Text, View, Image, ListView } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
 import styles from '../styles'
@@ -144,9 +146,14 @@ renderRow = (rowData, sectionID) => (
         title={rowData.name}
         subtitle={rowData.subtitle}
         avatar={{uri:rowData.avatar_url}}
-        onPress = {() => this.props.navigation.navigate('Comments', {user: 111})}
-      />
+      //  onPress = {() => this.props.screenProps.onLogout() }   />
+
+      onPress = {() => this.props.navigation.navigate('Comments', {user: 111})}
+
+    />
+
   )
+
 
 render () {
 
@@ -161,8 +168,11 @@ render () {
       </List>
     )
   }
-
 }
 
 
-export default Scanned;
+const mapStateToProps = state => ({
+    nav: state.nav
+});
+
+export default connect(mapStateToProps, null)(Scanned);
