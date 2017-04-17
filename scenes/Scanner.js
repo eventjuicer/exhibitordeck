@@ -8,24 +8,18 @@ import {participantScanned as participantScannedAction} from '../redux/actions/s
 import { StyleSheet, Text, View, Image, Vibration } from 'react-native';
 import {Button} from 'react-native-elements';
 import Modal from '../components/Modal';
-import styles from '../styles'
-const tintColor = '#ffcc00'
+import {styles} from '../styles';
+const tintColor = '#ffcc00';
 
 
-
+/*icon: ({ tintColor }) => (
+  <Image
+    source={require('../icons/test.png')}
+    // style={[styles.icon, {tintColor: tintColor}]}
+  />
+),
+*/
 class Scanner extends Component {
-
-  static navigationOptions = {
-    tabBar: {
-      label: 'Scanner',
-      icon: ({ tintColor }) => (
-        <Image
-          source={require('../icons/test.png')}
-          style={[styles.icon, {tintColor: tintColor}]}
-        />
-      ),
-    },
-  }
 
 
     _handleBarCodeRead = (data) => {
@@ -39,26 +33,17 @@ class Scanner extends Component {
   render() {
 
       const {participantScanned} = this.props;
-
       return (
 
-        <View style={{flex: 1}}>
+<View style={{flex: 1}}>
 
-           <BarCodeScanner
-            //onBarCodeRead={this._handleBarCodeRead}
-            onBarCodeRead={() => participantScanned(data)}
+<BarCodeScanner onBarCodeRead={() => this.props.participantScanned(data)}
 
-            style={StyleSheet.absoluteFill}
-          />
+style={StyleSheet.absoluteFill}
+/>
 
-        <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Go back home"
-          />
 
-        <Modal />
-
-        </View>
+</View>
       );
     }
   }
@@ -67,7 +52,7 @@ class Scanner extends Component {
 
 
   const mapStateToProps = state => ({
-      nav: state.nav
+    bigListOfParticipants : state.bigListOfParticipants
   });
 
   export default connect(mapStateToProps, {

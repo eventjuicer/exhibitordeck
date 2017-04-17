@@ -1,60 +1,93 @@
 
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+
 import { StyleSheet, View, Text, Image, KeyboardAvoidingView, TextInput } from 'react-native';
-import {Button, Grid, Row, FormLabel, FormInput} from 'react-native-elements';
+import {Button, ButtonGroup, Grid, Row, FormLabel, FormInput, Slider} from 'react-native-elements';
 
 import {CommentsStyles as styles} from '../styles';
 
+import {participantComment as participantCommentAction} from '../redux/actions/comment';
+
 class Comments extends Component {
 
-  state = {
-    behavior: 'padding',
-    text : "",
-    height : 0
-  };
 
-  static navigationOptions = {
-      // Nav options can be defined as a function of the navigation prop:
-    title: ({ state }) => `${state.params.user}`,
+  constructor(props)
+  {
 
-  };
+    super(props);
 
-  handleInput = (costam) => {
-    console.log(costam);
+    this.state = {
+      behavior: 'padding',
+      text : "",
+      height : 0,
+      slider : 3,
+      selectedIndex: 2
+    };
+
+  }
+
+  updateIndex = (selectedIndex) => {
+    this.setState({selectedIndex});
+  }
+
+  handleInput = (text) => {
+    this.setState({text : text});
   }
 
   handleSubmit = (event) => {
 
-      console.log(event);
+
+
+    const {goBack, state, navigate} = this.props.navigation;
+    const {participantComment} = this.props;
+    const {text} = this.state;
+    participantComment({participant_id : 0, text: text});
   }
 
   render() {
 
-    const { navigate } = this.props.navigation;
+    const {goBack, state, navigate} = this.props.navigation;
+
+    const buttons = ['Hello', 'World', 'Buttons']
+      const { selectedIndex } = this.state
+
+
 
     return (
-      <View style={styles.outerContainer}>
-          <KeyboardAvoidingView behavior={this.state.behavior} style={styles.container}>
-            <TextInput
-       {...this.props}
-       multiline={true}
-       onChangeText={(text) => {
-         this.setState({text});
-       }}
-       placeholder="Your comment..."
-       onContentSizeChange={(event) => {
-         this.setState({height: event.nativeEvent.contentSize.height});
-       }}
-       style={[styles.textInput, {height: Math.max(35, this.state.height)}]}
-       value={this.state.text}
-     />
+
+<View style={styles.outerContainer}>
+<KeyboardAvoidingView behavior={this.state.behavior} style={styles.container}>
 
 
-              <Button title='BUTTON' onPress={this.handleSubmit}/>
-          </KeyboardAvoidingView>
-      </View>
-    );
+
+  <ButtonGroup
+    onPress={this.updateIndex}
+    selectedIndex={selectedIndex}
+    buttons={buttons}
+    containerStyle={{height: 30}} />
+
+
+
+<TextInput multiline={true} onChangeText={(text) => this.handleInput(text)} placeholder="Your comment..." onContentSizeChange={(event) => {
+this.setState({height: event.nativeEvent.contentSize.height});
+}} style={[styles.textInput, {height: Math.max(35, this.state.height)}]} value={this.state.text} />
+
+<Button raised  icon={{name: 'cached'}} title='Save comment' onPress={() => this.handleSubmit()}/>
+</KeyboardAvoidingView>
+</View>
+);
   }
 }
 
-export default Comments;
+
+const mapStateToProps = state => ({
+  listOfScannedParticipants : state.listOfScannedParticipants
+});
+
+
+export default connect(mapStateToProps, {
+
+  participantComment : participantCommentAction
+
+})(Comments);

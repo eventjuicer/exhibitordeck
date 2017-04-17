@@ -20,13 +20,17 @@ export const CommentsStyles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
+//    alignItems: 'stretch'
   },
   textInput: {
     borderRadius: 1,
     borderWidth: 0,
+    backgroundColor: '#ffffff',
     height: 100,
     paddingHorizontal: 20,
     paddingVertical: 10,
+    marginBottom: 10,
+    fontSize : 16
   },
   segment: {
     marginBottom: 10,

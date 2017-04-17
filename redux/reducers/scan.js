@@ -1,9 +1,6 @@
+import {PARTICIPANT_SCANNED} from '../actions/scanned';
 
-
-
-export const PARTICIPANT_SCANNED = "PARTICIPANT_SCANNED";
-
-export const participantScanned = (state = [], action) => {
+const participantScanned = (state = [], action) => {
   switch (action.type) {
     case PARTICIPANT_SCANNED:
       return [
@@ -17,3 +14,5 @@ export const participantScanned = (state = [], action) => {
       return state
   }
 }
+
+export default participantScanned;

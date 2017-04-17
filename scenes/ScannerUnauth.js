@@ -2,7 +2,10 @@
 
 import React, {Component} from 'react';
 import { BarCodeScanner } from 'expo';
-import { StyleSheet, Text, View, Image, Vibration } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { connect } from 'react-redux';
+import {authenticate as authenticateAction} from '../redux/actions/authenticate';
+
 import {Button} from 'react-native-elements';
 import Modal from '../components/Modal';
 import styles from '../styles'
@@ -12,17 +15,6 @@ const tintColor = '#ffcc00'
 
 class ScannerUnauth extends Component {
 
-  static navigationOptions = {
-    tabBar: {
-      label: 'Scanner',
-      icon: ({ tintColor }) => (
-        <Image
-          source={require('../icons/test.png')}
-          style={[styles.icon, {tintColor: tintColor}]}
-        />
-      ),
-    },
-  }
 
 
   _handleBarCodeRead = (data) => {
@@ -30,7 +22,7 @@ class ScannerUnauth extends Component {
     //http://api.eventjuicer.com.local/firebase/94051b42be60ff718ca86a4d8c86f0f4bd37399b
     if(data.data.indexOf("@")!= - 1)
     {
-      Vibration.vibrate();
+
       this.authenticate(data.data);
     }
 
@@ -39,7 +31,7 @@ class ScannerUnauth extends Component {
   authenticate = (code) =>
   {
 
-      const {onAuthenticate} = this.props;
+      const {authenticate} = this.props;
 
       return fetch('https://api.eventjuicer.com/services/v1/barcode-scanner/auth/'+code)
         .then((response) => response.json())
@@ -48,7 +40,7 @@ class ScannerUnauth extends Component {
             if('data' in responseJson && 'participant_id' in responseJson.data)
             {
               console.log(JSON.stringify(responseJson.data));
-              onAuthenticate(responseJson.data);
+              authenticate(responseJson.data);
             }
             else
             {
@@ -74,7 +66,7 @@ class ScannerUnauth extends Component {
             title="Go back home"
           />
 
-              <Modal />
+
 
         </View>
       );
@@ -82,5 +74,12 @@ class ScannerUnauth extends Component {
   }
 
 
+const mapStateToProps = state => ({
+    authenticated: "participant_id" in state.user
+});
 
-export default ScannerUnauth;
+export default connect(mapStateToProps, {
+
+  authenticate : authenticateAction
+
+})(ScannerUnauth);

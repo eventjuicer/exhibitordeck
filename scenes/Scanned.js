@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { StyleSheet, Text, View, Image, ListView } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
-import styles from '../styles'
+import {styles} from '../styles'
 
 
 const tintColor = '#ffcc00'
@@ -98,16 +98,6 @@ const list = [
 ]
 
 
-function getMoviesFromApiAsync() {
-    return fetch('https://facebook.github.io/react-native/movies.json')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        return responseJson.movies;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
 
 class Scanned extends Component {
 
@@ -120,23 +110,6 @@ class Scanned extends Component {
   }
 
 
-  static navigationOptions = {
-    tabBar: {
-
-      // label: 'People',
-      // title: () => "People 2",
-
-      // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-      icon: ({ tintColor }) => (
-        <Image
-          source={require('../icons/test.png')}
-          style={[styles.icon, {tintColor: tintColor}]}
-        />
-      ),
-    },
-  }
-
-
 
 renderRow = (rowData, sectionID) => (
 
@@ -146,9 +119,11 @@ renderRow = (rowData, sectionID) => (
         title={rowData.name}
         subtitle={rowData.subtitle}
         avatar={{uri:rowData.avatar_url}}
+      //  rightTitle="VIP"
+        badge={{ value: "vip", badgeTextStyle: { color: 'orange' }, badgeContainerStyle: { marginTop: 5 } }}
       //  onPress = {() => this.props.screenProps.onLogout() }   />
 
-      onPress = {() => this.props.navigation.navigate('Comments', {user: 111})}
+        onPress = {() => this.props.navigation.navigate('Comments', {user: rowData.name})}
 
     />
 
@@ -158,7 +133,6 @@ renderRow = (rowData, sectionID) => (
 render () {
 
     const { navigate } = this.props.navigation;
-
     return (
       <List>
         <ListView
@@ -171,8 +145,9 @@ render () {
 }
 
 
+
 const mapStateToProps = state => ({
-    nav: state.nav
+  listOfScannedParticipants : state.listOfScannedParticipants
 });
 
 export default connect(mapStateToProps, null)(Scanned);

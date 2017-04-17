@@ -3,6 +3,10 @@
 
 ## Links for future reference
 
+- https://github.com/rt2zz/redux-persist/blob/master/docs/recipes.md#delay-render-until-rehydration-complete
+
+https://github.com/react-community/react-navigation/issues/145
+https://github.com/react-community/react-navigation/issues/286
 - https://reactnavigation.org/docs/intro/
 - https://github.com/react-native-community/react-native-elements
 - http://stackoverflow.com/questions/38810725/navigation-experimental-how-to-pass-props-to-scenes
