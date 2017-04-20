@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import { AsyncStorage, View, Text } from 'react-native';
 import Expo, {AppLoading} from 'expo';
@@ -12,11 +11,11 @@ import sagas from './redux/sagas';
 import Welcome from './scenes/Welcome';
 
 const logger = store => next => action => {
-  console.group(action.type)
+  console.group("BEGIN:" + action.type)
   console.info('dispatching', action)
   let result = next(action)
   console.log('next state', store.getState())
-  console.groupEnd(action.type)
+  console.groupEnd("END: " + action.type)
   return result
 }
 
@@ -33,19 +32,18 @@ sagaMiddleware.run(sagas);
 
 class App extends Component {
 
-  constructor(props)
+  constructor()
   {
-     super(props)
+     super()
      this.state = { rehydrated: false }
-
-
   }
 
   waitForStoreRehydration = () => {
-    persistStore(store, {blacklist : ["nav"], storage: AsyncStorage}, () => {
+    persistStore(store, {blacklist : ["nav", "participants"], storage: AsyncStorage}, () => {
      this.setState({ rehydrated: true });
      console.log('REDUX STORE restored');
-    })
+   })
+   //.purge()
   }
 
   componentWillMount()

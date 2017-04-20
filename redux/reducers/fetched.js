@@ -1,26 +1,27 @@
 
 
-
 import {PARTICIPANTS_FETCHED} from '../actions/scanned';
+
+
 
 const participantsFetched = (state = [], action) => {
   switch (action.type) {
     case PARTICIPANTS_FETCHED:
 
-      console.log(action.type);
-console.log(action.payload);
+      console.log(action);
 
-      return [
-        ...state,
-        {
-          text: "action.text",
-          completed: false
-        }
-      ]
+
+      return Object.assing({}, state, action.payload);
+
+      // if("data" in action.payload)
+      // {
+      //
+      //   return action.payload.data;
+      // }
+      // return state;
     default:
       return state
   }
 }
-
 
 export default participantsFetched;

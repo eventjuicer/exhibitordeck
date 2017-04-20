@@ -12,19 +12,12 @@ import {participantComment as participantCommentAction} from '../redux/actions/c
 class Comments extends Component {
 
 
-  constructor(props)
-  {
-
-    super(props);
-
-    this.state = {
-      behavior: 'padding',
-      text : "",
-      height : 0,
-      slider : 3,
-      selectedIndex: 2
-    };
-
+  state = {
+    behavior: 'padding',
+    text : "",
+    height : 0,
+    slider : 3,
+    selectedIndex: 2
   }
 
   updateIndex = (selectedIndex) => {
@@ -37,12 +30,13 @@ class Comments extends Component {
 
   handleSubmit = (event) => {
 
-
-
     const {goBack, state, navigate} = this.props.navigation;
     const {participantComment} = this.props;
     const {text} = this.state;
-    participantComment({participant_id : 0, text: text});
+
+    alert("ID is " + state.params.id);
+
+    participantComment(state.params.id, text);
   }
 
   render() {
@@ -81,13 +75,10 @@ this.setState({height: event.nativeEvent.contentSize.height});
 }
 
 
+
 const mapStateToProps = state => ({
-  listOfScannedParticipants : state.listOfScannedParticipants
 });
 
-
 export default connect(mapStateToProps, {
-
   participantComment : participantCommentAction
-
 })(Comments);

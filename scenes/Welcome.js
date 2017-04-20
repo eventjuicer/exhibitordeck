@@ -7,7 +7,7 @@ import {Permissions, AppLoading, Font} from 'expo';
 
 //custom
 import Navigation from './Navigation';
-import ScannerUnauth from './ScannerUnauth';
+
 
 import {participantsFetched as participantsFetchedAction} from '../redux/actions/fetchedVisitors';
 
@@ -39,10 +39,12 @@ class Welcome extends Component{
   {
     const {participantsFetched} = this.props;
 
-    await fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors')
+    await fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code')
         .then((response) => response.json())
         .then((responseJson) => {
-          participantsFetched(responseJson);
+
+            participantsFetched(responseJson);
+
         })
         .catch((error) => {
           console.error(error);
@@ -89,13 +91,13 @@ class Welcome extends Component{
 }
 
 Welcome.defaultProps = {
-  user : {},
+  auth : {},
   isReady: false,
   hasCameraPermission : null
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, {

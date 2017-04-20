@@ -1,113 +1,15 @@
 
-
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-
-import { StyleSheet, Text, View, Image, ListView } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
+
+
 import {styles} from '../styles'
-
-
 const tintColor = '#ffcc00'
 
 
-
-const list = [
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-
-]
-
-
-
 class Scanned extends Component {
-
-  constructor(props) {
-    super(props);
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(list)
-    };
-  }
 
 
 
@@ -130,24 +32,66 @@ renderRow = (rowData, sectionID) => (
   )
 
 
+translateScanned = (code) => {
+  const {participants} = this.props;
+  return {
+
+    title : "test",
+    subtitle : "costam"
+  };
+}
+
 render () {
 
-    const { navigate } = this.props.navigation;
+    const {navigate}  = this.props.navigation;
+    const {scanned}   = this.props;
+
+    if(!scanned.length)
+    {
+      return (
+        <View style={{marginTop: 50, paddingHorizontal: 30}}>
+        <Text style={{fontSize: 16, textAlign: "center"}}>
+          No data at the moment :( Scan some badges!
+        </Text>
+        </View>
+      )
+    }
+
     return (
-      <List>
-        <ListView
-          renderRow={this.renderRow}
-          dataSource={this.state.dataSource}
-        />
+
+      <List containerStyle={{marginBottom: 20}}>
+      {
+      scanned.map((scan, i) => {
+
+      let translated = this.translateScanned(scan);
+
+      return (<ListItem
+        //roundAvatar
+      //  avatar={{uri:scan.avatar_url}}
+        key={i}
+        title={translated.title}
+        subtitle={translated.subtitle}
+        onPress = {() => navigate('Comments', {id: scan.code, user: translated.title})}
+      />)
+    })
+      }
       </List>
+
     )
+
+
   }
 }
 
-
+Scanned.defaultProps = {
+  scanned : [],
+  participants : []
+}
 
 const mapStateToProps = state => ({
-  listOfScannedParticipants : state.listOfScannedParticipants
+  auth : state.auth,
+  scanned : state.scanned,
+  participants : state.participants,
 });
 
 export default connect(mapStateToProps, null)(Scanned);

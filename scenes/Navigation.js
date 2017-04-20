@@ -47,6 +47,7 @@ const DetailedNavigator = StackNavigator({
 
 
 }, {
+
   mode : "card",
   headerMode: "float",
 });
@@ -108,7 +109,7 @@ export const MainStackNavigator = StackNavigator({
      }
   }
 },{
-  headerMode : "none"
+   headerMode : "none"
 });
 
 

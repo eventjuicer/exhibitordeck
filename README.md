@@ -3,6 +3,7 @@
 
 ## Links for future reference
 
+-https://medium.freecodecamp.com/async-operations-using-redux-saga-2ba02ae077b3
 - https://github.com/rt2zz/redux-persist/blob/master/docs/recipes.md#delay-render-until-rehydration-complete
 
 https://github.com/react-community/react-navigation/issues/145

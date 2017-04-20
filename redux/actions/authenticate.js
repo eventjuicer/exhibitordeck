@@ -1,6 +1,6 @@
 export const AUTHENTICATE = 'AUTHENTICATE';
 
-export const authenticate = user => ({
+export const authenticate = code => ({
     type: AUTHENTICATE,
-    payload: user,
+    payload: code,
 });

@@ -1,6 +1,7 @@
 export const PARTICIPANT_SCANNED = 'PARTICIPANT_SCANNED';
 
-export const participantScanned = user => ({
+export const participantScanned = (code, ts) => ({
     type: PARTICIPANT_SCANNED,
-    payload: user,
+    code: code,
+    ts : ts
 });

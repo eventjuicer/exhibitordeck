@@ -1,12 +1,8 @@
 import {combineReducers } from 'redux';
 
+import scanned from './scan';
+import participants from './fetched';
+import nav from './nav';
+import auth from './auth';
 
-import scan from './scan';
-import fetched from './fetched';
-import navReducer from './nav';
-
-export default combineReducers({
-    nav : navReducer,
-    participants : fetched,
-    scanned : scan
-});
+export default combineReducers({ auth, nav, participants, scanned});
