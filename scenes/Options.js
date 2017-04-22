@@ -52,7 +52,7 @@ render () {
 
     const {auth, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
     const { goBack, navigate } = this.props.navigation;
-
+    const isLoggedIn = ("participant_id" in auth);
     const onActionEdit = this.onActionEdit;
 
     return (
@@ -75,7 +75,7 @@ title="Back"
 return (
 <View key={index}>
 <FormLabel>Quick comment #{index}</FormLabel>
-<TextInput style={{paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}} defaultValue={"a"+index in options ? options["a"+index] : ""} maxLength={20} onChangeText={(text) => onActionEdit(text, index)}/>
+<TextInput returnKeyType="send" style={{paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}} defaultValue={"a"+index in options ? options["a"+index] : ""} maxLength={20} onChangeText={(text) => onActionEdit(text, index)}/>
 </View>
 )
 
@@ -93,10 +93,13 @@ onPress={() => Alert.alert("Are you sure?", null, [{text: "Erase", onPress: ()=>
 title="Clear data"
 />
 
-<Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
-onPress={() => Alert.alert("Are you sure?", null, [{text: "Logout", onPress: ()=>logout("participant_id" in auth) },{text: "Cancel"} ])}
-title="Logout"
-/>
+{
+  isLoggedIn ? <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
+  onPress={() => Alert.alert("Are you sure?", null, [{text: "Logout", onPress: ()=>logout(isLoggedIn) },{text: "Cancel"} ])}
+  title="Logout"
+/> : null
+}
+
 
 <Text style={{fontSize: 13, textAlign: "center", paddingVertical: 20}}>
 (c) eventjuicer.com ltd
@@ -109,10 +112,6 @@ title="Logout"
 }
 
 
-Options.defaultProps = {
-  auth : {},
-  options : ["email", "telefon", "inna akcja", "inna akcja"]
-}
 
 const mapStateToProps = state => ({
   auth : state.auth,

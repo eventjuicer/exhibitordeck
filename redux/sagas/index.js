@@ -77,10 +77,10 @@ function _handleParticipantsFetch()
   });
 }
 
-function* handleLogout(action)
+function* handleLogout()
 {
   Alert.alert(
-    action.currentStatus ? "Bye :)" : 'You have already logged out...',
+    "Bye :)",
     "Want to sign in again? Scan the QR code that appears on your exhibitor account",
     [
        {text: 'OK', onPress: () => console.log('OK Pressed')},

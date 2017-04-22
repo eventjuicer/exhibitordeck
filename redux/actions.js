@@ -30,9 +30,8 @@ export const recentlyScannedCode = code => ({
   code : code
 });
 
-export const logout = currentStatus => ({
-    type: Types.LOGOUT,
-    currentStatus : currentStatus
+export const logout = () => ({
+    type: Types.LOGOUT
 });
 
 export const cameraPermission = (status) => ({
