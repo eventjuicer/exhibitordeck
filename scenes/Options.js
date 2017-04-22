@@ -54,6 +54,7 @@ render () {
     const { goBack, navigate } = this.props.navigation;
     const isLoggedIn = ("participant_id" in auth);
     const onActionEdit = this.onActionEdit;
+    const hasScans = (this.scanned.length > 0);
 
     return (
 
@@ -88,10 +89,15 @@ onPress={() => syncRequest()}
 title="Sync"
 />
 
-<Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
-onPress={() => Alert.alert("Are you sure?", null, [{text: "Erase", onPress: ()=> purgeScanned()}, {text: "Cancel"} ])}
-title="Clear data"
-/>
+{
+  hasScans ?
+  <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
+  onPress={() => Alert.alert("Are you sure?", null, [{text: "Erase", onPress: ()=> purgeScanned()}, {text: "Cancel"} ])}
+  title="Clear data"
+/> : null
+
+}
+
 
 {
   isLoggedIn ? <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
@@ -115,7 +121,8 @@ title="Clear data"
 
 const mapStateToProps = state => ({
   auth : state.auth,
-  options : state.options
+  options : state.options,
+  scanned : state.scanned
 });
 
 export default connect(mapStateToProps, {changeActionLabels, logout, syncRequest, purgeScanned})(Options);
