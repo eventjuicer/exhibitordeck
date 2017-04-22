@@ -1,11 +1,12 @@
 {
-  "name": "exhdckcrna",
-  "version": "0.1.0",
+  "name": "ExhibitorDeck",
+  "version": "0.1.1",
   "private": true,
   "devDependencies": {
-    "jest-expo": "^0.3.0",
-    "react-native-scripts": "0.0.22",
-    "react-test-renderer": "~15.4.1"
+    "jest-expo": "^0.4.0",
+    "react-devtools": "^2.0.12",
+    "react-native-scripts": "0.0.28",
+    "react-test-renderer": "~15.5.4"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -13,7 +14,8 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "node node_modules/jest/bin/jest.js --watch"
+    "test": "node node_modules/jest/bin/jest.js --watch",
+    "devtools": "react-devtools"
   },
   "jest": {
     "preset": "jest-expo",
@@ -23,16 +25,20 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^4.0.0",
-    "expo": "^15.0.0",
+    "console-polyfill": "^0.2.3",
+    "errors": "^0.3.0",
+    "expo": "^16.0.0",
     "firebase": "^3.7.3",
+    "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.11",
+    "no": "^0.0.1",
     "raven-js": "^3.14.2",
-    "react": "~15.4.0",
-    "react-native": "0.42.3",
-    "react-native-elements": "^0.10.0",
-    "react-native-vector-icons": "4.0.0",
-    "react-navigation": "1.0.0-beta.7",
+    "react": "16.0.0-alpha.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz",
+    "react-native-elements": "https://github.com/react-native-training/react-native-elements/archive/master.tar.gz",
+    "react-native-vector-icons": "4.0.1",
+    "react-navigation": "1.0.0-beta.8",
     "react-redux": "^5.0.3",
     "redux": "^3.6.0",
     "redux-persist": "^4.5.0",

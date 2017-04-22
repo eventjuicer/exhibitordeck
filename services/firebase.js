@@ -2,11 +2,11 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey: "AIzaSyDOlAxXU5427_ChfCUk0XnGZ6IdjherP-o",
+  apiKey: "",
   authDomain: "exhibitordeck.firebaseapp.com",
   databaseURL: "https://exhibitordeck.firebaseio.com",
   storageBucket: "exhibitordeck.appspot.com",
-  messagingSenderId: "150229574700"
+  messagingSenderId: ""
 };
 
 firebase.initializeApp(config);

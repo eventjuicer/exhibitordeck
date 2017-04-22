@@ -1,8 +1,9 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
+
 
 
 import {styles} from '../styles'
@@ -11,25 +12,6 @@ const tintColor = '#ffcc00'
 
 class Scanned extends Component {
 
-
-
-renderRow = (rowData, sectionID) => (
-
-      <ListItem
-        roundAvatar
-        key={sectionID}
-        title={rowData.name}
-        subtitle={rowData.subtitle}
-        avatar={{uri:rowData.avatar_url}}
-      //  rightTitle="VIP"
-        badge={{ value: "vip", badgeTextStyle: { color: 'orange' }, badgeContainerStyle: { marginTop: 5 } }}
-      //  onPress = {() => this.props.screenProps.onLogout() }   />
-
-        onPress = {() => this.props.navigation.navigate('Comments', {user: rowData.name})}
-
-    />
-
-  )
 
 
 translateScanned = (code) => {
@@ -58,7 +40,7 @@ render () {
     }
 
     return (
-
+      <ScrollView>
       <List containerStyle={{marginBottom: 20}}>
       {
       scanned.map((scan, i) => {
@@ -76,6 +58,7 @@ render () {
     })
       }
       </List>
+    </ScrollView>
 
     )
 
@@ -83,7 +66,12 @@ render () {
   }
 }
 
+
+
+
+
 Scanned.defaultProps = {
+  auth : {},
   scanned : [],
   participants : []
 }

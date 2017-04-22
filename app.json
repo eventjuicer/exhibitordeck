@@ -1,10 +1,19 @@
 {
   "expo": {
-    "name" : "Exhibitor Deck",
+    "name" : "Exhibitor Deck for E-commerce Poland Expo",
+    "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
     "slug" : "exhibitordeck",
-    "sdkVersion": "15.0.0",
+    "icon": "icons/app.png",
+    "sdkVersion": "16.0.0",
     "privacy" : "public",
     "orientation" : "portrait",
-    "scheme" : "exhdck"
+    "scheme" : "exhdck",
+    "primaryColor" : "#cc2c24",
+    "loading" : {
+      "icon" : "icons/appwhite.png",
+      "hideExponentText" : true,
+      "backgroundColor" : "#cc2c24"
+    },
+    "androidStatusBarColor" : "#cc2c24"
   }
 }

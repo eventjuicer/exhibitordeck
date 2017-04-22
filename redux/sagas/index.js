@@ -1,13 +1,21 @@
 
 import { Alert, Vibration } from 'react-native';
+import {Permissions, Font} from 'expo';
 import { call, put, take, fork, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 
-import {PARTICIPANT_SCANNED} from '../actions/scanned';
-import {AUTHENTICATE} from '../actions/authenticate';
-import {AUTHENTICATED, authenticated} from '../actions/authenticated';
-import {PARTICIPANTS_FETCHED} from '../actions/fetchedVisitors';
-import {UNAUTHENTICATED} from '../actions/unauthenticated';
+import Types from "../types";
+import {authenticated, unauthenticated, cameraPermission, participantsFetched, recentlyScannedCode} from "../actions";
 
+
+
+
+function* handleAuthCheck(auth)
+{
+  if(!auth)
+  {
+    yield put(unauthenticated());
+  }
+}
 
 function* handleUnauthenticated()
 {
@@ -40,7 +48,7 @@ function codeToUserData(code)
 {
   console.log("fetching user for code: " + code);
 
-  return fetch('https://api.eventjuicer.com/services/v1/barcode-scanner/auth/'+code)
+  return  fetch('https://api.eventjuicer.com/services/v1/barcode-scanner/auth/'+code)
     .then((response) => response.json())
     .then((responseJson) => {
         return responseJson.data;
@@ -50,6 +58,36 @@ function codeToUserData(code)
     });
 }
 
+function* handleParticipantsFetch()
+{
+  const participants = yield call(_handleParticipantsFetch);
+  yield put(participantsFetched(participants));
+}
+
+
+function _handleParticipantsFetch()
+{
+  return fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code?limit=3')
+      .then((response) => response.json())
+      .then((responseJson) => {
+          return responseJson;
+      })
+      .catch((error) => {
+        console.error(error);
+  });
+}
+
+function* handleLogout(action)
+{
+  Alert.alert(
+    action.currentStatus ? "Bye :)" : 'You have already logged out...',
+    "Want to sign in again? Scan the QR code that appears on your exhibitor account",
+    [
+       {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]
+  );
+}
+
 function* handleAuthenticate(action)
 {
   try {
@@ -57,12 +95,21 @@ function* handleAuthenticate(action)
      yield put(authenticated(user));
      Vibration.vibrate();
   } catch (e) {
-    // yield put({type: "USER_FETCH_FAILED", message: e.message});
+    yield put(unauthenticated());
   }
 
 }
 
+function _handleCameraAskPermission()
+{
+  return Permissions.askAsync(Permissions.CAMERA);
+}
 
+export function* handleCameraAskPermission()
+{
+  const permData = yield call(_handleCameraAskPermission);
+  yield put(cameraPermission(permData.status === 'granted'));
+}
 
 function* handleNavigation()
 {
@@ -71,17 +118,21 @@ function* handleNavigation()
 
 function* watchScanner()
 {
-    yield throttle(1000, PARTICIPANT_SCANNED, handleScanned);
-    yield throttle(1000, AUTHENTICATE, handleAuthenticate);
+    yield throttle(1000, Types.PARTICIPANT_SCANNED, handleScanned);
+    yield throttle(1000, Types.AUTHENTICATE, handleAuthenticate);
 
 }
 
 export default function* sagas() {
     yield [
+        takeEvery(Types.LOGOUT, handleLogout),
+        takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
+        takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermission),
         takeEvery("Navigation/NAVIGATE", handleNavigation),
-        takeEvery(UNAUTHENTICATED, handleUnauthenticated),
-        takeEvery(PARTICIPANTS_FETCHED, handleFetched),
-        takeEvery(AUTHENTICATE, handleAuthenticate),
-        takeEvery(PARTICIPANT_SCANNED, handleScanned),
+        takeEvery(Types.UNAUTHENTICATED, handleUnauthenticated),
+        takeEvery(Types.AUTH_CHECK, handleAuthCheck),
+        takeEvery(Types.PARTICIPANTS_FETCHED, handleFetched),
+        takeEvery(Types.AUTHENTICATE, handleAuthenticate),
+        takeEvery(Types.PARTICIPANT_SCANNED, handleScanned),
     ];
 }

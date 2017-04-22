@@ -1,15 +1,13 @@
-import {AUTHENTICATE} from '../actions/authenticate';
-import {AUTHENTICATED} from '../actions/authenticated';
-import {LOGOUT} from '../actions/logout';
+import Types from '../types';
 
 const userAuthenticated = (state = [], action) => {
   switch (action.type)
   {
-    case AUTHENTICATE:
+    case Types.AUTHENTICATE:
       return Object.assign({}, state, {code : action.payload});
-    case AUTHENTICATED:
+    case Types.AUTHENTICATED:
       return Object.assign({}, state, action.payload);
-    case LOGOUT:
+    case Types.LOGOUT:
       return {}
     default:
       return state

@@ -3,52 +3,56 @@
 import React, {Component} from 'react';
 import { BarCodeScanner } from 'expo';
 import { connect } from 'react-redux';
-import {Alert, StyleSheet, View } from 'react-native';
+import {Alert, StyleSheet, View, Text } from 'react-native';
 
-import {participantScanned as participantScannedAction} from '../redux/actions/scanned';
-import {authenticate as authenticateAction} from '../redux/actions/authenticate';
-import {unauthenticated as unauthenticatedAction} from '../redux/actions/unauthenticated';
+import {
+  participantScanned,
+  recentlyScannedCode,
+  authCheck,
+  authenticate
+
+} from '../redux/actions';
+
 
 class Scanner extends Component {
 
-    componentDidMount()
-    {
-      this._checkAuth();
-    }
-
-    _checkAuth = () => {
-
-      const {auth, unauthenticated} = this.props;
-      if(typeof auth.participant_id == "undefined")
-      {
-        unauthenticated();
-      }
-    }
-
     _handleBarCodeRead = (data) => {
 
-      const ts = + new Date();
-      const {participantScanned, authenticate} = this.props;
+      const {auth, options, participantScanned, recentlyScannedCode, authCheck, authenticate} = this.props;
+      const code = data.data;
 
-      //check if authcode or participant code
-
-      if(data.data.indexOf("@") > -1)
+      if(code && code.indexOf("@") != -1)
       {
-        authenticate(data.data);
+        authenticate(code);
       }
       else
       {
-        this._checkAuth();
 
-        participantScanned(data.data,  ts);
+        if(code == options.lastCode)
+        {
+          console.log("same code...skipping");
+        }
+        else
+        {
+          const ts = + new Date();
+          recentlyScannedCode(code);
+          authCheck(("participant_id" in auth));
+          participantScanned(code,  ts);
+        }
       }
     }
 
   render() {
 
+  const {auth, scanned} = this.props;
+  const username = "cname2" in auth ? auth.cname2 : "Unauthenticated.";
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1 }}>
       <BarCodeScanner onBarCodeRead={this._handleBarCodeRead} style={StyleSheet.absoluteFill} />
+      <Text style={{color: "#ffffff", paddingHorizontal: 10, paddingVertical: 10, backgroundColor: 'rgba(52, 52, 52, 0.8)'}}>
+        {username} You have {scanned.length} scans.
+      </Text>
     </View>
   );
 
@@ -61,13 +65,14 @@ Scanner.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  auth : state.auth
+  auth : state.auth,
+  options : state.options,
+  scanned : state.scanned,
 });
 
 export default connect(mapStateToProps, {
-
-  unauthenticated : unauthenticatedAction,
-  authenticate : authenticateAction,
-  participantScanned : participantScannedAction
-
+  authCheck,
+  authenticate,
+  participantScanned,
+  recentlyScannedCode
 })(Scanner);

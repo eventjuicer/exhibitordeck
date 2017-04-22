@@ -10,77 +10,41 @@ import {Button} from 'react-native-elements';
 import Options from './Options';
 import NavButton from '../components/NavButton';
 
-
-
 const DetailedNavigator = StackNavigator({
+
   People: {
-
     screen: Scanned,
-
-    navigationOptions : {
-     title : "Your scans",
-
-     header :  ({navigate}) => ({
-        right: (
-            <NavButton title="Logout" navigate={navigate}/>
-        ),
-    }),
-    }
+    navigationOptions : ({navigation}) => ({
+       title : "Your scans",
+       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
+    })
   },
-
   Comments: {
-
     screen: Comments,
-      navigationOptions: {
-        // tabBar: {
-        //   label: 'People',
-        // },
-
-          title : (navigation) => `${navigation.state.params.user}`,
-          header : {
-
-            right : <Button title="VIP" buttonStyle={{paddingVertical: 3, paddingHorizontal: 4}} backgroundColor="#ffcc00" color="#000000" borderRadius={1} />,
-         } ,
-     }
-
-},
-
-
-}, {
-
+    navigationOptions : ({navigation}) => ({
+       title : `${navigation.state.params.user}`,
+       headerRight :  <Button title="VIP" buttonStyle={{paddingVertical: 3, paddingHorizontal: 4}} backgroundColor="#ffcc00" color="#000000" borderRadius={1} />
+    })
+  }
+},{
   mode : "card",
   headerMode: "float",
 });
-
-/*
-
-UTILIZING BUTTON
-https://github.com/react-community/react-navigation/issues/145
-https://github.com/react-community/react-navigation/issues/286
-*/
-
 
 export const MainScreenNavigator = TabNavigator({
   Scan: {
     screen: Scanner,
     navigationOptions : {
-      tabBar: {
-        label : "Scan"
-      }
+      tabBarLabel : "Scan"
     }
   },
   PeopleListAndDetails: {
     screen: DetailedNavigator,
     navigationOptions : {
-        tabBar: {
-          label : "People"
-        }
+      tabBarLabel : "People"
     }
-
   },
-},
-{
-
+},{
   tabBarOptions: {
     activeTintColor: '#ffffff',
     labelStyle: {

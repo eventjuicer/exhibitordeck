@@ -1,3 +1,5 @@
+require('console-polyfill')
+
 import React, {Component} from 'react';
 import { AsyncStorage, View, Text } from 'react-native';
 import Expo, {AppLoading} from 'expo';

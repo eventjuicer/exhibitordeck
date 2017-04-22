@@ -18,7 +18,7 @@ export const CommentsStyles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingTop: 20,
 //    alignItems: 'stretch'
   },

@@ -9,53 +9,26 @@ import {Permissions, AppLoading, Font} from 'expo';
 import Navigation from './Navigation';
 
 
-import {participantsFetched as participantsFetchedAction} from '../redux/actions/fetchedVisitors';
+import {
+  participantsFetch,
+  askCameraPermission
+} from '../redux/actions';
+
 
 class Welcome extends Component{
 
 
   componentWillMount()
   {
-    this.checkCamera();
+      this.props.askCameraPermission();
   }
 
   componentDidMount()
   {
-  //  this.checkCamera();
     this.loadFonts();
-    this.fetchVisitors();
-    this.handleAndroidBackButton();
+    this.props.participantsFetch();
   }
 
-  handleAndroidBackButton = () =>
-  {
-    // BackAndroid.addEventListener('hardwareBackPress', function()
-    // {
-    //   this.props.navigation.goBack();
-    // });
-  }
-
-  async fetchVisitors()
-  {
-    const {participantsFetched} = this.props;
-
-    await fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code')
-        .then((response) => response.json())
-        .then((responseJson) => {
-
-            participantsFetched(responseJson);
-
-        })
-        .catch((error) => {
-          console.error(error);
-    });
-
-  }
-
-  async checkCamera() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    //this.setState({hasCameraPermission: status === 'granted'});
-  }
 
   async loadFonts() {
     await Font.loadAsync({
@@ -92,16 +65,12 @@ class Welcome extends Component{
 
 Welcome.defaultProps = {
   auth : {},
-  isReady: false,
-  hasCameraPermission : null
+  isReady: false
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    options : state.options
 });
 
-export default connect(mapStateToProps, {
-
-  participantsFetched : participantsFetchedAction
-
-})(Welcome);
+export default connect(mapStateToProps, {participantsFetch, askCameraPermission})(Welcome);
