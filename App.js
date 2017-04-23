@@ -23,6 +23,7 @@ const logger = store => next => action => {
 
 const sagaMiddleware = createSagaMiddleware();
 
+
 const store = createStore(appReducers, undefined, compose(
   applyMiddleware(sagaMiddleware),
   autoRehydrate({log: true}),
@@ -34,9 +35,9 @@ sagaMiddleware.run(sagas);
 
 class App extends Component {
 
-  constructor()
+  constructor(props)
   {
-     super()
+     super(props)
      this.state = { rehydrated: false }
   }
 

@@ -23,7 +23,7 @@ const DetailedNavigator = StackNavigator({
     screen: Comments,
     navigationOptions : ({navigation}) => ({
        title : `${navigation.state.params.user}`,
-       headerRight :  <Button title="VIP" buttonStyle={{paddingVertical: 3, paddingHorizontal: 4}} backgroundColor="#ffcc00" color="#000000" borderRadius={1} />
+       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
     })
   }
 },{

@@ -13,14 +13,13 @@ const tintColor = '#ffcc00'
 class Scanned extends Component {
 
 
+_translateScanned = (code) => {
 
-translateScanned = (code) => {
   const {participants} = this.props;
-  return {
 
-    title : "test",
-    subtitle : "costam"
-  };
+  const defaults = {fname: "First", lname : "Last", cname2 : "Some company"};
+
+  return (code in participants) ? Object.assign({}, defaults, participants[code]) : defaults;
 }
 
 render () {
@@ -40,20 +39,22 @@ render () {
     }
 
     return (
-      <ScrollView>
-      <List containerStyle={{marginBottom: 20}}>
+      <ScrollView style={{paddingBottom: 50}}>
+      <List>
       {
       scanned.map((scan, i) => {
 
-      let translated = this.translateScanned(scan);
+      let translated = this._translateScanned(scan.code);
+
+      let fullName = translated.fname + " " + translated.lname;
 
       return (<ListItem
         //roundAvatar
       //  avatar={{uri:scan.avatar_url}}
         key={i}
-        title={translated.title}
-        subtitle={translated.subtitle}
-        onPress = {() => navigate('Comments', {id: scan.code, user: translated.title})}
+        title={<Text> {fullName} </Text>}
+        subtitle={<Text>{translated.cname2}</Text>}
+        onPress = {() => navigate('Comments', {id: scan.code, user: fullName})}
       />)
     })
       }
@@ -79,7 +80,7 @@ Scanned.defaultProps = {
 const mapStateToProps = state => ({
   auth : state.auth,
   scanned : state.scanned,
-  participants : state.participants,
+  participants : state.participants
 });
 
 export default connect(mapStateToProps, null)(Scanned);

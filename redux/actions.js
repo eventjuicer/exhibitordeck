@@ -6,6 +6,11 @@ export const changeActionLabels = (index, text) => ({
     text : text
 });
 
+export const purgeCommentsForCode = (code) => ({
+  type : Types.PURGE_COMMENTS_FOR_CODE,
+  code : code
+});
+
 export const authenticate = code => ({
     type: Types.AUTHENTICATE,
     payload: code,
@@ -46,7 +51,7 @@ export const askCameraPermission = () => ({
 export const participantComment = (code, text) => ({
     type: Types.PARTICIPANT_COMMENT,
     code: code,
-    text : text
+    text: text
 });
 
 export const participantsFetch = (since = 0) => ({

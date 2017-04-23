@@ -5,7 +5,26 @@ const handleOptions = (state = [], action) => {
   switch (action.type) {
     case Types.CHANGE_ACTION_LABELS:
 
-      return Object.assign({}, state, {["a"+action.index] : action.text});
+    let comments = [];
+
+    if("comments" in state && Array.isArray(state.comments))
+    {
+        comments = state.comments;
+    }
+
+    return Object.assign({}, state, {comments : [...Array(5)].map(function(el, index)
+    {
+        if(typeof comments[index] !== "undefined")
+        {
+          el = comments[index];
+        }
+        if(action.index === index)
+        {
+          el = action.text;
+        }
+        return el;
+      })
+    });
 
     case Types.CAMERA_PERMISSION:
 

@@ -67,10 +67,10 @@ function* handleParticipantsFetch()
 
 function _handleParticipantsFetch()
 {
-  return fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code?limit=3')
+  return fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code')
       .then((response) => response.json())
       .then((responseJson) => {
-          return responseJson;
+          return "data" in responseJson ? responseJson.data : responseJson;
       })
       .catch((error) => {
         console.error(error);

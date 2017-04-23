@@ -14,19 +14,20 @@ export const styles = StyleSheet.create({
 export const CommentsStyles = StyleSheet.create({
   outerContainer: {
     flex: 1,
+    paddingTop : 20,
+    paddingBottom : 40
   },
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 30,
-    paddingTop: 20,
+    paddingVertical: 20,
 //    alignItems: 'stretch'
   },
   textInput: {
     borderRadius: 1,
     borderWidth: 0,
     backgroundColor: '#ffffff',
-    height: 100,
+    height: 50,
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginBottom: 10,

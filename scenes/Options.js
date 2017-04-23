@@ -43,40 +43,57 @@ onActionEdit = (text, index) => {
 
 }
 
-onDestroyingAction = () => {
-
-
-}
-
 render () {
 
-    const {auth, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
+    const {auth, scanned, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
     const { goBack, navigate } = this.props.navigation;
     const isLoggedIn = ("participant_id" in auth);
     const onActionEdit = this.onActionEdit;
-    const hasScans = (this.scanned.length > 0);
+    const hasScans = (scanned.length > 0);
 
     return (
 
-<ScrollView>
+<ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 20}}>
 
-<View style={{marginTop: 35, paddingHorizontal: 20}}>
 
-<Text h4 style={{textAlign: "center"}}>Options</Text>
 
-<Button buttonStyle={{marginTop: 10}} color="#000" backgroundColor="transparent" icon={{name: 'cached'}}
-onPress={() => goBack()}
-title="Back"
+
+<View style={{flexDirection: 'row', padding: 20}}>
+<View style={{flex: 0.4}}>
+
+<Button
+  fontSize={16}
+  color="#000"
+  backgroundColor="transparent"
+  icon={{name: 'chevron-left', color: "black"}}
+  onPress={() => goBack()}
+  title="Back"
 />
+
+</View>
+<View style={{flex: 0.6, paddingVertical: 7}}>
+  <Text h4 >Options</Text>
+</View>
+
+</View>
+
+
+
 
 <View style={{marginTop: 15}}>
 
-{[1,2,3,4].map(function(index){
+{[...Array(4)].map(function(el, index){
 
 return (
 <View key={index}>
-<FormLabel>Quick comment #{index}</FormLabel>
-<TextInput returnKeyType="send" style={{paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}} defaultValue={"a"+index in options ? options["a"+index] : ""} maxLength={20} onChangeText={(text) => onActionEdit(text, index)}/>
+<FormLabel>Quick comment #{index + 1}</FormLabel>
+<TextInput
+  returnKeyType="send"
+  style={{height: 40, marginTop: 5,  borderWidth: 1, borderColor: "#cccccc", backgroundColor: "#ffffff", paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}}
+  defaultValue={("comments" in options && typeof options.comments[index]!= "undefined") ? options.comments[index] : ""}
+  maxLength={30}
+  onChangeText={(text) => onActionEdit(text, index)}
+/>
 </View>
 )
 
@@ -84,16 +101,16 @@ return (
 
 </View>
 
-<Button buttonStyle={{marginTop: 50}} borderRadius={2}  icon={{name: 'cached'}}
+{/* <Button buttonStyle={{marginTop: 50}} borderRadius={2}  icon={{name: 'cached'}}
 onPress={() => syncRequest()}
 title="Sync"
-/>
+/> */}
 
 {
   hasScans ?
-  <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'exit-to-app'}}
+  <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'delete'}}
   onPress={() => Alert.alert("Are you sure?", null, [{text: "Erase", onPress: ()=> purgeScanned()}, {text: "Cancel"} ])}
-  title="Clear data"
+  title="Erase data"
 /> : null
 
 }
@@ -111,7 +128,7 @@ title="Sync"
 (c) eventjuicer.com ltd
 </Text>
 
-</View>
+
 </ScrollView>
     )
   }

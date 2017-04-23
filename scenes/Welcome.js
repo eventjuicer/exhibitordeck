@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { StyleSheet, View, BackAndroid } from 'react-native';
+import { AppState, StyleSheet, View, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import {Permissions, AppLoading, Font} from 'expo';
 
@@ -17,6 +17,9 @@ import {
 
 class Welcome extends Component{
 
+  state = {
+  appState: AppState.currentState
+}
 
   componentWillMount()
   {
@@ -25,10 +28,26 @@ class Welcome extends Component{
 
   componentDidMount()
   {
+      AppState.addEventListener('change', this._handleAppStateChange);
     this.loadFonts();
     this.props.participantsFetch();
   }
 
+
+componentWillUnmount() {
+  AppState.removeEventListener('change', this._handleAppStateChange);
+}
+
+_handleAppStateChange = (nextAppState) => {
+  if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    console.log('App has come to the foreground!')
+  }
+  else
+  {
+    console.log("App minimized");
+  }
+  this.setState({appState: nextAppState});
+}
 
   async loadFonts() {
     await Font.loadAsync({

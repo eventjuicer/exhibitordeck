@@ -28,9 +28,9 @@ class Scanner extends Component {
       else
       {
 
-        if(code == options.lastCode)
+        if(! /^[a-z]+$/.test(code) || code == options.lastCode)
         {
-          console.log("same code...skipping");
+          console.log("same or bad code...skipping");
         }
         else
         {

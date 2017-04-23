@@ -5,7 +5,7 @@ const participantScanned = (state = [], action) => {
   switch (action.type) {
     case Types.PARTICIPANT_SCANNED:
 
-      return [...state, {code: action.code, ts: action.ts}];
+      return [{code: action.code, ts: action.ts}, ...state];
 
     case Types.PURGE_SCANNED:
 
