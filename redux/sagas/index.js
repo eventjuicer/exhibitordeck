@@ -4,7 +4,17 @@ import {Permissions, Font} from 'expo';
 import { call, put, take, fork, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 
 import Types from "../types";
-import {authenticated, unauthenticated, cameraPermission, participantsFetched, recentlyScannedCode} from "../actions";
+import {
+
+  authenticated,
+  unauthenticated,
+  cameraPermission,
+  cameraShow,
+  cameraHide,
+  participantsFetched,
+  recentlyScannedCode,
+  synced
+} from "../actions";
 
 
 
@@ -111,9 +121,21 @@ export function* handleCameraAskPermission()
   yield put(cameraPermission(permData.status === 'granted'));
 }
 
-function* handleNavigation()
+function* handleSync()
 {
-  //alert("changed");
+  yield put(synced());
+}
+
+function* handleNavigation(action)
+{
+  if(action.routeName == "Scan")
+  {
+    yield put(cameraShow());
+  }
+  else
+  {
+    yield put(cameraHide());
+  }
 }
 
 function* watchScanner()
@@ -134,5 +156,6 @@ export default function* sagas() {
         takeEvery(Types.PARTICIPANTS_FETCHED, handleFetched),
         takeEvery(Types.AUTHENTICATE, handleAuthenticate),
         takeEvery(Types.PARTICIPANT_SCANNED, handleScanned),
+        takeEvery(Types.SYNC_REQUEST, handleSync)
     ];
 }

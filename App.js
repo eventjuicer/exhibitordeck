@@ -13,15 +13,27 @@ import sagas from './redux/sagas';
 import Welcome from './scenes/Welcome';
 
 const logger = store => next => action => {
+
   console.group("BEGIN:" + action.type)
-  console.info('dispatching', action)
+  if(action.type != "PARTICIPANTS_FETCHED")
+  {
+    console.log("Payload: ", action);
+  }
   let result = next(action)
-  console.log('next state', store.getState())
+  let storeContents = Object.assign({}, store.getState());
+  if("participants" in storeContents)
+  {
+    storeContents["participants"] = "@@@ hidden @@@";
+  }
+  console.log("next state", storeContents);
   console.groupEnd("END: " + action.type)
   return result
 }
 
 const sagaMiddleware = createSagaMiddleware();
+
+
+
 
 
 const store = createStore(appReducers, undefined, compose(
@@ -42,7 +54,7 @@ class App extends Component {
   }
 
   waitForStoreRehydration = () => {
-    persistStore(store, {blacklist : ["nav", "participants"], storage: AsyncStorage}, () => {
+    persistStore(store, {blacklist : ["nav", "participants", "runtime"], storage: AsyncStorage}, () => {
      this.setState({ rehydrated: true });
      console.log('REDUX STORE restored');
    })

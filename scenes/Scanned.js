@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView, RefreshControl, StyleSheet, Text, View, Image } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
 
 
@@ -9,6 +9,7 @@ import {List, ListItem, Button} from 'react-native-elements';
 import {styles} from '../styles'
 const tintColor = '#ffcc00'
 
+import {syncRequest} from '../redux/actions'
 
 class Scanned extends Component {
 
@@ -22,43 +23,71 @@ _translateScanned = (code) => {
   return (code in participants) ? Object.assign({}, defaults, participants[code]) : defaults;
 }
 
-render () {
+_renderScanned = () => {
 
-    const {navigate}  = this.props.navigation;
-    const {scanned}   = this.props;
+  const {navigate}  = this.props.navigation;
+  const {scanned}   = this.props;
 
-    if(!scanned.length)
-    {
-      return (
-        <View style={{marginTop: 50, paddingHorizontal: 30}}>
-        <Text style={{fontSize: 16, textAlign: "center"}}>
-          No data at the moment :( Scan some badges!
-        </Text>
-        </View>
-      )
-    }
+  return (<List>
 
-    return (
-      <ScrollView style={{paddingBottom: 50}}>
-      <List>
-      {
-      scanned.map((scan, i) => {
+  {
 
+    scanned.map((scan, i) => {
       let translated = this._translateScanned(scan.code);
-
       let fullName = translated.fname + " " + translated.lname;
 
-      return (<ListItem
-        //roundAvatar
-      //  avatar={{uri:scan.avatar_url}}
-        key={i}
-        title={<Text> {fullName} </Text>}
-        subtitle={<Text>{translated.cname2}</Text>}
-        onPress = {() => navigate('Comments', {id: scan.code, user: fullName})}
+      return (
+        <ListItem
+          key={i}
+          title={<Text> {fullName} </Text>}
+          subtitle={<Text>{translated.cname2}</Text>}
+          onPress = {() => navigate('Comments', {id: scan.code, user: fullName})}
       />)
     })
-      }
-      </List>
+
+  }
+
+   </List>);
+
+
+}
+
+render () {
+
+    const {scanned, syncRequest, runtime}   = this.props;
+
+    return (
+
+      <ScrollView
+
+        refreshControl={
+          <RefreshControl
+           refreshing={runtime.isSyncing}
+           onRefresh={() => syncRequest()}
+           tintColor="#ffffff"
+           title="Loading..."
+           titleColor="#ffffff"
+           colors={['#ffffff']}
+           progressBackgroundColor="#cc2c24"
+         />
+        }
+        style={{paddingBottom: 50}}>
+
+          {
+
+            !scanned.length?
+
+            (<View style={{marginTop: 50, paddingHorizontal: 30}}>
+            <Text style={{fontSize: 16, textAlign: "center"}}>
+              No data at the moment :( Scan some badges!
+            </Text>
+            </View>)
+          :
+
+            this._renderScanned()
+        }
+
+
     </ScrollView>
 
     )
@@ -69,18 +98,11 @@ render () {
 
 
 
-
-
-Scanned.defaultProps = {
-  auth : {},
-  scanned : [],
-  participants : []
-}
-
 const mapStateToProps = state => ({
   auth : state.auth,
   scanned : state.scanned,
-  participants : state.participants
+  participants : state.participants,
+  runtime : state.runtime
 });
 
-export default connect(mapStateToProps, null)(Scanned);
+export default connect(mapStateToProps, {syncRequest})(Scanned);

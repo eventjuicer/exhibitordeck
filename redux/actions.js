@@ -48,6 +48,14 @@ export const askCameraPermission = () => ({
     type: Types.ASK_CAMERA_PERMISSION
 });
 
+export const cameraShow = () => ({
+  type : Types.CAMERA_MUST_BE_SHOWN
+});
+
+export const cameraHide = () => ({
+  type : Types.CAMERA_MUST_BE_HIDDEN
+});
+
 export const participantComment = (code, text) => ({
     type: Types.PARTICIPANT_COMMENT,
     code: code,
@@ -76,4 +84,8 @@ export const participantScanned = (code, ts) => ({
 
 export const syncRequest = () => ({
     type: Types.SYNC_REQUEST
+});
+
+export const synced = () => ({
+    type: Types.SYNCED
 });

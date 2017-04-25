@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { Alert, Clipboard, StyleSheet, ScrollView, View, Image, TextInput } from 'react-native';
+import { Platform, Alert, Clipboard, StyleSheet, ScrollView, View, Image, TextInput } from 'react-native';
 import {Tile, List, Text, Button} from 'react-native-elements';
 import {styles} from '../styles'
 
@@ -55,9 +55,6 @@ render () {
 
 <ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 20}}>
 
-
-
-
 <View style={{flexDirection: 'row', padding: 20}}>
 <View style={{flex: 0.4}}>
 
@@ -71,13 +68,12 @@ render () {
 />
 
 </View>
+
 <View style={{flex: 0.6, paddingVertical: 7}}>
   <Text h4 >Options</Text>
 </View>
 
 </View>
-
-
 
 
 <View style={{marginTop: 15}}>
@@ -89,7 +85,7 @@ return (
 <FormLabel>Quick comment #{index + 1}</FormLabel>
 <TextInput
   returnKeyType="send"
-  style={{height: 40, marginTop: 5,  borderWidth: 1, borderColor: "#cccccc", backgroundColor: "#ffffff", paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}}
+  style={{height: 40, marginTop: 5,  borderWidth: Platform.OS == "ios" ? 1 : 0, borderColor: "#cccccc", backgroundColor: "#ffffff", paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}}
   defaultValue={("comments" in options && typeof options.comments[index]!= "undefined") ? options.comments[index] : ""}
   maxLength={30}
   onChangeText={(text) => onActionEdit(text, index)}
@@ -124,7 +120,7 @@ title="Sync"
 }
 
 
-<Text style={{fontSize: 13, textAlign: "center", paddingVertical: 20}}>
+<Text style={{fontSize: 13, textAlign: "center", paddingVertical: 40}}>
 (c) eventjuicer.com ltd
 </Text>
 

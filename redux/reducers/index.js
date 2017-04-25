@@ -8,5 +8,6 @@ import nav from './nav';
 import auth from './auth';
 import options from './options';
 import comments from './comments';
+import runtime from './runtime';
 
-export default combineReducers({ auth, nav, participants, scanned, comments, options});
+export default combineReducers({ auth, nav, participants, scanned, comments, options, runtime});

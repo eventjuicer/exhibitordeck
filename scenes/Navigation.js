@@ -10,6 +10,8 @@ import {Button} from 'react-native-elements';
 import Options from './Options';
 import NavButton from '../components/NavButton';
 
+
+
 const DetailedNavigator = StackNavigator({
 
   People: {

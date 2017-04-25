@@ -11,7 +11,8 @@ import Navigation from './Navigation';
 
 import {
   participantsFetch,
-  askCameraPermission
+  askCameraPermission,
+  cameraShow
 } from '../redux/actions';
 
 
@@ -28,9 +29,13 @@ class Welcome extends Component{
 
   componentDidMount()
   {
-      AppState.addEventListener('change', this._handleAppStateChange);
+
+    AppState.addEventListener('change', this._handleAppStateChange);
     this.loadFonts();
+
+    this.props.cameraShow();
     this.props.participantsFetch();
+
   }
 
 
@@ -92,4 +97,4 @@ const mapStateToProps = state => ({
     options : state.options
 });
 
-export default connect(mapStateToProps, {participantsFetch, askCameraPermission})(Welcome);
+export default connect(mapStateToProps, {participantsFetch, askCameraPermission, cameraShow})(Welcome);

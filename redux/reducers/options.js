@@ -26,14 +26,7 @@ const handleOptions = (state = [], action) => {
       })
     });
 
-    case Types.CAMERA_PERMISSION:
-
-      return Object.assign({}, state, {camera : action.status});
-
-    case Types.RECENTLY_SCANNED_CODE:
-
-      return Object.assign({}, state, {lastCode : action.code});
-
+  
     default:
       return state
   }
