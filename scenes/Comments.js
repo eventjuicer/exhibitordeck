@@ -59,14 +59,26 @@ class Comments extends Component {
   const {state} = this.props.navigation;
   const {participantComment} = this.props;
 
-  return this._getQuickComments().map(function(comment, index){
+
+  const quickComments = this._getQuickComments();
+
+  if(!quickComments.length)
+  {
+    return (<View style={{paddingVertical: 20, paddingHorizontal: 20}}>
+            <Text>Tip: Want to comment faster? Define comment templates.</Text>
+          </View>
+    );
+  }
+
+
+  return quickComments.map(function(comment, index){
 
       let isSelected = (comments.indexOf(comment) > -1);
 
       return (
         <Button key={index} fontSize={14}
         icon={{name: 'comment'}}
-        buttonStyle={{backgroundColor: isSelected ? '#246fcc' : '#787878', borderRadius: 2, marginBottom: 5}}
+        buttonStyle={{backgroundColor: isSelected ? '#2c24cc' : '#787878', borderRadius: 2, marginBottom: 5}}
         textStyle={{textAlign: 'left'}}
         title={comment}
         onPress={ () => participantComment(state.params.id, comment)}
@@ -109,14 +121,14 @@ class Comments extends Component {
     blurOnSubmit={true}
     onSubmitEditing={(event)=> this._handleCustomComment(event.nativeEvent.text)}
     multiline={false}
-    placeholder="Your comment..."
+    placeholder="Custom comment..."
     style={styles.textInput}
     value={this.state.text}
     onChangeText={(text) => this.setState({text})}
   />
 </View>
 
-<Button buttonStyle={{marginTop: 10, marginBottom: 50}}  backgroundColor="red" borderRadius={2} icon={{name: 'delete'}}
+<Button large color="#787878" buttonStyle={{marginTop: 50, marginBottom: 50}}  backgroundColor="transparent" borderRadius={2} icon={{name: 'delete', color: "#787878"}}
 onPress={() => Alert.alert("Are you sure?", null, [{text: "Delete", onPress: ()=> purgeCommentsForCode(state.params.id)}, {text: "Cancel"} ])}
 title="Delete comments"
 />

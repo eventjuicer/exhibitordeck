@@ -97,6 +97,9 @@ return (
 
 </View>
 
+
+<View style={{marginTop: 80}}>
+
 {/* <Button buttonStyle={{marginTop: 50}} borderRadius={2}  icon={{name: 'cached'}}
 onPress={() => syncRequest()}
 title="Sync"
@@ -124,6 +127,7 @@ title="Sync"
 (c) eventjuicer.com ltd
 </Text>
 
+</View>
 
 </ScrollView>
     )

@@ -26,7 +26,11 @@ const handleOptions = (state = [], action) => {
       })
     });
 
-  
+    case Types.RECENTLY_SCANNED_CODE:
+
+      return Object.assign({}, state, {lastCode : action.code});
+
+
     default:
       return state
   }

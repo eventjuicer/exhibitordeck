@@ -9,14 +9,25 @@ import {
   authenticated,
   unauthenticated,
   cameraPermission,
-  cameraShow,
-  cameraHide,
   participantsFetched,
   recentlyScannedCode,
   synced
 } from "../actions";
 
+import config from "../../services/api";
 
+
+
+function checkStatus(response)
+{
+  if (response.ok){
+    return response
+  } else {
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}
 
 
 function* handleAuthCheck(auth)
@@ -44,10 +55,6 @@ function* handleFetched()
     //alert("Participants fetched");
 }
 
-function* handleSync()
-{
-//  fetch("", { method: 'POST')
-}
 
 function* handleScanned()
 {
@@ -58,7 +65,7 @@ function codeToUserData(code)
 {
   console.log("fetching user for code: " + code);
 
-  return  fetch('https://api.eventjuicer.com/services/v1/barcode-scanner/auth/'+code)
+  return  fetch(config.api_services + '/barcode-scanner/auth/'+code)
     .then((response) => response.json())
     .then((responseJson) => {
         return responseJson.data;
@@ -77,7 +84,7 @@ function* handleParticipantsFetch()
 
 function _handleParticipantsFetch()
 {
-  return fetch('https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl/visitors-by-code')
+  return fetch(config.api_public + '/visitors-by-code')
       .then((response) => response.json())
       .then((responseJson) => {
           return "data" in responseJson ? responseJson.data : responseJson;
@@ -121,22 +128,52 @@ export function* handleCameraAskPermission()
   yield put(cameraPermission(permData.status === 'granted'));
 }
 
-function* handleSync()
+function _handleSync(payload)
 {
-  yield put(synced());
+
+//check auth?
+
+  const url = `${config.api_services}/barcode-scanner/sync/${payload.auth.code}`;
+
+  console.log(url);
+
+  return fetch(url,
+  {
+    method: "POST",
+    body: JSON.stringify( payload )
+  })
+  .then(checkStatus)
+  .then(function(res)
+  {
+    try {
+      return res.json();
+    }
+    catch(e)
+    {
+      const error = new Error("not valid JSON response");
+      error.response = res;
+      throw error;
+    }
+  })
+  .then(function(res){
+      return res.data;
+  });
 }
 
-function* handleNavigation(action)
+function* handleSync(action)
 {
-  if(action.routeName == "Scan")
-  {
-    yield put(cameraShow());
+  try {
+    const syncStatus = yield call(_handleSync, action.payload);
+    console.log(syncStatus);
+    yield put(synced(syncStatus));
   }
-  else
+  catch (e)
   {
-    yield put(cameraHide());
+    console.log("_handleSync error", e);
+    yield put(synced(null));
   }
 }
+
 
 function* watchScanner()
 {
@@ -147,10 +184,11 @@ function* watchScanner()
 
 export default function* sagas() {
     yield [
+        
         takeEvery(Types.LOGOUT, handleLogout),
         takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
         takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermission),
-        takeEvery("Navigation/NAVIGATE", handleNavigation),
+      //  takeEvery("Navigation/NAVIGATE", handleNavigation),
         takeEvery(Types.UNAUTHENTICATED, handleUnauthenticated),
         takeEvery(Types.AUTH_CHECK, handleAuthCheck),
         takeEvery(Types.PARTICIPANTS_FETCHED, handleFetched),

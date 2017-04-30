@@ -1,18 +1,26 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, RefreshControl, StyleSheet, Text, View, Image } from 'react-native';
+import {ScrollView, RefreshControl, StyleSheet, Text, View, Image } from 'react-native';
 import {List, ListItem, Button} from 'react-native-elements';
-
-
-
-import {styles} from '../styles'
+var moment = require('moment');
+import {styles, ScannedStyles} from '../styles'
 const tintColor = '#ffcc00'
-
 import {syncRequest} from '../redux/actions'
+
 
 class Scanned extends Component {
 
+  
+
+
+  _getCommentsCountForCode = (id) => {
+
+    const {comments} = this.props;
+    const {state} = this.props.navigation;
+    return (id in comments) && Array.isArray(comments[id]) ? comments[id].length : 0;
+
+  }
 
 _translateScanned = (code) => {
 
@@ -32,18 +40,32 @@ _renderScanned = () => {
 
   {
 
-    scanned.map((scan, i) => {
-      let translated = this._translateScanned(scan.code);
-      let fullName = translated.fname + " " + translated.lname;
+    Object.keys(scanned).reverse().map(function(code, index)
+    {
 
-      return (
-        <ListItem
-          key={i}
-          title={<Text> {fullName} </Text>}
-          subtitle={<Text>{translated.cname2}</Text>}
-          onPress = {() => navigate('Comments', {id: scan.code, user: fullName})}
-      />)
-    })
+          let data = scanned[code];
+
+          let translated = this._translateScanned(code);
+          let title = `${translated.fname} ${translated.lname}`;
+          let subtitle = `${translated.cname2} ${moment(data.ts).fromNow()}`;
+
+          let noOfComments = this._getCommentsCountForCode(code);
+
+          return (
+            <ListItem
+              key={index}
+              title={<Text> {title} </Text>}
+              subtitle={<View style={ScannedStyles.subtitleView}>
+                        <Text style={ScannedStyles.subtitleViewText}>
+                          { subtitle }
+                        </Text>
+                      </View>}
+              badge={{ value: noOfComments, badgeTextStyle: { color: 'white' }, badgeContainerStyle: { backgroundColor: noOfComments ? '#2c24cc' : '#787878', marginTop: 5} }}
+              onPress = {() => navigate('Comments', {id: code, user: title})}
+          />)
+
+    }, this)
+
 
   }
 
@@ -54,7 +76,8 @@ _renderScanned = () => {
 
 render () {
 
-    const {scanned, syncRequest, runtime}   = this.props;
+    const {auth, scanned, comments, syncRequest, runtime}   = this.props;
+    const lastSync = + new Date();
 
     return (
 
@@ -63,23 +86,26 @@ render () {
         refreshControl={
           <RefreshControl
            refreshing={runtime.isSyncing}
-           onRefresh={() => syncRequest()}
-           tintColor="#ffffff"
+           onRefresh={() => syncRequest({scanned, comments, auth, lastSync})}
+           tintColor="#787878"
            title="Loading..."
-           titleColor="#ffffff"
-           colors={['#ffffff']}
-           progressBackgroundColor="#cc2c24"
+           titleColor="#787878"
+           colors={['#787878']}
+           progressBackgroundColor="#ffffff"
          />
         }
         style={{paddingBottom: 50}}>
 
           {
 
-            !scanned.length?
+            !Object.keys(scanned).length?
 
             (<View style={{marginTop: 50, paddingHorizontal: 30}}>
             <Text style={{fontSize: 16, textAlign: "center"}}>
-              No data at the moment :( Scan some badges!
+              No data at the moment. Pull down to sync.
+            </Text>
+            <Text style={{fontSize: 16, textAlign: "center", marginTop: 20}}>
+              Scan some badges.
             </Text>
             </View>)
           :
@@ -100,6 +126,7 @@ render () {
 
 const mapStateToProps = state => ({
   auth : state.auth,
+  comments : state.comments,
   scanned : state.scanned,
   participants : state.participants,
   runtime : state.runtime

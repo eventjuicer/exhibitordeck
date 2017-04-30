@@ -7,34 +7,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
 import {persistStore, autoRehydrate} from 'redux-persist';
+import logger from './services/logger';
 
 import appReducers from './redux/reducers';
 import sagas from './redux/sagas';
 import Welcome from './scenes/Welcome';
 
-const logger = store => next => action => {
-
-  console.group("BEGIN:" + action.type)
-  if(action.type != "PARTICIPANTS_FETCHED")
-  {
-    console.log("Payload: ", action);
-  }
-  let result = next(action)
-  let storeContents = Object.assign({}, store.getState());
-  if("participants" in storeContents)
-  {
-    storeContents["participants"] = "@@@ hidden @@@";
-  }
-  console.log("next state", storeContents);
-  console.groupEnd("END: " + action.type)
-  return result
-}
-
 const sagaMiddleware = createSagaMiddleware();
-
-
-
-
 
 const store = createStore(appReducers, undefined, compose(
   applyMiddleware(sagaMiddleware),

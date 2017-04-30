@@ -8,7 +8,7 @@ class NavButton extends Component {
   {
 
     return (
-      <Icon iconStyle={{marginRight: 15}} name="sync" onPress={() =>  this.props.navigate('Options') }  />
+      <Icon iconStyle={{marginRight: 15}} name="settings" onPress={() =>  this.props.navigate('Options') }  />
     );
   }
 

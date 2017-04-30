@@ -12,15 +12,13 @@ import Navigation from './Navigation';
 import {
   participantsFetch,
   askCameraPermission,
-  cameraShow
+  cameraShow,
+  appState
 } from '../redux/actions';
 
 
 class Welcome extends Component{
 
-  state = {
-  appState: AppState.currentState
-}
 
   componentWillMount()
   {
@@ -29,29 +27,44 @@ class Welcome extends Component{
 
   componentDidMount()
   {
+    const {appState} = this.props;
+
+    appState( (AppState.currentState == "active") );
 
     AppState.addEventListener('change', this._handleAppStateChange);
+
     this.loadFonts();
 
     this.props.cameraShow();
+
     this.props.participantsFetch();
 
   }
 
-
-componentWillUnmount() {
+componentWillUnmount()
+{
   AppState.removeEventListener('change', this._handleAppStateChange);
 }
 
 _handleAppStateChange = (nextAppState) => {
-  if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+
+  const {appState} = this.props;
+
+/*
+ if (runtime.appState.match(/inactive|background/) && nextAppState === 'active')
+ */
+
+ if (nextAppState === 'active')
+  {
     console.log('App has come to the foreground!')
+    appState(true);
   }
   else
   {
     console.log("App minimized");
+    appState(false);
   }
-  this.setState({appState: nextAppState});
+
 }
 
   async loadFonts() {
@@ -97,4 +110,4 @@ const mapStateToProps = state => ({
     options : state.options
 });
 
-export default connect(mapStateToProps, {participantsFetch, askCameraPermission, cameraShow})(Welcome);
+export default connect(mapStateToProps, {appState, participantsFetch, askCameraPermission, cameraShow})(Welcome);

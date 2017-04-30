@@ -82,10 +82,17 @@ export const participantScanned = (code, ts) => ({
     ts : ts
 });
 
-export const syncRequest = () => ({
-    type: Types.SYNC_REQUEST
+export const syncRequest = payload => ({
+    type: Types.SYNC_REQUEST,
+    payload : payload
 });
 
-export const synced = () => ({
-    type: Types.SYNCED
+export const synced = payload => ({
+    type: Types.SYNCED,
+    payload : payload
 });
+
+export const appState = payload => ({
+    type : Types.APPSTATE,
+    payload : payload
+})
