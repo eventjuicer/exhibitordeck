@@ -3,43 +3,40 @@
 import React, {Component} from 'react';
 import { BarCodeScanner } from 'expo';
 import { connect } from 'react-redux';
-import {ActivityIndicator, Alert, StyleSheet, View, Text } from 'react-native';
+import {ActivityIndicator, StyleSheet, View, Text } from 'react-native';
 
 import {
   participantScanned,
   recentlyScannedCode,
   authCheck,
   authenticate
-
 } from '../redux/actions';
 
+import {general} from '../styles';
 
-const styles = StyleSheet.create({
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
 
-});
 
 class Scanner extends Component {
 
     _handleBarCodeRead = (data) => {
 
-      const {auth, options, scanned, participantScanned, recentlyScannedCode, authCheck, authenticate} = this.props;
+      const {auth, scanned, participantScanned, recentlyScannedCode, authCheck, authenticate} = this.props;
       const code = data.data;
 
       if(code && code.indexOf("@") != -1)
       {
-        authenticate(code);
+        if(! ("code" in auth) || auth.code != code)
+        {
+            authenticate(code);
+        }
+
       }
       else
       {
 
         if(! /^[a-z]+$/.test(code) || (code in scanned))
         {
-          console.log("same or bad code...skipping");
+          console.log("same or bad code format...skipping");
         }
         else
         {
@@ -62,7 +59,7 @@ class Scanner extends Component {
 
       <View style={{flex: 1 }}>
       <BarCodeScanner onBarCodeRead={this._handleBarCodeRead} style={StyleSheet.absoluteFill} />
-      <Text style={{color: "#ffffff", paddingHorizontal: 10, paddingVertical: 10, backgroundColor: 'rgba(52, 52, 52, 0.8)'}}>
+      <Text style={{color: "#ffffff", paddingHorizontal: 10, paddingVertical: 10, backgroundColor: 'rgba(204, 170, 36, 0.8)'}}>
         {username}, you have { Object.keys(scanned).length } scan(s).
       </Text>
         </View>
@@ -72,7 +69,7 @@ class Scanner extends Component {
   }
 
   return (
-  <View style={[styles.centering, {flex: 1 }]}>
+  <View style={[general.centering, {flex: 1 }]}>
     <ActivityIndicator
           animating={true}
           size={100}
@@ -95,7 +92,6 @@ Scanner.defaultProps = {
 
 const mapStateToProps = state => ({
   auth : state.auth,
-  options : state.options,
   runtime : state.runtime,
   scanned : state.scanned
 });

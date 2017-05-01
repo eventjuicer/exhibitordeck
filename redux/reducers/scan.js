@@ -8,7 +8,7 @@ const participantScanned = (state = [], action) => {
     case Types.SYNCED:
 
       //merge only when not empty!?
-      if(("scanned" in action.payload) && Object.keys(action.payload.scanned).length)
+      if(action.payload && ("scanned" in action.payload) && Object.keys(action.payload.scanned).length)
       {
         return Object.assign({}, state, action.payload.scanned);
       }

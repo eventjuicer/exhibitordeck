@@ -1,11 +1,11 @@
 
 import { Alert, Vibration } from 'react-native';
 import {Permissions, Font} from 'expo';
-import { call, put, take, fork, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
+import { call, put, take, fork, select, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 
 import Types from "../types";
-import {
 
+import {
   authenticated,
   unauthenticated,
   cameraPermission,
@@ -14,18 +14,46 @@ import {
   synced
 } from "../actions";
 
-import config from "../../services/api";
+import {config, postJson, getJson} from "../../services/api";
+import {getAuth, getScanned, getComments, getOptions, getRuntime } from './selectors';
 
 
-
-function checkStatus(response)
+function* handleSync(action)
 {
-  if (response.ok){
-    return response
+  const url = `${config.api_services}/scanners/${action.payload.auth.code}/sync`;
+  const {response, error} = yield call(postJson, url, action.payload);
+  if (!error){
+   yield put(synced(response.data))
+   console.log("handleSync OK", response);
   } else {
-    var error = new Error(response.statusText)
-    error.response = response
-    throw error
+   yield put(synced(null))
+   console.log("handleSync ERROR", error);
+  }
+}
+
+function* handleAuthenticate(action)
+{
+  const url = `${config.api_services}/scanners/${action.payload}/auth`;
+  const {response, error} = yield call(getJson, url);
+  if (!error){
+   yield put(authenticated(response.data))
+   Vibration.vibrate();
+   console.log("handleAuthenticate OK", response);
+  } else {
+   yield put(unauthenticated())
+   console.log("handleAuthenticate ERROR", error);
+  }
+}
+
+function* handleParticipantsFetch()
+{
+  const url = `${config.api_public}/participants-by-code`;
+  const {response, error} = yield call(getJson, url);
+  if (!error){
+   yield put(participantsFetched(response.data))
+   console.log("handleParticipantsFetch OK");
+  } else {
+   console.log("handleParticipantsFetch ERROR", error);
   }
 }
 
@@ -49,49 +77,9 @@ function* handleUnauthenticated()
   );
 }
 
-
-function* handleFetched()
-{
-    //alert("Participants fetched");
-}
-
-
 function* handleScanned()
 {
     Vibration.vibrate();
-}
-
-function codeToUserData(code)
-{
-  console.log("fetching user for code: " + code);
-
-  return  fetch(config.api_services + '/barcode-scanner/auth/'+code)
-    .then((response) => response.json())
-    .then((responseJson) => {
-        return responseJson.data;
-    })
-    .catch((error) => {
-    //  console.error(error);
-    });
-}
-
-function* handleParticipantsFetch()
-{
-  const participants = yield call(_handleParticipantsFetch);
-  yield put(participantsFetched(participants));
-}
-
-
-function _handleParticipantsFetch()
-{
-  return fetch(config.api_public + '/visitors-by-code')
-      .then((response) => response.json())
-      .then((responseJson) => {
-          return "data" in responseJson ? responseJson.data : responseJson;
-      })
-      .catch((error) => {
-        console.error(error);
-  });
 }
 
 function* handleLogout()
@@ -105,93 +93,29 @@ function* handleLogout()
   );
 }
 
-function* handleAuthenticate(action)
-{
-  try {
-     const user = yield call(codeToUserData, action.payload);
-     yield put(authenticated(user));
-     Vibration.vibrate();
-  } catch (e) {
-    yield put(unauthenticated());
-  }
 
-}
-
-function _handleCameraAskPermission()
+function* handleCameraAskPermission()
 {
-  return Permissions.askAsync(Permissions.CAMERA);
-}
-
-export function* handleCameraAskPermission()
-{
-  const permData = yield call(_handleCameraAskPermission);
+  const permData = yield call(Permissions.askAsync, Permissions.CAMERA);
   yield put(cameraPermission(permData.status === 'granted'));
 }
 
-function _handleSync(payload)
-{
+//
+// function* watchScanner()
+// {
+//     yield throttle(1000, Types.PARTICIPANT_SCANNED, handleScanned);
+//     yield throttle(1000, Types.AUTHENTICATE, handleAuthenticate);
+//
+// }
 
-//check auth?
-
-  const url = `${config.api_services}/barcode-scanner/sync/${payload.auth.code}`;
-
-  console.log(url);
-
-  return fetch(url,
-  {
-    method: "POST",
-    body: JSON.stringify( payload )
-  })
-  .then(checkStatus)
-  .then(function(res)
-  {
-    try {
-      return res.json();
-    }
-    catch(e)
-    {
-      const error = new Error("not valid JSON response");
-      error.response = res;
-      throw error;
-    }
-  })
-  .then(function(res){
-      return res.data;
-  });
-}
-
-function* handleSync(action)
-{
-  try {
-    const syncStatus = yield call(_handleSync, action.payload);
-    console.log(syncStatus);
-    yield put(synced(syncStatus));
-  }
-  catch (e)
-  {
-    console.log("_handleSync error", e);
-    yield put(synced(null));
-  }
-}
-
-
-function* watchScanner()
-{
-    yield throttle(1000, Types.PARTICIPANT_SCANNED, handleScanned);
-    yield throttle(1000, Types.AUTHENTICATE, handleAuthenticate);
-
-}
 
 export default function* sagas() {
     yield [
-        
         takeEvery(Types.LOGOUT, handleLogout),
         takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
         takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermission),
-      //  takeEvery("Navigation/NAVIGATE", handleNavigation),
         takeEvery(Types.UNAUTHENTICATED, handleUnauthenticated),
         takeEvery(Types.AUTH_CHECK, handleAuthCheck),
-        takeEvery(Types.PARTICIPANTS_FETCHED, handleFetched),
         takeEvery(Types.AUTHENTICATE, handleAuthenticate),
         takeEvery(Types.PARTICIPANT_SCANNED, handleScanned),
         takeEvery(Types.SYNC_REQUEST, handleSync)

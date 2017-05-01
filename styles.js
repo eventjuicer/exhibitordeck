@@ -1,8 +1,23 @@
-
-
-
 import React from 'react';
 import { StyleSheet } from 'react-native';
+
+
+
+
+export const general = StyleSheet.create({
+
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+
+
+});
+
+
+
+
 
 export const styles = StyleSheet.create({
   icon: {

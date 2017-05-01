@@ -4,6 +4,7 @@
     "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
     "slug" : "exhibitordeck",
     "icon": "icons/app.png",
+    "version" : "0.3",
     "sdkVersion": "16.0.0",
     "privacy" : "public",
     "orientation" : "portrait",

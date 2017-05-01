@@ -106,8 +106,7 @@ Welcome.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth,
-    options : state.options
+    auth: state.auth
 });
 
 export default connect(mapStateToProps, {appState, participantsFetch, askCameraPermission, cameraShow})(Welcome);

@@ -49,7 +49,7 @@ render () {
     const { goBack, navigate } = this.props.navigation;
     const isLoggedIn = ("participant_id" in auth);
     const onActionEdit = this.onActionEdit;
-    const hasScans = (scanned.length > 0);
+    const hasScans = (Object.keys(scanned).length > 0);
 
     return (
 
@@ -95,10 +95,15 @@ return (
 
 })}
 
+<Text style={{fontSize: 13, textAlign: "center", paddingVertical: 40}}>
+(c) eventjuicer.com ltd
+</Text>
+
+
 </View>
 
 
-<View style={{marginTop: 80}}>
+<View style={{paddingVertical: 80}}>
 
 {/* <Button buttonStyle={{marginTop: 50}} borderRadius={2}  icon={{name: 'cached'}}
 onPress={() => syncRequest()}
@@ -109,7 +114,7 @@ title="Sync"
   hasScans ?
   <Button buttonStyle={{marginTop: 10}}  backgroundColor="red" borderRadius={2} icon={{name: 'delete'}}
   onPress={() => Alert.alert("Are you sure?", null, [{text: "Erase", onPress: ()=> purgeScanned()}, {text: "Cancel"} ])}
-  title="Erase data"
+  title="Erase ALL data"
 /> : null
 
 }
@@ -123,9 +128,7 @@ title="Sync"
 }
 
 
-<Text style={{fontSize: 13, textAlign: "center", paddingVertical: 40}}>
-(c) eventjuicer.com ltd
-</Text>
+
 
 </View>
 
