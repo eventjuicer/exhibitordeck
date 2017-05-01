@@ -11,7 +11,7 @@ import {syncRequest} from '../redux/actions'
 
 class Scanned extends Component {
 
-  
+
 
 
   _getCommentsCountForCode = (id) => {
@@ -33,7 +33,7 @@ _translateScanned = (code) => {
 
 _renderScanned = () => {
 
-  const {navigate}  = this.props.navigation;
+  const {navigateWithDebounce}  = this.props.navigation;
   const {scanned}   = this.props;
 
   return (<List>
@@ -61,7 +61,7 @@ _renderScanned = () => {
                         </Text>
                       </View>}
               badge={{ value: noOfComments, badgeTextStyle: { color: 'white' }, badgeContainerStyle: { backgroundColor: noOfComments ? '#2c24cc' : '#787878', marginTop: 5} }}
-              onPress = {() => navigate('Comments', {id: code, user: title})}
+              onPress = {() => navigateWithDebounce('Comments', {id: code, user: title})}
           />)
 
     }, this)

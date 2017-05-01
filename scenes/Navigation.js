@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import {Platform, Image, Text} from 'react-native';
-import { TabNavigator, StackNavigator, DrawerNavigator, addNavigationHelpers } from 'react-navigation';
+import { TabNavigator, StackNavigator, DrawerNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import Scanner from './Scanner';
 import Scanned from './Scanned';
@@ -98,8 +98,36 @@ export const MainStackNavigator = StackNavigator({
 //
 // });
 
+
+const _addNavigationHelpers = (navigation) => {
+       const original = addNavigationHelpers(navigation);
+       let debounce;
+       return {
+           ...original,
+           navigateWithDebounce: (routeName, params, action) => {
+               let func = () => {
+                   if (debounce) {
+                       return;
+                   }
+
+                   navigation.dispatch(NavigationActions.navigate({
+                       routeName,
+                       params,
+                       action
+                   }));
+
+                   debounce = setTimeout(() => {
+                       debounce = 0;
+                   }, 1000)
+               };
+               return func();
+           }
+       }
+};
+
+
 const AppNavigator = ({ dispatch, nav }) => (
-  <MainStackNavigator navigation={addNavigationHelpers({
+  <MainStackNavigator navigation={_addNavigationHelpers({
     dispatch: dispatch,
     state: nav
   })} />

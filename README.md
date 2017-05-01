@@ -2,6 +2,7 @@
 
 
 ## Links for future reference
+https://github.com/react-community/react-navigation/issues/271
 - Redux-Saga + Firebase - https://github.com/redux-saga/redux-saga/issues/508
 -https://medium.freecodecamp.com/async-operations-using-redux-saga-2ba02ae077b3
 - https://github.com/rt2zz/redux-persist/blob/master/docs/recipes.md#delay-render-until-rehydration-complete
