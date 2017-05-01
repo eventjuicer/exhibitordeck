@@ -59,9 +59,11 @@ class Scanner extends Component {
 
       <View style={{flex: 1 }}>
       <BarCodeScanner onBarCodeRead={this._handleBarCodeRead} style={StyleSheet.absoluteFill} />
-      <Text style={{color: "#ffffff", paddingHorizontal: 10, paddingVertical: 10, backgroundColor: 'rgba(204, 170, 36, 0.8)'}}>
+
+      <View><Text style={{color: "#ffffff", paddingHorizontal: 10, paddingVertical: 10, backgroundColor: 'rgba(204, 170, 36, 0.8)'}}>
         {username}, you have { Object.keys(scanned).length } scan(s).
-      </Text>
+      </Text></View>
+
         </View>
 
 
@@ -72,7 +74,7 @@ class Scanner extends Component {
   <View style={[general.centering, {flex: 1 }]}>
     <ActivityIndicator
           animating={true}
-          size={100}
+          size="large"
           color="#787878"
         />
   </View>
