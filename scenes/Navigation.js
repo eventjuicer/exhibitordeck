@@ -8,6 +8,8 @@ import Scanned from './Scanned';
 import Comments from './Comments';
 import {Button} from 'react-native-elements';
 import Options from './Options';
+import Admin from './Admin';
+
 import NavButton from '../components/NavButton';
 
 
@@ -17,7 +19,7 @@ const DetailedNavigator = StackNavigator({
   People: {
     screen: Scanned,
     navigationOptions : ({navigation}) => ({
-       title : "Your scans",
+       title : "Your last 20 scans",
        headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
     })
   },
@@ -73,7 +75,15 @@ export const MainStackNavigator = StackNavigator({
      navigationOptions : {
 
      }
+  },
+
+  Admin : {
+     screen: Admin,
+     navigationOptions : {
+
+     }
   }
+
 },{
    headerMode : "none"
 });
@@ -127,7 +137,7 @@ const _addNavigationHelpers = (navigation) => {
 
 
 const AppNavigator = ({ dispatch, nav }) => (
-  <MainStackNavigator navigation={_addNavigationHelpers({
+  <MainStackNavigator navigation={addNavigationHelpers({
     dispatch: dispatch,
     state: nav
   })} />

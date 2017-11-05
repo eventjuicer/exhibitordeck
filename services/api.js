@@ -41,7 +41,7 @@ export const postJson = (url, payload) =>
 
 export const config = {
 
-  "api_public" : "https://api.eventjuicer.com/public/v1/hosts/targiehandlu.pl",
-  "api_services" : "https://api.eventjuicer.com/services/v1"
+  "api_public" : "https://api.eventjuicer.com/v1/public/hosts/targiehandlu.pl",
+  "api_services" : "https://api.eventjuicer.com/v1/services"
 
 }

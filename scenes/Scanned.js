@@ -8,10 +8,17 @@ import {styles, ScannedStyles} from '../styles'
 const tintColor = '#ffcc00'
 import {syncRequest} from '../redux/actions'
 
-
 class Scanned extends Component {
 
+  componentDidMount()
+  {
 
+    const {auth, scanned, comments, syncRequest}   = this.props;
+    const lastSync = + new Date();
+
+    this.timer = setInterval(() => syncRequest({scanned, comments, auth, lastSync}), 600000)
+
+  }
 
 
   _getCommentsCountForCode = (id) => {
@@ -33,14 +40,16 @@ _translateScanned = (code) => {
 
 _renderScanned = () => {
 
-  const {navigateWithDebounce}  = this.props.navigation;
+ // const {navigateWithDebounce}  = this.props.navigation;
+
+ const {navigate}  = this.props.navigation;
   const {scanned}   = this.props;
 
   return (<List>
 
   {
 
-    Object.keys(scanned).reverse().map(function(code, index)
+    Object.keys(scanned).reverse().slice(0,20).map(function(code, index)
     {
 
           let data = scanned[code];
@@ -61,7 +70,7 @@ _renderScanned = () => {
                         </Text>
                       </View>}
               badge={{ value: noOfComments, badgeTextStyle: { color: 'white' }, badgeContainerStyle: { backgroundColor: noOfComments ? '#2c24cc' : '#787878', marginTop: 5} }}
-              onPress = {() => navigateWithDebounce('Comments', {id: code, user: title})}
+              onPress = {() => navigate('Comments', {id: code, user: title})}
           />)
 
     }, this)

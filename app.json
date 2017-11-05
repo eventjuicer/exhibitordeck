@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name" : "Exhibitor Deck for E-commerce Poland Expo",
+    "name" : "Targi eHandlu #13",
     "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
-    "slug" : "exhibitordeck",
+    "slug" : "targiehandlu13",
     "icon": "icons/app.png",
-    "version" : "0.3",
-    "sdkVersion": "16.0.0",
+    "version" : "0.3.2",
+    "sdkVersion": "22.0.0",
     "privacy" : "public",
     "orientation" : "portrait",
     "scheme" : "exhdck",
@@ -15,6 +15,22 @@
       "hideExponentText" : true,
       "backgroundColor" : "#cc2c24"
     },
-    "androidStatusBarColor" : "#cc2c24"
+    "androidStatusBarColor" : "#cc2c24",
+    "packagerOpts": {
+      "nonPersistent": "--nonPersistent"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "eventjuicer",
+            "project": "exhibitordeck",
+            "authToken": "a9c5fa18c4244ddc862280272995e8dd053452c8530b45c29e0aa549d7566edc"
+          }
+        }
+      ]
+    }
+
   }
 }

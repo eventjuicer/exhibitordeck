@@ -72,6 +72,10 @@ export const participantsFetched = data => ({
     payload: data,
 });
 
+export const participantUnknown = data => ({
+  type : Types.PARTICIPANT_UNKNOWN
+})
+
 export const purgeScanned = () => ({
   type : Types.PURGE_SCANNED
 });

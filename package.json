@@ -1,14 +1,14 @@
 {
   "name": "ExhibitorDeck",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "devDependencies": {
-    "jest-expo": "^0.4.0",
-    "react-devtools": "^2.0.12",
-    "react-native-scripts": "0.0.28",
-    "react-test-renderer": "~15.5.4"
+    "jest-expo": "^22.0.1",
+    "react-devtools": "^2.5.2",
+    "react-native-scripts": "1.7.0",
+    "react-test-renderer": "~16.0.0"
   },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
@@ -24,25 +24,23 @@
     ]
   },
   "dependencies": {
-    "@expo/vector-icons": "^4.0.0",
-    "console-polyfill": "^0.2.3",
+    "@expo/vector-icons": "^6.1.0",
+    "console-polyfill": "^0.3.0",
     "errors": "^0.3.0",
-    "expo": "^16.0.0",
-    "firebase": "^3.7.3",
+    "expo": "^22.0.2",
+    "firebase": "^4.6.1",
     "lodash": "^4.17.4",
-    "moment": "^2.18.1",
-    "moment-timezone": "^0.5.11",
-    "no": "^0.0.1",
-    "raven-js": "^3.14.2",
-    "react": "16.0.0-alpha.6",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-16.0.0.tar.gz",
-    "react-native-elements": "https://github.com/react-native-training/react-native-elements/archive/master.tar.gz",
-    "react-native-vector-icons": "4.0.1",
-    "react-navigation": "1.0.0-beta.8",
-    "react-redux": "^5.0.3",
-    "redux": "^3.6.0",
-    "redux-persist": "^4.5.0",
-    "redux-saga": "^0.14.6",
-    "redux-saga-helpers": "^0.1.2"
+    "moment": "^2.19.1",
+    "moment-timezone": "^0.5.14",
+    "react": "^16.0.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-22.0.2.tar.gz",
+    "react-native-elements": "^0.18.1",
+    "react-native-vector-icons": "^4.4.2",
+    "react-navigation": "^1.0.0-beta.19",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-persist": "^5.2.2",
+    "redux-saga": "^0.16.0",
+    "sentry-expo": "^1.6.0"
   }
 }
