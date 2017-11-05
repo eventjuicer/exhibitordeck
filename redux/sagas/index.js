@@ -9,16 +9,18 @@ import {
   authenticated,
   unauthenticated,
   cameraPermission,
+  participantsFetch,
   participantsFetched,
   recentlyScannedCode,
-  synced
+  synced,
+  participantUnknown
 } from "../actions";
 
 import {config, postJson, getJson} from "../../services/api";
-import {getAuth, getScanned, getComments, getOptions, getRuntime } from './selectors';
+import {getAuth, getParticipants, getScanned, getComments, getOptions, getRuntime } from './selectors';
 
 
-function* handleSync(action)
+const handleSyncFn = function* handleSync(action)
 {
   const url = `${config.api_services}/scanners/${action.payload.auth.code}/sync`;
   const {response, error} = yield call(postJson, url, action.payload);
@@ -31,7 +33,7 @@ function* handleSync(action)
   }
 }
 
-function* handleAuthenticate(action)
+const handleAuthenticateFn = function* handleAuthenticate(action)
 {
   const url = `${config.api_services}/scanners/${action.payload}/auth`;
   const {response, error} = yield call(getJson, url);
@@ -45,7 +47,7 @@ function* handleAuthenticate(action)
   }
 }
 
-function* handleParticipantsFetch()
+const handleParticipantsFetchFn = function* handleParticipantsFetch()
 {
   const url = `${config.api_public}/participants-by-code`;
   const {response, error} = yield call(getJson, url);
@@ -58,7 +60,7 @@ function* handleParticipantsFetch()
 }
 
 
-function* handleAuthCheck(auth)
+const handleAuthCheckFn = function* handleAuthCheck(auth)
 {
   if(!auth)
   {
@@ -66,7 +68,7 @@ function* handleAuthCheck(auth)
   }
 }
 
-function* handleUnauthenticated()
+const handleUnauthenticatedFn = function* handleUnauthenticated()
 {
   Alert.alert(
     'Dear Exhibitor, who are you?',
@@ -77,12 +79,23 @@ function* handleUnauthenticated()
   );
 }
 
-function* handleScanned()
+const handleScannedFn = function* handleScanned(action)
 {
     Vibration.vibrate();
+
+    //check if we have this fucker...
+
+    const participants = yield select(getParticipants)
+
+    if(! action.code in participants)
+    {
+      yield put(participantUnknown())
+
+      yield put(participantsFetch())
+    }
 }
 
-function* handleLogout()
+const handleLogoutFn = function* handleLogout()
 {
   Alert.alert(
     "Bye :)",
@@ -94,7 +107,7 @@ function* handleLogout()
 }
 
 
-function* handleCameraAskPermission()
+const handleCameraAskPermissionFn = function* handleCameraAskPermission()
 {
   const permData = yield call(Permissions.askAsync, Permissions.CAMERA);
   yield put(cameraPermission(permData.status === 'granted'));
@@ -109,15 +122,20 @@ function* handleCameraAskPermission()
 // }
 
 
-export default function* sagas() {
-    yield [
-        takeEvery(Types.LOGOUT, handleLogout),
-        takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
-        takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermission),
-        takeEvery(Types.UNAUTHENTICATED, handleUnauthenticated),
-        takeEvery(Types.AUTH_CHECK, handleAuthCheck),
-        takeEvery(Types.AUTHENTICATE, handleAuthenticate),
-        takeEvery(Types.PARTICIPANT_SCANNED, handleScanned),
-        takeEvery(Types.SYNC_REQUEST, handleSync)
-    ];
-}
+const rootSaga = function * root() {
+  let sagaIndex = [
+    // some sagas only receive an action
+       takeEvery(Types.LOGOUT, handleLogoutFn),
+        takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetchFn),
+        takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermissionFn),
+        takeEvery(Types.UNAUTHENTICATED, handleUnauthenticatedFn),
+        takeEvery(Types.AUTH_CHECK, handleAuthCheckFn),
+        takeEvery(Types.AUTHENTICATE, handleAuthenticateFn),
+        takeEvery(Types.PARTICIPANT_SCANNED, handleScannedFn),
+        takeEvery(Types.SYNC_REQUEST, handleSyncFn)
+  ];
+
+  yield sagaIndex;
+};
+
+export default rootSaga;

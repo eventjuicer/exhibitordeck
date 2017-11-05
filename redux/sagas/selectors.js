@@ -5,3 +5,4 @@ export const getScanned = state => state.scanned
 export const getComments = state => state.comments
 export const getOptions = state => state.options
 export const getRuntime = state => state.runtime
+export const getParticipants = state => state.participants

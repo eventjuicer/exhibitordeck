@@ -8,6 +8,8 @@ import Scanned from './Scanned';
 import Comments from './Comments';
 import {Button} from 'react-native-elements';
 import Options from './Options';
+import Admin from './Admin';
+
 import NavButton from '../components/NavButton';
 
 
@@ -73,7 +75,15 @@ export const MainStackNavigator = StackNavigator({
      navigationOptions : {
 
      }
+  },
+
+  Admin : {
+     screen: Admin,
+     navigationOptions : {
+
+     }
   }
+
 },{
    headerMode : "none"
 });

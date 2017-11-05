@@ -27,7 +27,7 @@ class Welcome extends Component{
 
   componentDidMount()
   {
-    const {appState} = this.props;
+    const {appState, participantsFetch, cameraShow} = this.props;
 
     appState( (AppState.currentState == "active") );
 
@@ -35,9 +35,11 @@ class Welcome extends Component{
 
     this.loadFonts();
 
-    this.props.cameraShow();
+    cameraShow();
 
-    this.props.participantsFetch();
+    participantsFetch();
+
+    this.timer = setInterval(() => participantsFetch(), 900000)
 
   }
 
