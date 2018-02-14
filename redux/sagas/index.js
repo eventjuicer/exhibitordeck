@@ -1,7 +1,7 @@
 
 import { Alert, Vibration } from 'react-native';
 import {Permissions, Font} from 'expo';
-import { call, put, take, fork, select, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
+import { all, call, put, take, fork, select, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 
 import Types from "../types";
 
@@ -125,7 +125,7 @@ const handleCameraAskPermissionFn = function* handleCameraAskPermission()
 const rootSaga = function * root() {
   let sagaIndex = [
     // some sagas only receive an action
-       takeEvery(Types.LOGOUT, handleLogoutFn),
+        takeEvery(Types.LOGOUT, handleLogoutFn),
         takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetchFn),
         takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermissionFn),
         takeEvery(Types.UNAUTHENTICATED, handleUnauthenticatedFn),
@@ -135,7 +135,7 @@ const rootSaga = function * root() {
         takeEvery(Types.SYNC_REQUEST, handleSyncFn)
   ];
 
-  yield sagaIndex;
+  yield all(sagaIndex);
 };
 
 export default rootSaga;

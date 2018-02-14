@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import { AppState, StyleSheet, View, BackAndroid } from 'react-native';
+import { AppState, StyleSheet, View, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import {Permissions, AppLoading, Font} from 'expo';
 

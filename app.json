@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name" : "Targi eHandlu #13",
+    "name" : "Expojuicer",
     "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
-    "slug" : "targiehandlu13",
+    "slug" : "expojuicer",
     "icon": "icons/app.png",
-    "version" : "0.3.2",
+    "version" : "0.3.3",
     "sdkVersion": "22.0.0",
     "privacy" : "public",
     "orientation" : "portrait",
-    "scheme" : "exhdck",
-    "primaryColor" : "#cc2c24",
+    "scheme" : "expjcr",
+    "primaryColor" : "#ffffff",
     "loading" : {
-      "icon" : "icons/appwhite.png",
+      "icon" : "icons/app.png",
       "hideExponentText" : true,
-      "backgroundColor" : "#cc2c24"
+      "backgroundColor" : "#ffffff"
     },
     "androidStatusBarColor" : "#cc2c24",
     "packagerOpts": {

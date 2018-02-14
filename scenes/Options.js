@@ -15,7 +15,7 @@ import {
 
 import { FormLabel, FormInput } from 'react-native-elements'
 
-import { BackAndroid } from 'react-native';
+import { BackHandler } from 'react-native';
 
 
 
@@ -30,7 +30,7 @@ componentWillMount()
   {
     const {navigation} = this.props;
 
-    BackAndroid.addEventListener('hardwareBackPress', function()
+    BackHandler.addEventListener('hardwareBackPress', function()
     {
       navigation.goBack();
     });
