@@ -9,11 +9,11 @@
     "privacy" : "public",
     "orientation" : "portrait",
     "scheme" : "expjcr",
-    "primaryColor" : "#ffffff",
+    "primaryColor" : "#000000",
     "loading" : {
       "icon" : "icons/app.png",
       "hideExponentText" : true,
-      "backgroundColor" : "#ffffff"
+      "backgroundColor" : "#000000"
     },
     "androidStatusBarColor" : "#cc2c24",
     "packagerOpts": {
