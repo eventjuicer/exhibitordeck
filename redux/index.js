@@ -9,6 +9,7 @@ import { AsyncStorage } from 'react-native'
 import logger from '../services/logger';
 import appReducers from './reducers';
 
+export * from './actions'
 
 const persistConfig = {
     key: 'sroot',

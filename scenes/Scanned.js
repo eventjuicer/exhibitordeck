@@ -1,9 +1,22 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {ScrollView, RefreshControl, StyleSheet, Text, View, Image } from 'react-native';
-import {List, ListItem, Button} from 'react-native-elements';
+import {
+  ScrollView, 
+  RefreshControl, 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image 
+} from 'react-native';
+
+import {
+  ListItem, 
+  Button
+} from 'react-native-elements';
+
 var moment = require('moment');
+
 import {styles, ScannedStyles} from '../styles'
 const tintColor = '#ffcc00'
 import {syncRequest} from '../redux/actions'
@@ -45,7 +58,7 @@ _renderScanned = () => {
  const {navigate}  = this.props.navigation;
   const {scanned}   = this.props;
 
-  return (<List>
+  return (<View>
 
   {
 
@@ -78,7 +91,7 @@ _renderScanned = () => {
 
   }
 
-   </List>);
+   </View>);
 
 
 }

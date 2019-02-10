@@ -50,6 +50,10 @@ class Scanner extends Component {
 
   render() {
 
+
+    console.log(this.props);
+
+
   const {auth, scanned, runtime} = this.props;
   const username = ("cname2" in auth) ? auth.cname2 : "Unauthenticated";
 

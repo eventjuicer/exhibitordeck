@@ -1,19 +1,27 @@
 
 import React from 'react';
-import {Platform, Image, Text} from 'react-native';
+
+import {
+  Platform, 
+  Image, 
+  Text
+} from 'react-native';
+
 import { 
   createAppContainer, 
   createStackNavigator, 
-  createBottomTabNavigator, 
+  createMaterialTopTabNavigator, 
  // createDrawerNavigator
 } from 'react-navigation';
+
+import {Button} from 'react-native-elements';
 
 import Scanner from './Scanner';
 import Scanned from './Scanned';
 import Comments from './Comments';
-import {Button} from 'react-native-elements';
 import Options from './Options';
 import Admin from './Admin';
+
 
 import NavButton from '../components/NavButton';
 
@@ -43,7 +51,7 @@ const DetailedNavigator = createStackNavigator({
 
 
 
-const MainScreenNavigator = createBottomTabNavigator({
+const MainScreenNavigator = createMaterialTopTabNavigator({
   Scan: {
     screen: Scanner,
     navigationOptions : {

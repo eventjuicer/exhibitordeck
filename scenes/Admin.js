@@ -1,24 +1,34 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { Platform, Alert, Clipboard, StyleSheet, ScrollView, View, Image, TextInput } from 'react-native';
-import {Tile, List, Text, Button} from 'react-native-elements';
-import {styles} from '../styles'
+import { 
+  BackHandler, 
+  Platform, 
+  Alert, 
+  Clipboard, 
+  StyleSheet, 
+  ScrollView, 
+  View, 
+  Image, 
+  TextInput 
+} from 'react-native';
+
+import {
+  Tile, 
+  Text, 
+  Button
+} from 'react-native-elements';
+
+import {
+  styles
+} from '../styles'
 
 import {
   logout,
   syncRequest,
   changeActionLabels,
   purgeScanned
-} from '../redux/actions';
-
-
-import { FormLabel, FormInput } from 'react-native-elements'
-
-
-import { BackHandler } from 'react-native';
-
-
+} from '../redux';
 
 
 class Admin extends Component {
@@ -35,7 +45,7 @@ componentWillMount()
     BackHandler.addEventListener('hardwareBackPress', function()
 
     {
-      navigation.goBack();
+      navigation.actions.goBack();
     });
   }
 
@@ -48,8 +58,8 @@ onActionEdit = (text, index) => {
 
 render () {
 
-    const {auth, scanned, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
-    const { goBack, navigate } = this.props.navigation;
+    const { navigation, auth, scanned, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
+    
     const isLoggedIn = ("participant_id" in auth);
     const onActionEdit = this.onActionEdit;
     const hasScans = (Object.keys(scanned).length > 0);
@@ -66,7 +76,7 @@ render () {
   color="#000"
   backgroundColor="transparent"
   icon={{name: 'chevron-left', color: "black"}}
-  onPress={() => goBack()}
+  onPress={() => navigation.actions.goBack()}
   title="Back"
 />
 

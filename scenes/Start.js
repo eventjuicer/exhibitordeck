@@ -56,7 +56,7 @@ componentWillUnmount()
 {
   AppState.removeEventListener('change', this._handleAppStateChange);
 
-  clearInterval(this.timer)
+  //clearInterval(this.timer)
 }
 
 _handleAppStateChange = (nextAppState) => {
@@ -90,15 +90,15 @@ _handleAppStateChange = (nextAppState) => {
       const {fontLoaded} = this.state;
       const {auth} = this.props;
 
-      return <SignIn />
+      // return <SignIn />
 
       if (! fontLoaded ){
         return <AppLoading />;
       }
 
-      if (! ("token" in auth)){
-        return <SignIn />
-      }
+      // if (! ("token" in auth)){
+      //   return <SignIn />
+      // }
 
       return (<Navigation />);
 

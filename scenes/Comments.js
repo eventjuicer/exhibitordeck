@@ -1,17 +1,32 @@
 
-import React, {Component} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import {Alert, StyleSheet, ScrollView, View, Text, Image, KeyboardAvoidingView, TextInput } from 'react-native';
-import {Button, Grid, Row, FormLabel, FormInput, Slider} from 'react-native-elements';
+import {
+  Alert, 
+  StyleSheet, 
+  ScrollView, 
+  View, 
+  Text, 
+  Image, 
+  KeyboardAvoidingView, 
+  TextInput
+} from 'react-native';
+
+import {
+  Button, 
+//  Slider
+} from 'react-native-elements';
 
 import {CommentsStyles as styles} from '../styles';
 
-import {participantComment, purgeCommentsForCode} from '../redux/actions';
+import {
+  participantComment, 
+  purgeCommentsForCode
+} from '../redux';
 
 
-class Comments extends Component {
-
+class Comments extends React.Component {
 
   state = {
     behavior: 'padding',

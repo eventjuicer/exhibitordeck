@@ -1,5 +1,47 @@
 
 
+```
+
+"navigation: {
+  "actions": Object {
+                "dismiss": [Function dismiss],
+[23:34:04]       "goBack": [Function goBack],
+[23:34:04]       "navigate": [Function navigate],
+[23:34:04]       "pop": [Function pop],
+[23:34:04]       "popToTop": [Function popToTop],
+[23:34:04]       "push": [Function push],
+[23:34:04]       "replace": [Function replace],
+[23:34:04]       "reset": [Function reset],
+[23:34:04]       "setParams": [Function setParams],
+[23:34:04]     },
+[23:34:04]     "addListener": [Function addListener],
+[23:34:04]     "dangerouslyGetParent": [Function anonymous],
+[23:34:04]     "dismiss": [Function anonymous],
+[23:34:04]     "dispatch": [Function anonymous],
+[23:34:04]     "emit": [Function emit],
+[23:34:04]     "getChildNavigation": [Function getChildNavigation],
+[23:34:04]     "getParam": [Function anonymous],
+[23:34:04]     "getScreenProps": [Function anonymous],
+[23:34:04]     "goBack": [Function anonymous],
+[23:34:04]     "isFocused": [Function isFocused],
+[23:34:04]     "navigate": [Function anonymous],
+[23:34:04]     "pop": [Function anonymous],
+[23:34:04]     "popToTop": [Function anonymous],
+[23:34:04]     "push": [Function anonymous],
+[23:34:04]     "replace": [Function anonymous],
+[23:34:04]     "reset": [Function anonymous],
+[23:34:04]     "router": undefined,
+[23:34:04]     "setParams": [Function anonymous],
+[23:34:04]     "state": Object {
+[23:34:04]       "key": "Scan",
+[23:34:04]       "params": undefined,
+[23:34:04]       "routeName": "Scan",
+[23:34:04]     },
+[23:34:04]   },
+
+
+```
+
 
 ## Links for future reference
 https://github.com/react-community/react-navigation/issues/271
