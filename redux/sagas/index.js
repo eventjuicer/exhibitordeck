@@ -35,15 +35,28 @@ const handleSyncFn = function* handleSync(action)
 
 const handleAuthenticateFn = function* handleAuthenticate(action)
 {
-  const url = `${config.api_services}/scanners/${action.payload}/auth`;
-  const {response, error} = yield call(getJson, url);
+
+  let url, apiResponse;
+
+  //login via email / pass
+  if("email" in action.payload && "password" in action.payload){
+    url = `${config.api_restricted}/me/`;
+    apiResponse = yield call(postJson, url, action.payload);
+    
+  }else{
+    url = `${config.api_services}/scanners/${action.payload}/auth`;
+    apiResponse = yield call(getJson, url);
+  }
+
+  const {response, error} = apiResponse;
+
   if (!error){
    yield put(authenticated(response.data))
    Vibration.vibrate();
    console.log("handleAuthenticate OK", response);
   } else {
    yield put(unauthenticated())
-   console.log("handleAuthenticate ERROR", error);
+   console.log("handleAuthenticate ERROR", error.toString() );
   }
 }
 

@@ -7,7 +7,7 @@ import {Permissions, AppLoading, Font} from 'expo';
 
 //custom
 import Navigation from './Navigation';
-
+import SignIn from './SignIn'
 
 import {
   participantsFetch,
@@ -17,19 +17,32 @@ import {
 } from '../redux/actions';
 
 
-class Welcome extends React.Component{
+class Start extends React.Component{
 
+  constructor(props) {
+    super(props);
+    // Don't call this.setState() here!
+    this.state = { 
+      fontLoaded: false
+    };
 
-  componentWillMount()
-  {
-      this.props.askCameraPermission();
+    const {askCameraPermission, appState} = props;
+    
+    askCameraPermission();
+    
+    appState( (AppState.currentState == "active") );
+
+    this.fetchParticipants();
+  }
+
+  fetchParticipants(){
+    const {participantsFetch} = this.props;
+  //  this.timer = setInterval(() => participantsFetch(), 900000)
   }
 
   componentDidMount()
   {
-    const {appState, participantsFetch, cameraShow} = this.props;
-
-    appState( (AppState.currentState == "active") );
+    const {cameraShow} = this.props;
 
     AppState.addEventListener('change', this._handleAppStateChange);
 
@@ -37,50 +50,59 @@ class Welcome extends React.Component{
 
     cameraShow();
 
-    participantsFetch();
-
-    this.timer = setInterval(() => participantsFetch(), 900000)
-
   }
 
 componentWillUnmount()
 {
   AppState.removeEventListener('change', this._handleAppStateChange);
+
+  clearInterval(this.timer)
 }
 
 _handleAppStateChange = (nextAppState) => {
 
   const {appState} = this.props;
 
-/*
- if (runtime.appState.match(/inactive|background/) && nextAppState === 'active')
- */
-
- if (nextAppState === 'active')
-  {
+ if (nextAppState === 'active'){
     console.log('App has come to the foreground!')
     appState(true);
-  }
-  else
-  {
+    this.fetchParticipants();
+  }else{
     console.log("App minimized");
     appState(false);
+    clearInterval(this.timer)
   }
 
-}
+ }
 
   async loadFonts() {
     await Font.loadAsync({
       'Roboto-Bold': require('../assets/Roboto-Bold.ttf'),
     });
-    //this.setState({isReady: true});
+    
+    this.setState({fontLoaded: true});
   }
 
 
   render()
   {
 
+      const {fontLoaded} = this.state;
+      const {auth} = this.props;
+
+      return <SignIn />
+
+      if (! fontLoaded ){
+        return <AppLoading />;
+      }
+
+      if (! ("token" in auth)){
+        return <SignIn />
+      }
+
       return (<Navigation />);
+
+
 
   //  const {user} = this.props;
 
@@ -102,13 +124,16 @@ _handleAppStateChange = (nextAppState) => {
   }
 }
 
-Welcome.defaultProps = {
+Start.defaultProps = {
   auth : {},
   isReady: false
 }
 
-const mapStateToProps = state => ({
-    auth: state.auth
-});
-
-export default connect(mapStateToProps, {appState, participantsFetch, askCameraPermission, cameraShow})(Welcome);
+export default connect(state => ({
+  auth: state.auth
+}), {
+  appState, 
+  participantsFetch, 
+  askCameraPermission, 
+  cameraShow}
+)(Start);

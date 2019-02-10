@@ -5,10 +5,8 @@ import React from 'react';
 import { AppLoading } from 'expo';
 //import { View, Text } from "react-native";
 
-import Sentry from 'sentry-expo';
-Sentry.enableInExpoDevelopment = true;
-Sentry.config('https://66b467cc8a61480cbd381f811a5e7ac5@sentry.io/240287').install();
-
+import sentry from './services/sentry'
+sentry();
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react'
@@ -16,37 +14,26 @@ import { PersistGate } from 'redux-persist/es/integration/react'
 import defaultSagas from './redux/sagas';
 import {configureStore, sagaMiddleware} from './redux'
 
-
 const { persistor, store } = configureStore()
 sagaMiddleware.run(defaultSagas);
 
-import Welcome from './scenes/Welcome';
+import Start from './scenes/Start';
 
 const onBeforeLift = () => {
   // take some action before the gate lifts
 }
 
-class Expojuicer extends React.Component {
+const Expojuicer = () => (
 
-  render()
-  {
-   
-     return (
-      <Provider store={store}>
+  <Provider store={store}>
       <PersistGate 
         loading={<AppLoading />}
         onBeforeLift={onBeforeLift}
         persistor={persistor}>
-          <Welcome />
+          <Start />
       </PersistGate>
-
-      {/* <Welcome /> */}
     </Provider>
 
-     )
-  }
-
-}
-
+)
 
 export default Expojuicer

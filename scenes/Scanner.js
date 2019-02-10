@@ -64,7 +64,7 @@ class Scanner extends Component {
         {username}, you have { Object.keys(scanned).length } scan(s).
       </Text></View>
 
-        </View>
+      </View>
 
 
     )

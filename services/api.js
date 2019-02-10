@@ -14,7 +14,7 @@ export const checkStatus = (response) =>
 
 export const getJson = (url) =>
 {
-  console.log(url);
+  console.log("API/GET", url);
 
   return fetch(url)
   .then(checkStatus)
@@ -25,7 +25,7 @@ export const getJson = (url) =>
 
 export const postJson = (url, payload) =>
 {
-  console.log(url);
+  console.log("API/POST", url, payload);
 
   return fetch(url,
   {
@@ -42,6 +42,7 @@ export const postJson = (url, payload) =>
 export const config = {
 
   "api_public" : "https://api.eventjuicer.com/v1/public/hosts/targiehandlu.pl",
-  "api_services" : "https://api.eventjuicer.com/v1/services"
+  "api_services" : "https://api.eventjuicer.com/v1/services",
+  "api_restricted" : "https://api.eventjuicer.com/v1/restricted"
 
 }

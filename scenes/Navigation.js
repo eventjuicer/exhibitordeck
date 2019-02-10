@@ -17,6 +17,9 @@ import Admin from './Admin';
 
 import NavButton from '../components/NavButton';
 
+
+
+
 const DetailedNavigator = createStackNavigator({
 
   People: {
@@ -40,7 +43,7 @@ const DetailedNavigator = createStackNavigator({
 
 
 
-export const MainScreenNavigator = createBottomTabNavigator({
+const MainScreenNavigator = createBottomTabNavigator({
   Scan: {
     screen: Scanner,
     navigationOptions : {
@@ -70,7 +73,7 @@ export const MainScreenNavigator = createBottomTabNavigator({
 
 
 
-export const MainStackNavigator = createStackNavigator({
+const Container = createStackNavigator({
 
   Main : {
     screen : MainScreenNavigator
@@ -115,33 +118,6 @@ export const MainStackNavigator = createStackNavigator({
 // });
 
 
-// const _addNavigationHelpers = (navigation) => {
-//        const original = addNavigationHelpers(navigation);
-//        let debounce;
-//        return {
-//            ...original,
-//            navigateWithDebounce: (routeName, params, action) => {
-//                let func = () => {
-//                    if (debounce) {
-//                        return;
-//                    }
-
-//                    navigation.dispatch(NavigationActions.navigate({
-//                        routeName,
-//                        params,
-//                        action
-//                    }));
-
-//                    debounce = setTimeout(() => {
-//                        debounce = 0;
-//                    }, 1000)
-//                };
-//                return func();
-//            }
-//        }
-// };
 
 
-
-
-export default createAppContainer(MainStackNavigator);
+export default createAppContainer(Container);

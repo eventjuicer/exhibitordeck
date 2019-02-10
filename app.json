@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000",
+      "backgroundColor": "#ffffff",
       "hideExponentText" : true
     },
     "updates": {
@@ -24,12 +24,16 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "scheme" : "expjcr",
     "primaryColor" : "#000000",
     "androidStatusBarColor" : "#cc2c24",
+    "ios": {
+      "bundleIdentifier": "com.eventjuicer.exhibitors",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.eventjuicer.exhibitors"
+    },
     "packagerOpts": {
       "nonPersistent": "--nonPersistent"
     },

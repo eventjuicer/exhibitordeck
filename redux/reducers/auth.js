@@ -1,6 +1,6 @@
 import Types from '../types';
 
-const userAuthenticated = (state = [], action) => {
+const userAuthenticated = (state = {}, action) => {
   switch (action.type)
   {
     case Types.AUTHENTICATE:
