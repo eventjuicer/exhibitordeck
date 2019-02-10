@@ -45,7 +45,7 @@ componentWillMount()
     BackHandler.addEventListener('hardwareBackPress', function()
 
     {
-      navigation.actions.goBack();
+      navigation.goBack();
     });
   }
 
@@ -76,7 +76,7 @@ render () {
   color="#000"
   backgroundColor="transparent"
   icon={{name: 'chevron-left', color: "black"}}
-  onPress={() => navigation.actions.goBack()}
+  onPress={() => navigation.goBack()}
   title="Back"
 />
 
