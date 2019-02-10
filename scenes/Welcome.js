@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react';
+import React from 'react';
 import { AppState, StyleSheet, View, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import {Permissions, AppLoading, Font} from 'expo';
@@ -17,7 +17,7 @@ import {
 } from '../redux/actions';
 
 
-class Welcome extends Component{
+class Welcome extends React.Component{
 
 
   componentWillMount()

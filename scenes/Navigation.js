@@ -1,8 +1,13 @@
 
-import React, {Component} from 'react';
+import React from 'react';
 import {Platform, Image, Text} from 'react-native';
-import { TabNavigator, StackNavigator, DrawerNavigator, addNavigationHelpers, NavigationActions } from 'react-navigation';
-import { connect } from 'react-redux';
+import { 
+  createAppContainer, 
+  createStackNavigator, 
+  createBottomTabNavigator, 
+ // createDrawerNavigator
+} from 'react-navigation';
+
 import Scanner from './Scanner';
 import Scanned from './Scanned';
 import Comments from './Comments';
@@ -12,9 +17,7 @@ import Admin from './Admin';
 
 import NavButton from '../components/NavButton';
 
-
-
-const DetailedNavigator = StackNavigator({
+const DetailedNavigator = createStackNavigator({
 
   People: {
     screen: Scanned,
@@ -35,7 +38,9 @@ const DetailedNavigator = StackNavigator({
   headerMode: "float",
 });
 
-export const MainScreenNavigator = TabNavigator({
+
+
+export const MainScreenNavigator = createBottomTabNavigator({
   Scan: {
     screen: Scanner,
     navigationOptions : {
@@ -64,7 +69,8 @@ export const MainScreenNavigator = TabNavigator({
 });
 
 
-export const MainStackNavigator = StackNavigator({
+
+export const MainStackNavigator = createStackNavigator({
 
   Main : {
     screen : MainScreenNavigator
@@ -109,42 +115,33 @@ export const MainStackNavigator = StackNavigator({
 // });
 
 
-const _addNavigationHelpers = (navigation) => {
-       const original = addNavigationHelpers(navigation);
-       let debounce;
-       return {
-           ...original,
-           navigateWithDebounce: (routeName, params, action) => {
-               let func = () => {
-                   if (debounce) {
-                       return;
-                   }
+// const _addNavigationHelpers = (navigation) => {
+//        const original = addNavigationHelpers(navigation);
+//        let debounce;
+//        return {
+//            ...original,
+//            navigateWithDebounce: (routeName, params, action) => {
+//                let func = () => {
+//                    if (debounce) {
+//                        return;
+//                    }
 
-                   navigation.dispatch(NavigationActions.navigate({
-                       routeName,
-                       params,
-                       action
-                   }));
+//                    navigation.dispatch(NavigationActions.navigate({
+//                        routeName,
+//                        params,
+//                        action
+//                    }));
 
-                   debounce = setTimeout(() => {
-                       debounce = 0;
-                   }, 1000)
-               };
-               return func();
-           }
-       }
-};
+//                    debounce = setTimeout(() => {
+//                        debounce = 0;
+//                    }, 1000)
+//                };
+//                return func();
+//            }
+//        }
+// };
 
 
-const AppNavigator = ({ dispatch, nav }) => (
-  <MainStackNavigator navigation={addNavigationHelpers({
-    dispatch: dispatch,
-    state: nav
-  })} />
-);
 
-const mapStateToProps = state => ({
-    nav: state.nav
-});
 
-export default connect(mapStateToProps, null)(AppNavigator);
+export default createAppContainer(MainStackNavigator);
