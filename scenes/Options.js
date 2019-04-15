@@ -112,7 +112,7 @@ return (
   fontSize={16}
   color="#000"
   backgroundColor="transparent"
-  onPress={() => navigate("Admin")}
+  onPress={() => navigation.navigate("Admin")}
   title="admin"
 />
 

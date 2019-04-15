@@ -72,8 +72,8 @@ const MainScreenNavigator = createMaterialTopTabNavigator({
     },
     style: {
       backgroundColor: '#cc2c24',
-      height: Platform.OS == "ios" ? 60 : 85,
-      paddingTop: Platform.OS == "ios" ? 20 : 30,
+      height: Platform.OS == "ios" ? 80 : 85,
+      paddingTop: Platform.OS == "ios" ? 30 : 30,
       paddingBottom: 17
     },
   },

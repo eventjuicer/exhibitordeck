@@ -7,7 +7,7 @@ import {Permissions, AppLoading, Font} from 'expo';
 
 //custom
 import Navigation from './Navigation';
-import SignIn from './SignIn'
+//import SignIn from './SignIn'
 
 import {
   participantsFetch,
@@ -26,28 +26,20 @@ class Start extends React.Component{
       fontLoaded: false
     };
 
-    const {askCameraPermission, appState} = props;
+    const {askCameraPermission, appState, participantsFetch} = props;
     
     askCameraPermission();
     
     appState( (AppState.currentState == "active") );
 
-    this.fetchParticipants();
-  }
-
-  fetchParticipants(){
-    const {participantsFetch} = this.props;
-  //  this.timer = setInterval(() => participantsFetch(), 900000)
+    participantsFetch();
   }
 
   componentDidMount()
   {
     const {cameraShow} = this.props;
-
     AppState.addEventListener('change', this._handleAppStateChange);
-
     this.loadFonts();
-
     cameraShow();
 
   }
@@ -55,22 +47,19 @@ class Start extends React.Component{
 componentWillUnmount()
 {
   AppState.removeEventListener('change', this._handleAppStateChange);
-
-  //clearInterval(this.timer)
 }
 
 _handleAppStateChange = (nextAppState) => {
 
-  const {appState} = this.props;
+  const {appState, participantsFetch} = this.props;
 
  if (nextAppState === 'active'){
     console.log('App has come to the foreground!')
     appState(true);
-    this.fetchParticipants();
+    participantsFetch();
   }else{
     console.log("App minimized");
     appState(false);
-    clearInterval(this.timer)
   }
 
  }
@@ -90,6 +79,8 @@ _handleAppStateChange = (nextAppState) => {
       const {fontLoaded} = this.state;
       const {auth} = this.props;
 
+      console.log(auth);
+
       // return <SignIn />
 
       if (! fontLoaded ){
@@ -99,6 +90,11 @@ _handleAppStateChange = (nextAppState) => {
       // if (! ("token" in auth)){
       //   return <SignIn />
       // }
+
+      if(! "participant_id" in auth)
+      {
+        return <ScannerUnauth />;
+      }
 
       return (<Navigation />);
 
@@ -115,10 +111,7 @@ _handleAppStateChange = (nextAppState) => {
 
 
 
-    // if(! "participant_id" in user)
-    // {
-    //   return <ScannerUnauth />;
-    // }
+  
 
 
   }

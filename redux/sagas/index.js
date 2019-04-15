@@ -38,8 +38,10 @@ const handleAuthenticateFn = function* handleAuthenticate(action)
 
   let url, apiResponse;
 
+  //console.log("test", action.payload)
+
   //login via email / pass
-  if("email" in action.payload && "password" in action.payload){
+  if(action.payload === new Object(action.payload) && "email" in action.payload && "password" in action.payload){
     url = `${config.api_restricted}/me/`;
     apiResponse = yield call(postJson, url, action.payload);
     
@@ -47,6 +49,8 @@ const handleAuthenticateFn = function* handleAuthenticate(action)
     url = `${config.api_services}/scanners/${action.payload}/auth`;
     apiResponse = yield call(getJson, url);
   }
+
+  console.log(apiResponse)
 
   const {response, error} = apiResponse;
 

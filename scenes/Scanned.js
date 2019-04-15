@@ -4,35 +4,43 @@ import { connect } from 'react-redux';
 import {
   ScrollView, 
   RefreshControl, 
-  StyleSheet, 
+ // StyleSheet, 
   Text, 
   View, 
-  Image 
+ // Image 
 } from 'react-native';
 
 import {
   ListItem, 
-  Button
+//  Button
 } from 'react-native-elements';
 
 var moment = require('moment');
 
 import {styles, ScannedStyles} from '../styles'
 const tintColor = '#ffcc00'
-import {syncRequest} from '../redux/actions'
+
+import {
+  syncRequest, 
+  participantsFetch
+} from '../redux/actions'
 
 class Scanned extends Component {
 
   componentDidMount()
   {
-
-    const {auth, scanned, comments, syncRequest}   = this.props;
-    const lastSync = + new Date();
-
-    this.timer = setInterval(() => syncRequest({scanned, comments, auth, lastSync}), 600000)
-
+    this.syncAllData();
   }
 
+  syncAllData = () => {
+
+    const {auth, scanned, comments, syncRequest, participantsFetch}   = this.props;
+    const lastSync = + new Date();
+
+    syncRequest({scanned, comments, auth, lastSync});
+    participantsFetch();
+
+  }
 
   _getCommentsCountForCode = (id) => {
 
@@ -108,7 +116,7 @@ render () {
         refreshControl={
           <RefreshControl
            refreshing={runtime.isSyncing}
-           onRefresh={() => syncRequest({scanned, comments, auth, lastSync})}
+           onRefresh={() => this.syncAllData()}
            tintColor="#787878"
            title="Loading..."
            titleColor="#787878"
@@ -154,4 +162,4 @@ const mapStateToProps = state => ({
   runtime : state.runtime
 });
 
-export default connect(mapStateToProps, {syncRequest})(Scanned);
+export default connect(mapStateToProps, {syncRequest, participantsFetch})(Scanned);

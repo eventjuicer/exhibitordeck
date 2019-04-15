@@ -23,12 +23,20 @@ class Scanner extends Component {
       const {auth, scanned, participantScanned, recentlyScannedCode, authCheck, authenticate} = this.props;
       const code = data.data;
 
-      if(code && code.indexOf("@") != -1)
+     // console.log("skaner", code)
+
+      if(code && code.indexOf("@") > 0)
       {
-        if(! ("code" in auth) || auth.code != code)
-        {
-            authenticate(code);
-        }
+
+        // console.log("authenticating code...")
+        // console.log(auth)
+
+        authenticate(code);
+
+        //if(! ("code" in auth) || auth.code != code)
+        //{
+        //    authenticate(code);
+        //}
 
       }
       else
