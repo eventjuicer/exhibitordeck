@@ -4,12 +4,12 @@
     "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
     "slug": "expojuicer",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "2.1.4",
+    "version": "2.1.5",
     "orientation": "portrait",
     "icon": "./assets/app.png",
     "splash": {
@@ -28,14 +28,11 @@
     "primaryColor" : "#8a1719",
     "androidStatusBarColor" : "#8a1719",
     "ios": {
-      "bundleIdentifier": "com.eventjuicer.exhibitors",
+      "bundleIdentifier": "com.eventjuicer.ebe.exhibitors",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.eventjuicer.exhibitors"
-    },
-    "packagerOpts": {
-      "nonPersistent": "--nonPersistent"
+      "package": "com.eventjuicer.ebe.exhibitors"
     },
     "hooks": {
       "postPublish": [

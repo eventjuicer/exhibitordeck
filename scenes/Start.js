@@ -65,11 +65,11 @@ _handleAppStateChange = (nextAppState) => {
  }
 
   async loadFonts() {
-    await Font.loadAsync({
-      'Roboto-Bold': require('../assets/Roboto-Bold.ttf'),
-    });
+    // await Font.loadAsync({
+    //   'Roboto-Bold': require('../assets/Roboto-Bold.ttf'),
+    // });
     
-    this.setState({fontLoaded: true});
+    // this.setState({fontLoaded: true});
   }
 
 
@@ -84,7 +84,7 @@ _handleAppStateChange = (nextAppState) => {
       // return <SignIn />
 
       if (! fontLoaded ){
-        return <AppLoading />;
+   //     return <AppLoading />;
       }
 
       // if (! ("token" in auth)){

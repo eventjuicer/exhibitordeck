@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 
 import { 
-  createAppContainer, 
-  createStackNavigator, 
-  createMaterialTopTabNavigator, 
- // createDrawerNavigator
+  createAppContainer
 } from 'react-navigation';
+
+import {createStackNavigator} from 'react-navigation-stack'
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs'
 
 import {Button} from 'react-native-elements';
 

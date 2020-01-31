@@ -126,8 +126,8 @@ const handleLogoutFn = function* handleLogout()
 
 const handleCameraAskPermissionFn = function* handleCameraAskPermission()
 {
-  const permData = yield call(Permissions.askAsync, Permissions.CAMERA);
-  yield put(cameraPermission(permData.status === 'granted'));
+  // const permData = yield call(Permissions.askAsync, Permissions.CAMERA);
+  // yield put(cameraPermission(permData.status === 'granted'));
 }
 
 //

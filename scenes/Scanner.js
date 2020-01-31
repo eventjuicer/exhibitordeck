@@ -58,7 +58,8 @@ class Scanner extends Component {
 
   render() {
 
-
+    return   (<View style={{flex: 1 }}><Text>asd</Text></View>)
+    
     console.log(this.props);
 
 
