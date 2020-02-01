@@ -25,6 +25,9 @@ import {
   participantsFetch
 } from '../redux/actions'
 
+import Header from '../components/MyHeader'
+
+
 class Scanned extends Component {
 
   componentDidMount()
@@ -111,40 +114,46 @@ render () {
 
     return (
 
-      <ScrollView
+      <View>
+        
+         <Header navigation={this.props.navigation} />
 
-        refreshControl={
-          <RefreshControl
-           refreshing={runtime.isSyncing}
-           onRefresh={() => this.syncAllData()}
-           tintColor="#787878"
-           title="Loading..."
-           titleColor="#787878"
-           colors={['#787878']}
-           progressBackgroundColor="#ffffff"
-         />
-        }
-        style={{paddingBottom: 50}}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+              refreshing={runtime.isSyncing}
+              onRefresh={() => this.syncAllData()}
+              tintColor="#787878"
+              title="Loading..."
+              titleColor="#787878"
+              colors={['#787878']}
+              progressBackgroundColor="#ffffff"
+            />
+            }
+            style={{paddingBottom: 50}}>
 
-          {
+              {
 
-            !Object.keys(scanned).length?
+                !Object.keys(scanned).length?
 
-            (<View style={{marginTop: 50, paddingHorizontal: 30}}>
-            <Text style={{fontSize: 16, textAlign: "center"}}>
-              No data at the moment. Pull down to sync.
-            </Text>
-            <Text style={{fontSize: 16, textAlign: "center", marginTop: 20}}>
-              Scan some badges.
-            </Text>
-            </View>)
-          :
+                (<View style={{marginTop: 50, paddingHorizontal: 30}}>
+                <Text style={{fontSize: 16, textAlign: "center"}}>
+                  No data at the moment. Pull down to sync.
+                </Text>
+                <Text style={{fontSize: 16, textAlign: "center", marginTop: 20}}>
+                  Scan some badges.
+                </Text>
+                </View>)
+              :
 
-            this._renderScanned()
-        }
+                this._renderScanned()
+            }
 
 
-    </ScrollView>
+            </ScrollView>
+
+      </View>
+    
 
     )
 

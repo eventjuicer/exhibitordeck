@@ -11,6 +11,11 @@ export const purgeCommentsForCode = (code) => ({
   code : code
 });
 
+export const authenticateByCredentials = (payload) => ({
+    type: Types.AUTHENTICATE_BY_CREDENTIALS,
+    payload: payload
+});
+
 export const authenticate = code => ({
     type: Types.AUTHENTICATE,
     payload: code,

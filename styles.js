@@ -53,9 +53,9 @@ export const CommentsStyles = StyleSheet.create({
     paddingBottom : 40
   },
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingVertical: 20,
+    // flex: 1,
+    // justifyContent: 'center',
+    // paddingVertical: 20,
 //    alignItems: 'stretch'
   },
   textInput: {

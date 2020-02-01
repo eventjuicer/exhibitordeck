@@ -7,7 +7,7 @@ import {Permissions, AppLoading, Font} from 'expo';
 
 //custom
 import Navigation from './Navigation';
-//import SignIn from './SignIn'
+
 
 import {
   participantsFetch,
@@ -81,7 +81,6 @@ _handleAppStateChange = (nextAppState) => {
 
       console.log(auth);
 
-      // return <SignIn />
 
       if (! fontLoaded ){
    //     return <AppLoading />;

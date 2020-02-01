@@ -26,6 +26,7 @@ import {
   purgeScanned
 } from '../redux';
 
+import Header from '../components/MyHeader'
 
 
 class Options extends React.Component {
@@ -60,6 +61,9 @@ render () {
 
 
     return (
+
+      <View>
+          <Header navigation={this.props.navigation} />
 
 <ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 20}}>
 
@@ -122,6 +126,9 @@ return (
 
 
 </ScrollView>
+
+      </View>
+
     )
   }
 }

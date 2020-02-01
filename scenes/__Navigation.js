@@ -26,8 +26,6 @@ import Admin from './Admin';
 import NavButton from '../components/NavButton';
 
 
-
-
 const DetailedNavigator = createStackNavigator({
 
   People: {
