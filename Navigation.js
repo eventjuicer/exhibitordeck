@@ -1,27 +1,33 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
-import { Icon } from 'react-native-elements';
+import { Icon, Image } from 'react-native-elements';
 
+import NavCompanyImage from './components/NavCompanyImage'
 import HomePage from './scenes/HomePage'
 import Scanned from './scenes/Scanned'
 import Options from './scenes/Options'
 import User from './scenes/User'
 
+const styles = StyleSheet.create({
+    
+  headerImage : {
+      height: 50, 
+      backgroundColor: '#d2d2d2', 
+      alignItems: 'center', 
+      justifyContent: 'center' 
+  }
+
+});
+
 const CustomDrawerNavigation = (props) => {
+    //console.log(props);
     return (
     <SafeAreaView style={{ flex: 1 }}>
     <View style={{ height: 250, backgroundColor: '#d2d2d2', opacity: 0.9 }}>
-    <View style={{ height: 200, backgroundColor: 'Green', alignItems: 'center', justifyContent: 'center' }}>
-    {/* <Image source={require('./assets/no-image.png')} style={{ height: 150, width: 150, borderRadius: 60 }} /> */}
-    </View>
-    <View style={{ 
-        height: 50, 
-        backgroundColor: 'Green', 
-        alignItems: 'center', 
-        justifyContent: 'center' 
-    }}>
+    <NavCompanyImage />
+    <View style={styles.headerImage}>
     <Text>John Doe</Text>
     </View>
     </View>
@@ -46,35 +52,29 @@ const Drawer = createDrawerNavigator({
     Home: {
       screen: HomePage,
       navigationOptions: {
-        title: 'Home',
-        drawerLabel : "Home",
+        title: 'Barcode Scanner',
+        drawerLabel : "Barcode Scanner",
       }
     },
     Scanned: {
       screen: Scanned,
       navigationOptions: {
-        drawerLabel : "Scanned",
-        title: 'Scanned'
+        drawerLabel : "Scanned Visitors",
+        title: 'Scanned Visitors'
       }
     },
-    // Notifications: {
-    //   screen: NotificationsPage,
-    //   navigationOptions: {
-    //     title: 'Notifications'
-    //   }
-    // },
     SettingsPage: {
       screen: Options,
       navigationOptions: {
-        drawerLabel : "Settings",
-        title: 'Settings'
+        drawerLabel : "Templates",
+        title: 'Templates'
       }
     },
     UserPage: {
       screen: User,
       navigationOptions: {
-        drawerLabel : "User",
-        title: 'User'
+        drawerLabel : "Select User",
+        title: 'Select User'
       }
     }
   },

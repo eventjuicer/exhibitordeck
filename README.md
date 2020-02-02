@@ -1,73 +1,6 @@
 
 
-```
-
-"navigation: {
-  "actions": Object {
-                "dismiss": [Function dismiss],
-[23:34:04]       "goBack": [Function goBack],
-[23:34:04]       "navigate": [Function navigate],
-[23:34:04]       "pop": [Function pop],
-[23:34:04]       "popToTop": [Function popToTop],
-[23:34:04]       "push": [Function push],
-[23:34:04]       "replace": [Function replace],
-[23:34:04]       "reset": [Function reset],
-[23:34:04]       "setParams": [Function setParams],
-[23:34:04]     },
-[23:34:04]     "addListener": [Function addListener],
-[23:34:04]     "dangerouslyGetParent": [Function anonymous],
-[23:34:04]     "dismiss": [Function anonymous],
-[23:34:04]     "dispatch": [Function anonymous],
-[23:34:04]     "emit": [Function emit],
-[23:34:04]     "getChildNavigation": [Function getChildNavigation],
-[23:34:04]     "getParam": [Function anonymous],
-[23:34:04]     "getScreenProps": [Function anonymous],
-[23:34:04]     "goBack": [Function anonymous],
-[23:34:04]     "isFocused": [Function isFocused],
-[23:34:04]     "navigate": [Function anonymous],
-[23:34:04]     "pop": [Function anonymous],
-[23:34:04]     "popToTop": [Function anonymous],
-[23:34:04]     "push": [Function anonymous],
-[23:34:04]     "replace": [Function anonymous],
-[23:34:04]     "reset": [Function anonymous],
-[23:34:04]     "router": undefined,
-[23:34:04]     "setParams": [Function anonymous],
-[23:34:04]     "state": Object {
-[23:34:04]       "key": "Scan",
-[23:34:04]       "params": undefined,
-[23:34:04]       "routeName": "Scan",
-[23:34:04]     },
-[23:34:04]   },
-
-
-```
-
-
-## Links for future reference
-https://github.com/react-community/react-navigation/issues/271
-- Redux-Saga + Firebase - https://github.com/redux-saga/redux-saga/issues/508
--https://medium.freecodecamp.com/async-operations-using-redux-saga-2ba02ae077b3
-- https://github.com/rt2zz/redux-persist/blob/master/docs/recipes.md#delay-render-until-rehydration-complete
-
-https://github.com/react-community/react-navigation/issues/145
-https://github.com/react-community/react-navigation/issues/286
-- https://reactnavigation.org/docs/intro/
-- https://github.com/react-native-community/react-native-elements
-- http://stackoverflow.com/questions/38810725/navigation-experimental-how-to-pass-props-to-scenes
-- https://github.com/Thinkmill/react-conf-app
-- https://medium.com/appandflow/react-native-scrollview-animated-header-10a18cb9469e#.yrmovaymy
-- http://makeitopen.com/tutorials/building-the-f8-app/data/
-- https://www.codementor.io/vijayst/using-firebase-with-redux-for-building-a-react-app-du1086puw
-- https://www.nginx.com/blog/building-microservices-using-an-api-gateway/
-- https://github.com/FuYaoDe/react-native-app-intro
-
-
-
-
-
-
-
-
+# E-commerce Berlin Expo - Exhibitors
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
@@ -230,3 +163,23 @@ There are a few steps you may want to take to troubleshoot these kinds of errors
 If you're not able to scan the QR code, make sure your phone's camera is focusing correctly, and also make sure that the contrast on the two colors in your terminal is high enough. For example, WebStorm's default themes may [not have enough contrast](https://github.com/react-community/create-react-native-app/issues/49) for terminal QR codes to be scannable with the system barcode scanners that the Expo app uses.
 
 If this causes problems for you, you may want to try changing your terminal's color theme to have more contrast, or running Create React Native App from a different terminal. You can also manually enter the URL printed by the packager script in the Expo app's search bar to load it manually.
+
+## Links for future reference
+
+https://github.com/react-community/react-navigation/issues/271
+- Redux-Saga + Firebase - https://github.com/redux-saga/redux-saga/issues/508
+-https://medium.freecodecamp.com/async-operations-using-redux-saga-2ba02ae077b3
+- https://github.com/rt2zz/redux-persist/blob/master/docs/recipes.md#delay-render-until-rehydration-complete
+
+https://github.com/react-community/react-navigation/issues/145
+https://github.com/react-community/react-navigation/issues/286
+- https://reactnavigation.org/docs/intro/
+- https://github.com/react-native-community/react-native-elements
+- http://stackoverflow.com/questions/38810725/navigation-experimental-how-to-pass-props-to-scenes
+- https://github.com/Thinkmill/react-conf-app
+- https://medium.com/appandflow/react-native-scrollview-animated-header-10a18cb9469e#.yrmovaymy
+- http://makeitopen.com/tutorials/building-the-f8-app/data/
+- https://www.codementor.io/vijayst/using-firebase-with-redux-for-building-a-react-app-du1086puw
+- https://www.nginx.com/blog/building-microservices-using-an-api-gateway/
+- https://github.com/FuYaoDe/react-native-app-intro
+

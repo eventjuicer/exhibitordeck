@@ -1,48 +1,33 @@
 import Types from './types';
-
-export const changeActionLabels = (index, text) => ({
-    type: Types.CHANGE_ACTION_LABELS,
-    index: index ,
-    text : text
-});
-
-export const purgeCommentsForCode = (code) => ({
-  type : Types.PURGE_COMMENTS_FOR_CODE,
-  code : code
-});
+import {timestamp} from '../helpers';
 
 export const authenticateByCredentials = (payload) => ({
     type: Types.AUTHENTICATE_BY_CREDENTIALS,
     payload: payload
 });
 
-export const authenticate = code => ({
-    type: Types.AUTHENTICATE,
-    payload: code,
-});
+export const getCompanies = () => ({
+    type : Types.GET_COMPANIES
+})
 
-export const authenticated = userData => ({
-    type: Types.AUTHENTICATED,
-    payload: userData,
-});
+export const setCompanies = (payload = []) => ({
+    type : Types.SET_COMPANIES,
+    payload : payload
+})
 
-export const unauthenticated = () => ({
-    type: Types.UNAUTHENTICATED
-});
+export const setCompany = (payload = {}) => ({
+    type : Types.SET_COMPANY,
+    payload : payload
+})
 
-export const authCheck = currentStatus => ({
-    type: Types.AUTH_CHECK,
-    currentStatus : currentStatus
-});
+export const unSetCompany = () => ({
+    type : Types.UNSET_COMPANY
+})
 
-export const recentlyScannedCode = code => ({
-  type: Types.RECENTLY_SCANNED_CODE,
-  code : code
-});
-
-export const logout = () => ({
-    type: Types.LOGOUT
-});
+export const selectRep = ( payload = {} ) => ({
+    type : Types.SELECT_REP,
+    payload : payload
+})
 
 export const cameraPermission = (status) => ({
     type: Types.CAMERA_PERMISSION,
@@ -53,13 +38,70 @@ export const askCameraPermission = () => ({
     type: Types.ASK_CAMERA_PERMISSION
 });
 
-export const cameraShow = () => ({
-  type : Types.CAMERA_MUST_BE_SHOWN
+export const changeActionLabels = (index, text) => ({
+    type: Types.CHANGE_ACTION_LABELS,
+    index: index ,
+    text : text
 });
 
-export const cameraHide = () => ({
-  type : Types.CAMERA_MUST_BE_HIDDEN
+export const participantScanned = (payload) => ({
+    type: Types.PARTICIPANT_SCANNED,
+    payload: payload,
+    ts : timestamp()
 });
+
+export const recentlyScannedCode = (payload) => ({
+    type: Types.RECENTLY_SCANNED_CODE,
+    payload : payload
+  });
+
+export const participantUnknown = () => ({
+type : Types.PARTICIPANT_UNKNOWN
+})
+
+/**
+ * OLD
+ */
+
+
+export const purgeCommentsForCode = (code) => ({
+  type : Types.PURGE_COMMENTS_FOR_CODE,
+  code : code
+});
+
+// export const authenticate = code => ({
+//     type: Types.AUTHENTICATE,
+//     payload: code,
+// });
+
+// export const authenticated = userData => ({
+//     type: Types.AUTHENTICATED,
+//     payload: userData,
+// });
+
+// export const unauthenticated = () => ({
+//     type: Types.UNAUTHENTICATED
+// });
+
+// export const authCheck = currentStatus => ({
+//     type: Types.AUTH_CHECK,
+//     currentStatus : currentStatus
+// });
+
+// export const logout = () => ({
+//     type: Types.LOGOUT
+// });
+
+
+
+
+// export const cameraShow = () => ({
+//   type : Types.CAMERA_MUST_BE_SHOWN
+// });
+
+// export const cameraHide = () => ({
+//   type : Types.CAMERA_MUST_BE_HIDDEN
+// });
 
 export const participantComment = (code, text) => ({
     type: Types.PARTICIPANT_COMMENT,
@@ -77,19 +119,13 @@ export const participantsFetched = data => ({
     payload: data,
 });
 
-export const participantUnknown = data => ({
-  type : Types.PARTICIPANT_UNKNOWN
-})
+
 
 export const purgeScanned = () => ({
   type : Types.PURGE_SCANNED
 });
 
-export const participantScanned = (code, ts) => ({
-    type: Types.PARTICIPANT_SCANNED,
-    code: code,
-    ts : ts
-});
+
 
 export const syncRequest = payload => ({
     type: Types.SYNC_REQUEST,

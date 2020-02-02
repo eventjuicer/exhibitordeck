@@ -1,6 +1,6 @@
 import Types from '../types';
 
-const userAuthenticated = (state = {}, action) => {
+export default function(state = {}, action){
   switch (action.type)
   {
     case Types.AUTHENTICATE:
@@ -14,4 +14,3 @@ const userAuthenticated = (state = {}, action) => {
   }
 }
 
-export default userAuthenticated;

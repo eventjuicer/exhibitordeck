@@ -1,144 +1,50 @@
-
-
 import React from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import  {BarCodeScanner } from 'expo-barcode-scanner';
 import { connect } from 'react-redux';
-import {ActivityIndicator, StyleSheet, View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, View, Text } from 'react-native';
+//import { Button } from 'react-native-elements';
 
 import {
-  participantScanned,
-  recentlyScannedCode,
-  authCheck,
-  authenticate
-} from '../redux/actions';
+  participantScanned
+} from '../redux';
 
-import {general} from '../styles';
-
-class Scanner extends React.Component {
-
-    constructor(){
-      super();
-      this.state = {
-        hasPermission : null,
-        scanned : false
-      }
-    }
-
-    async componentDidMount(){
-      const {status} = await BarCodeScanner.requestPermissionsAsync();
-      this.setState({ hasPermission : status })
-    }
-
-    setScanned = (val) => {
-      this.setState({scanned : val});
-    }
-
-    handleBarCodeScanned = ({type, data}) => {
-
-      this.setScanned(true);
-      const {auth, scanned, participantScanned, recentlyScannedCode, authCheck, authenticate} = this.props;
-      const code = data;
-
-     // console.log("skaner", code)
-
-      if(code && code.indexOf("@") > 0)
-      {
-
-        // console.log("authenticating code...")
-        // console.log(auth)
-
-        authenticate(code);
-
-        //if(! ("code" in auth) || auth.code != code)
-        //{
-        //    authenticate(code);
-        //}
-
-      }
-      else
-      {
-
-        if(! /^[a-z]+$/.test(code) || (code in scanned))
-        {
-          console.log("same or bad code format...skipping");
-        }
-        else
-        {
-          const ts = + new Date();
-          recentlyScannedCode(code);
-          authCheck(("participant_id" in auth));
-          participantScanned(code,  ts);
-        }
-      }
-    }
-
-  render() {
-
-   // return   (<View style={{flex: 1 }}><Text>asd</Text></View>)
-
-    console.log(this.props);
-
-  const {hasPermission, scanned} = this.state;
-
-  const {auth, XscannedX, runtime} = this.props;
-
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection : 'column'
+  },
+  subcontainer : {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection : 'row'
+  },
+  description: {
+    fontSize: 25,
+    flex : 0.8,
+    textAlign: 'center',
+    color: 'white',
   }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+})
 
-  // if(hasPermission)
-  // {
-    return (
+ /**
+     * Note: Passing undefined to the onBarCodeScanned prop will result in no scanning. This can be used to effectively "pause" the scanner so that it doesn't continually scan even after data has been retrieved.
+  */
 
-      <View style={{flex: 1,
-       //flexDirection : 'column', justifyContent : 'flex-end' 
-       }}>
-      <BarCodeScanner 
-        onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned} 
-      //  style={StyleSheet.absoluteFill} 
-      />
-       {scanned && <Button title={'Tap to Scan Again'} onPress={() => this.setScanned(false)} />}
-      </View>
-
-
-    )
-  // }
-
-  return null
-
-//   return (
-//   <View style={[general.centering, {flex: 1 }]}>
-//     <ActivityIndicator
-//           animating={true}
-//           size="large"
-//           color="#787878"
-//         />
-//   </View>
-
-// )
-
-
-}
-
-}
+const Scanner = ({participantScanned}) => (
+  
+  <BarCodeScanner 
+    onBarCodeScanned={({data}) => participantScanned(data)} 
+    style={[StyleSheet.absoluteFill, styles.container]}>
+    <View style={styles.subcontainer}>
+      <Text style={styles.description}>Scan Visitor Badge</Text>
+    </View>
+  </BarCodeScanner>
+)
 
 Scanner.defaultProps = {
  
 }
 
-const mapStateToProps = state => ({
-  auth : state.auth,
-  runtime : state.runtime,
-  scanned : state.scanned
-});
-
-export default connect(mapStateToProps, {
-  authCheck,
-  authenticate,
-  participantScanned,
-  recentlyScannedCode
-})(Scanner);
+export default connect(null, {participantScanned})(Scanner);

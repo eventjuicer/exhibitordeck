@@ -1,8 +1,16 @@
 import Types from '../types';
 
+const initialState = {
+  lastCode : "",
+  scansFromLastSync : 0,
+  tsOfLastSync : 0,
+  comments : ["vip", "send-offer", "call"]
+}
 
-const handleOptions = (state = [], action) => {
+export default function(state = initialState, action){
+
   switch (action.type) {
+  
     case Types.CHANGE_ACTION_LABELS:
 
     let comments = [];
@@ -26,14 +34,14 @@ const handleOptions = (state = [], action) => {
       })
     });
 
+    break;
     case Types.RECENTLY_SCANNED_CODE:
-
-      return Object.assign({}, state, {lastCode : action.code});
-
+      return Object.assign({}, state, {lastCode : action.payload});
+    break;
 
     default:
       return state
   }
 }
 
-export default handleOptions;
+

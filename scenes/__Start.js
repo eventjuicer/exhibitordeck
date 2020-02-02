@@ -38,16 +38,16 @@ class Start extends React.Component{
   componentDidMount()
   {
     const {cameraShow} = this.props;
-    AppState.addEventListener('change', this._handleAppStateChange);
+ //   AppState.addEventListener('change', this._handleAppStateChange);
     this.loadFonts();
     cameraShow();
 
   }
 
-componentWillUnmount()
-{
-  AppState.removeEventListener('change', this._handleAppStateChange);
-}
+// componentWillUnmount()
+// {
+//   AppState.removeEventListener('change', this._handleAppStateChange);
+// }
 
 _handleAppStateChange = (nextAppState) => {
 

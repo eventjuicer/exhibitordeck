@@ -1,30 +1,17 @@
 
 import React from 'react';
-
-import {
-  Platform, 
-  Image, 
-  Text
-} from 'react-native';
-
-import { 
-  createAppContainer
-} from 'react-navigation';
-
+import { Platform } from 'react-native';
+import { createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack'
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs'
-
 import {Button} from 'react-native-elements';
-
+//custom
 import Scanner from './Scanner';
 import Scanned from './Scanned';
 import Comments from './Comments';
 import Options from './Options';
 import Admin from './Admin';
-
-
 import NavButton from '../components/NavButton';
-
 
 const DetailedNavigator = createStackNavigator({
 
@@ -102,28 +89,6 @@ const Container = createStackNavigator({
 },{
    headerMode : "none"
 });
-
-
-//
-// export const Drawer = DrawerNavigator({
-//
-// Home: {
-//    screen: MainScreenNavigator,
-//    navigationOptions : {
-//        drawerLabel: 'Home',
-//    }
-//  },
-//  Options: {
-//    screen: Options,
-//    navigationOptions : {
-//       title : 'Options',
-//       drawerLabel: 'Options',
-//    }
-//  },
-//
-// });
-
-
 
 
 export default createAppContainer(Container);

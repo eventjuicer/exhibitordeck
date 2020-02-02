@@ -1,24 +1,22 @@
 
 
 import React from 'react';
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import {Header, Icon } from 'react-native-elements'
-import Company from './Company'
+import HeaderCompany from './HeaderCompany'
 
 const MyHeader = ({navigation}) => {
 
         return (
-
-            <View>
+          
             <Header
                 leftComponent={<Icon name="menu" onPress={() => navigation.openDrawer()} />}
-                centerComponent={<Company />}
+                centerComponent={<HeaderCompany />}
                 rightComponent={<Icon name="person" onPress={() => navigation.navigate("UserPage")} />}
                 backgroundColor="#ffd700"
-            />
-   
-            </View>
-             
+                containerStyle={{zIndex: 1000}}
+            /> 
+           
         )
 
 }

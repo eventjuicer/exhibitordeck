@@ -2,143 +2,93 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  BackHandler,
   Platform, 
   ScrollView, 
-  View, 
-  TextInput
+  View,
+  StyleSheet
 } from 'react-native';
 
 import {
-  Tile, 
-  ListItem, 
   Text, 
-  Button,
   Input
 } from 'react-native-elements';
 
-import {styles} from '../styles'
-
 import {
-  logout,
-  syncRequest,
   changeActionLabels,
-  purgeScanned
+  CommentTemplatesSelector
 } from '../redux';
 
 import Header from '../components/MyHeader'
 
+const styles = StyleSheet.create({
+  container : {
+    backgroundColor: "#ffffff", 
+    paddingHorizontal: 20
+  },
+  title : {
+    paddingVertical: 20, 
+    paddingHorizontal: 10
+  },
+  element : {
+  
+  },
+
+  input : {   
+    height: 40, 
+    marginTop: 5,  
+    borderWidth: Platform.OS == "ios" ? 1 : 0, 
+    borderColor: "#cccccc", 
+    backgroundColor: "#ffffff", 
+    paddingVertical: 10, 
+    paddingHorizontal: 20, 
+    fontSize: 20, 
+    color: "#000000"
+  }
+})
 
 class Options extends React.Component {
 
-componentWillMount()
-{
-  this.handleAndroidBackButton();
-}
-
-  handleAndroidBackButton = () =>
-  {
-    const {navigation} = this.props;
-
-    BackHandler.addEventListener('hardwareBackPress', function()
-    {
-      navigation.goBack();
-    });
-  }
-
-onActionEdit = (text, index) => {
-
-  const {changeActionLabels} = this.props;
-  changeActionLabels(index, text);
-
-}
-
 render () {
 
-    const { navigation, auth, scanned, options, syncRequest, logout, changeActionLabels, purgeScanned} = this.props;
-     
-    const onActionEdit = this.onActionEdit;
-
-
+    const {     
+      templates, 
+      changeActionLabels, 
+      navigation
+    } = this.props;     
+    
     return (
 
       <View>
-          <Header navigation={this.props.navigation} />
-
-<ScrollView style={{backgroundColor: "#ffffff", paddingHorizontal: 20}}>
-
-<View style={{flexDirection: 'row', padding: 20}}>
-<View style={{flex: 0.4}}>
-
-<Button
-  fontSize={16}
-  color="#000"
-  backgroundColor="transparent"
-  icon={{name: 'chevron-left', color: "black"}}
-  onPress={() => navigation.goBack()}
-  title="Back"
-/>
-
-</View>
-
-<View style={{flex: 0.6, paddingVertical: 7}}>
-  <Text h4 >Options</Text>
-</View>
-
-</View>
-
-
-<View style={{marginTop: 15}}>
-
-{[...Array(4)].map(function(el, index){
-
-return (
-<View key={index}>
-{/* <FormLabel>Quick comment #{index + 1}</FormLabel> */}
-<TextInput
-  returnKeyType="send"
-  style={{height: 40, marginTop: 5,  borderWidth: Platform.OS == "ios" ? 1 : 0, borderColor: "#cccccc", backgroundColor: "#ffffff", paddingVertical: 10, paddingHorizontal: 20, fontSize: 16, color: "#333333"}}
-  defaultValue={("comments" in options && typeof options.comments[index]!= "undefined") ? options.comments[index] : ""}
-  maxLength={30}
-  onChangeText={(text) => onActionEdit(text, index)}
-/>
-</View>
-)
-
-})}
-
-<Text style={{fontSize: 13, textAlign: "center", paddingVertical: 40}}>
-(c) eventjuicer.com ltd
-</Text>
-
-
-<Button
-  fontSize={16}
-  color="#000"
-  backgroundColor="transparent"
-  onPress={() => navigation.navigate("Admin")}
-  title="admin"
-/>
-
-</View>
-
-
-
-
-</ScrollView>
-
+      <Header navigation={navigation} />
+      <ScrollView style={styles.container}>
+      <View style={styles.title}>
+        <Text h4 >Options</Text>
       </View>
 
+      {/* <View style={styles.preview}>
+        {templates.filter(item => item).map((item, i) => <Badge containerStyle={styles.badgeContainerStyle} textStyle={styles.badgeTextStyle} badgeStyle={styles.badgeStyle} key={`${i}-${item}`} value={item} /> )}
+      </View> */}
+
+      <View style={{marginTop: 15}}>
+        {templates.map((el, index) => (
+          <View style={styles.element} key={index}>
+          <Input
+            returnKeyType="send"
+            style={styles.input}
+            defaultValue={el}
+            maxLength={20}
+            onChangeText={(el) => changeActionLabels(index, el)}
+          />
+          </View>
+        ))}
+      </View>
+      </ScrollView>
+      </View>
     )
-  }
 }
 
+}
 
-
-const mapStateToProps = state => ({
-  auth : state.auth,
-  options : state.options,
-  scanned : state.scanned
-});
-
-export default connect(mapStateToProps, {changeActionLabels, logout, syncRequest, purgeScanned})(Options);
+export default connect((state, props) => ({
+  templates : CommentTemplatesSelector(state, props),
+}), {changeActionLabels})(Options);

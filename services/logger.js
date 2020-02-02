@@ -1,25 +1,39 @@
 
+import * as Types from '../redux/types'
+
+const silent = [
+  "persist/REHYDRATE",
+  "persist/PERSIST"
+]
+
+const removeFromStore = [
+  "_persist", 
+  "participants"
+]
 
 const logger = store => next => action => {
 
-  console.group("BEGIN:" + action.type)
+  let result = next(action)  
+
+  if(silent.indexOf(action.type) === -1){
+    console.log("Action: ", action.type);
+    let storeContents = Object.assign({}, store.getState());
+    removeFromStore.forEach(function(item){
+      if(item in storeContents){
+        delete storeContents[item]
+      }
+    })
+    Object.keys(storeContents).map(function(name){
+      const value = storeContents[name]
+      if(Array.isArray(value) && value.length){
+        storeContents[name] = value.splice(1)
+      }
+    })
+    console.info("Store", storeContents);
+    console.groupEnd();
+  }
   
-  // if(action.type != "PARTICIPANTS_FETCHED")
-  // {
-  //   console.log("Payload: ", action);
-  // }
-  // let result = next(action)
-  // let storeContents = Object.assign({}, store.getState());
-  // if("participants" in storeContents)
-  // {
-  //   storeContents["participants"] = "@@@ hidden @@@";
-  // }
-  // console.log("next state", storeContents);
-  // console.groupEnd("END: " + action.type)
-  // return result
-
-
-  next(action)
+  return result
   
 }
 

@@ -33,10 +33,10 @@ import {
 
 class Admin extends Component {
 
-componentWillMount()
-{
-  this.handleAndroidBackButton();
-}
+// componentWillMount()
+// {
+//   this.handleAndroidBackButton();
+// }
 
   handleAndroidBackButton = () =>
   {

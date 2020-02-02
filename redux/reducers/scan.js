@@ -4,7 +4,6 @@ const participantScanned = (state = [], action) => {
 
   switch (action.type) {
 
-
     case Types.SYNCED:
 
       //merge only when not empty!?
@@ -15,11 +14,11 @@ const participantScanned = (state = [], action) => {
 
     case Types.PARTICIPANT_SCANNED:
 
-      return {...state, [action.code] : {ts: action.ts}};
+      return {...state, [action.payload] : {ts: action.ts}};
 
     case Types.PURGE_SCANNED:
 
-      return [];
+      return {};
 
     default:
       return state
