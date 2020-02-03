@@ -13,6 +13,8 @@ import {configureStore, sagaMiddleware} from './redux'
 import Navigation from './Navigation';
 import NavigationService from './services/NavigationService';
 import CheckPermissions from './components/CheckPermissions'
+import HandleAppState from './components/HandleAppState'
+import LoadCustomFonts from './components/LoadCustomFonts'
 
 Sentry();
 const { persistor, store } = configureStore()
@@ -23,10 +25,14 @@ const App = () => (
   <Provider store={store}>
       <PersistGate 
         loading={<AppLoading />}
-        persistor={persistor}>
+        persistor={persistor}
+        >
           <View style={{flex: 1}}>
+          <HandleAppState/>
           <CheckPermissions />
-          <Navigation ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef) } />
+          <LoadCustomFonts>{
+            (loaded) =>  loaded ? <Navigation ref={navigatorRef => NavigationService.setTopLevelNavigator(navigatorRef) } /> : <AppLoading />
+          }</LoadCustomFonts>
           </View>
       </PersistGate>
     </Provider>

@@ -12,7 +12,7 @@ const participantScanned = (state = [], action) => {
         return Object.assign({}, state, action.payload.scanned);
       }
 
-    case Types.PARTICIPANT_SCANNED:
+    case Types.PARTICIPANT_SCANNED_NEW:
 
       return {...state, [action.payload] : {ts: action.ts}};
 

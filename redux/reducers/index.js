@@ -4,8 +4,8 @@ import companies from './companies';
 import currentCompany from './currentCompany'
 import currentRep from './currentRep'
 
-import scanned from './scan';
-import participants from './fetched';
+import scanned from './scanned';
+import participants from './participants';
 import auth from './auth';
 import options from './options';
 import comments from './comments';

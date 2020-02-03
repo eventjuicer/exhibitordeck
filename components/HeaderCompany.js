@@ -1,50 +1,30 @@
 import React from 'react';
 import { Text , View } from 'react-native';
 import { connect } from 'react-redux';
-import {Badge} from 'react-native-elements'
-
-import {
-    participantScanned,
-    recentlyScannedCode,
-    authCheck,
-    authenticate,
-    AuthenticatedRepSelector
-  } from '../redux';
-
+import {AuthenticatedRepSelector} from '../redux';
 import {getFullname} from '../helpers'
+import BadgeCounterScanned from './BadgeCounterScanned'
 
-class Company extends React.Component {
+class HeaderCompany extends React.Component {
 
     render(){
         const {current} = this.props;
-       
         return (
             <View style={{display: 'flex', flexDirection : 'row'}}>
                   <Text>{current ? getFullname(current) : `Unathenticated`}</Text> 
-                  <Badge 
-                    value="100" 
-                    containerStyle={{ marginLeft: 5 }}
-                    badgeStyle={{backgroundColor : '#000000'}}
-                    />
+                  <BadgeCounterScanned />
             </View>
-          
         )
     }
 
 }
 
-Company.defaultProps = {
+HeaderCompany.defaultProps = {
  
 }
 
 export default connect((state, props) => ({
     current : AuthenticatedRepSelector(state, props),
-    runtime : state.runtime,
-    scanned : state.scanned
-  }), {
-    authCheck,
-    authenticate,
-    participantScanned,
-    recentlyScannedCode
-  })(Company);
+    runtime : state.runtime
+}), {})(HeaderCompany);
   

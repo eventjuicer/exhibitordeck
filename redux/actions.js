@@ -46,8 +46,13 @@ export const changeActionLabels = (index, text) => ({
 
 export const participantScanned = (payload) => ({
     type: Types.PARTICIPANT_SCANNED,
+    payload: payload
+});
+
+export const participantScannedNew = (payload, ts) => ({
+    type: Types.PARTICIPANT_SCANNED_NEW,
     payload: payload,
-    ts : timestamp()
+    ts : ts
 });
 
 export const recentlyScannedCode = (payload) => ({
@@ -56,7 +61,12 @@ export const recentlyScannedCode = (payload) => ({
   });
 
 export const participantUnknown = () => ({
-type : Types.PARTICIPANT_UNKNOWN
+    type : Types.PARTICIPANT_UNKNOWN
+})
+
+export const participantScanError = (payload = null) => ({
+    type : Types.PARTICIPANT_SCAN_ERROR,
+    payload : payload
 })
 
 /**
@@ -137,7 +147,7 @@ export const synced = payload => ({
     payload : payload
 });
 
-export const appState = payload => ({
+export const changeAppState = payload => ({
     type : Types.APPSTATE,
     payload : payload
 })

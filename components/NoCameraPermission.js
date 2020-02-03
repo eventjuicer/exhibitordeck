@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 
 class NoCameraPermission extends React.Component {
 
-
     render(){
         return (
 
-            <View>
+            <View style={{flex:1}}>
                 
             <Text>no permission</Text>
 

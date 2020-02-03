@@ -6,7 +6,6 @@ import {Button, Input, Icon} from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import SelectCompany from '../components/SelectCompany'
-//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CompanyReps from '../components/CompanyReps'
 
 //custom

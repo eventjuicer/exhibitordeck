@@ -26,25 +26,7 @@ export const styles = StyleSheet.create({
   },
 });
 
-export const ScannedStyles = StyleSheet.create({
-  subtitleView: {
-    flexDirection: 'row',
-    paddingLeft: 5,
-    paddingTop: 5
-  },
-  subtitleViewText: {
-    color: "#787878",
-    fontSize: 12
-  },
-  ratingImage: {
-    height: 19.21,
-    width: 100
-  },
-  ratingText: {
-    paddingLeft: 10,
-    color: 'grey'
-  }
-});
+
 
 export const CommentsStyles = StyleSheet.create({
   outerContainer: {

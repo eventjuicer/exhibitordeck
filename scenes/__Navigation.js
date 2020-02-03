@@ -13,26 +13,6 @@ import Options from './Options';
 import Admin from './Admin';
 import NavButton from '../components/NavButton';
 
-const DetailedNavigator = createStackNavigator({
-
-  People: {
-    screen: Scanned,
-    navigationOptions : ({navigation}) => ({
-       title : "Your last 20 scans",
-       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
-    })
-  },
-  Comments: {
-    screen: Comments,
-    navigationOptions : ({navigation}) => ({
-       title : `${navigation.state.params.user}`,
-       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
-    })
-  }
-},{
-  mode : "card",
-  headerMode: "float",
-});
 
 
 

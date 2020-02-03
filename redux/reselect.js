@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import get from 'lodash/get';
+import keyBy from 'lodash/keyBy'
 import * as Selectors from './selectors'
 import {slug} from '../helpers'
 
@@ -42,12 +43,58 @@ export const CommentTemplatesSelector = createSelector(
   }
 )
 
+export const CommentsForParticipantSelector = createSelector(
+  Selectors.getComments,
+  comments => comments
+)
+
+export const GetRecentScannedCodesSelector = createSelector(
+  Selectors.getScanned,
+  scanned =>  Object.keys(scanned).reverse().slice(0,20).map(code => ({
+    code : code,
+    ts : scanned[code].ts
+  }))
+)
+
+export const GetScannedCount = createSelector(
+  Selectors.getScanned,
+  scanned => Object.keys(scanned).length
+)
+
+export const ParticipantsKeyedByCodeSelector = createSelector(
+  Selectors.getParticipants,
+  participants => keyBy(participants, "code")
+)
+
+export const GetRecentScannedParticipantsSelector = createSelector(
+  ParticipantsKeyedByCodeSelector,
+  Selectors.getComments,
+  GetRecentScannedCodesSelector,
+  (participants, comments, codes) => codes.map(({code, ts}) => ({
+    code : code,
+    ts : ts,
+    comments : code in comments ? comments[code] : [],
+    participant : code in participants ? participants[code] : {
+      fname : "First name", lname : "Last name", cname2 : "Company name"
+    }
+  })) 
+)
+
 export const HasCameraPermissionSelector = createSelector(
   Selectors.getRuntime,
   runtime => get(runtime, "cameraPermission", false)
 )
 
-export const RecentlyScannedParticipantSelector = createSelector(
+export const RecentlyScannedCodeSelector = createSelector(
   Selectors.getOptions,
   options => get(options, "lastCode", "")
+)
+export const AppStateSelector = createSelector(
+  Selectors.getRuntime,
+  runtime => runtime.appState
+)
+
+export const IsAppSyncingSelector = createSelector(
+  Selectors.getRuntime,
+  runtime => runtime.isSyncing
 )

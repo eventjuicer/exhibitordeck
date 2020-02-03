@@ -4,6 +4,7 @@ import {Font} from 'expo';
 import * as Permissions from 'expo-permissions';
 import { all, call, put, take, fork, select, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 import Types from "./types";
+import {timestamp, isString} from '../helpers'
 
 import {
   authenticated,
@@ -16,10 +17,12 @@ import {
   participantUnknown,
   getCompanies,
   setCompanies,
-  setCompany
+  setCompany,
+  participantScannedNew,
+  participantScanError
 } from "./actions";
 
-import {RecentlyScannedParticipantSelector} from './reselect'
+import {RecentlyScannedCodeSelector} from './reselect'
 
 import {config, 
   postJson, 
@@ -72,6 +75,27 @@ function* handleCameraAskPermission(){
 function* handleScanned(action){
   
   const {payload} = action;
+  const ts = timestamp();
+  
+  const last = yield select(RecentlyScannedCodeSelector)
+  const scanned = yield select(getScanned)
+
+  if( payload in scanned || payload === last){
+    yield put(participantScanError())
+  
+  }else{
+
+    if(! /^[a-z]+$/.test(payload) ){
+      yield put(participantScanError("Is it a visitor?"))
+    }
+
+    yield put(participantScannedNew(payload, ts))  
+  }
+}
+
+function* handleScannedNew(action){
+
+  const {payload, ts} = action;
 
   yield put(recentlyScannedCode(payload));
 
@@ -79,17 +103,42 @@ function* handleScanned(action){
 
   if(! (payload in participants)){
     yield put(participantUnknown())
-    yield put(participantsFetch())
   }
 
   Vibration.vibrate();
 }
 
+function* handleParticipantUnknown(action){
+  //check time from last sync?
+  yield put(participantsFetch())
+
+}
+
+function* handleParticipantScanError(action){
+
+  const {payload} = action
+
+  if(isString(payload)){
+    Alert.alert(payload)
+  }
+
+}
+
+function* handleParticipantsFetch(){
+  
+  const url = `${config.api_public}/participants-by-code`;
+  const {response, error} = yield call(getJson, url);
+  if (!error){
+   yield put(participantsFetched(response.data))
+   console.log("handleParticipantsFetch OK");
+  } else {
+   console.log("handleParticipantsFetch ERROR", error);
+  }
+}
+
+
 
 /** OLD */
-
-
-
 
 
 const handleSyncFn = function* handleSync(action)
@@ -105,81 +154,67 @@ const handleSyncFn = function* handleSync(action)
   }
 }
 
-const handleAuthenticateFn = function* handleAuthenticate(action)
-{
+// const handleAuthenticateFn = function* handleAuthenticate(action)
+// {
 
-  let url, apiResponse;
+//   let url, apiResponse;
 
-  //console.log("test", action.payload)
+//   //console.log("test", action.payload)
 
-  //login via email / pass
-  if(action.payload === new Object(action.payload) && "email" in action.payload && "password" in action.payload){
-    url = `${config.api_restricted}/me/`;
-    apiResponse = yield call(postJson, url, action.payload);
+//   //login via email / pass
+//   if(action.payload === new Object(action.payload) && "email" in action.payload && "password" in action.payload){
+//     url = `${config.api_restricted}/me/`;
+//     apiResponse = yield call(postJson, url, action.payload);
     
-  }else{
-    url = `${config.api_services}/scanners/${action.payload}/auth`;
-    apiResponse = yield call(getJson, url);
-  }
+//   }else{
+//     url = `${config.api_services}/scanners/${action.payload}/auth`;
+//     apiResponse = yield call(getJson, url);
+//   }
 
-  console.log(apiResponse)
+//   console.log(apiResponse)
 
-  const {response, error} = apiResponse;
+//   const {response, error} = apiResponse;
 
-  if (!error){
-   yield put(authenticated(response.data))
-   Vibration.vibrate();
-   console.log("handleAuthenticate OK", response);
-  } else {
-   yield put(unauthenticated())
-   console.log("handleAuthenticate ERROR", error.toString() );
-  }
-}
-
-const handleParticipantsFetchFn = function* handleParticipantsFetch()
-{
-  const url = `${config.api_public}/participants-by-code`;
-  const {response, error} = yield call(getJson, url);
-  if (!error){
-   yield put(participantsFetched(response.data))
-   console.log("handleParticipantsFetch OK");
-  } else {
-   console.log("handleParticipantsFetch ERROR", error);
-  }
-}
+//   if (!error){
+//    yield put(authenticated(response.data))
+//    Vibration.vibrate();
+//    console.log("handleAuthenticate OK", response);
+//   } else {
+//    yield put(unauthenticated())
+//    console.log("handleAuthenticate ERROR", error.toString() );
+//   }
+// }
 
 
-const handleAuthCheckFn = function* handleAuthCheck(auth)
-{
-  if(!auth)
-  {
-    yield put(unauthenticated());
-  }
-}
+// const handleAuthCheckFn = function* handleAuthCheck(auth)
+// {
+//   if(!auth)
+//   {
+//     yield put(unauthenticated());
+//   }
+// }
 
-const handleUnauthenticatedFn = function* handleUnauthenticated()
-{
-  Alert.alert(
-    'Dear Exhibitor, who are you?',
-    "Scan the QR code that appears on your exhibitor account",
-    [
-       {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ]
-  );
-}
+// const handleUnauthenticatedFn = function* handleUnauthenticated()
+// {
+//   Alert.alert(
+//     'Dear Exhibitor, who are you?',
+//     "Scan the QR code that appears on your exhibitor account",
+//     [
+//        {text: 'OK', onPress: () => console.log('OK Pressed')},
+//     ]
+//   );
+// }
 
-
-
-const handleLogoutFn = function* handleLogout()
-{
-  Alert.alert(
-    "Bye :)",
-    "Want to sign in again? Scan the QR code that appears on your exhibitor account",
-    [
-       {text: 'OK', onPress: () => console.log('OK Pressed')},
-    ]
-  );
-}
+// const handleLogoutFn = function* handleLogout()
+// {
+//   Alert.alert(
+//     "Bye :)",
+//     "Want to sign in again? Scan the QR code that appears on your exhibitor account",
+//     [
+//        {text: 'OK', onPress: () => console.log('OK Pressed')},
+//     ]
+//   );
+// }
 
 
 
@@ -190,9 +225,12 @@ const rootSaga = function * root() {
         takeEvery(Types.AUTHENTICATE_BY_CREDENTIALS, handleAuthenticateByCredentials),
         takeEvery(Types.ASK_CAMERA_PERMISSION, handleCameraAskPermission),
         takeEvery(Types.PARTICIPANT_SCANNED, handleScanned),
-        
+        takeEvery(Types.PARTICIPANT_SCANNED_NEW, handleScannedNew),
+        takeEvery(Types.PARTICIPANT_UNKNOWN, handleParticipantUnknown),
+        takeEvery(Types.PARTICIPANT_SCAN_ERROR, handleParticipantScanError),
+        takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
+
         // takeEvery(Types.LOGOUT, handleLogoutFn),
-        // takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetchFn),
         // takeEvery(Types.UNAUTHENTICATED, handleUnauthenticatedFn),
         // takeEvery(Types.AUTH_CHECK, handleAuthCheckFn),
         // takeEvery(Types.AUTHENTICATE, handleAuthenticateFn),

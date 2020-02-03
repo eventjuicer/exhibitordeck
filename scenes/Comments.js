@@ -9,9 +9,12 @@ import {
   View, 
   Text, 
   Image, 
-  KeyboardAvoidingView, 
+  //KeyboardAvoidingView, 
   TextInput
 } from 'react-native';
+
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 import {
   Button, 
@@ -93,10 +96,11 @@ class Comments extends React.Component {
       return (
         <Button key={index} fontSize={14}
         icon={{name: 'comment'}}
-        buttonStyle={{backgroundColor: isSelected ? '#2c24cc' : '#787878', borderRadius: 2, marginBottom: 5}}
+     //   buttonStyle={{backgroundColor: isSelected ? '#2c24cc' : '#787878', borderRadius: 2, marginBottom: 5}}
         textStyle={{textAlign: 'left'}}
         title={comment}
         onPress={ () => participantComment(state.params.id, comment)}
+        type={isSelected ? "solid" : "outline"}
         />
       )
 
@@ -121,7 +125,7 @@ class Comments extends React.Component {
 
 <ScrollView style={styles.outerContainer}>
 
-  <KeyboardAvoidingView behavior={this.state.behavior} style={styles.container}>
+  <KeyboardAwareScrollView style={styles.container}>
 
   {this._renderQuickComments()}
 
@@ -143,12 +147,18 @@ class Comments extends React.Component {
   />
 </View>
 
-<Button large color="#787878" buttonStyle={{marginTop: 50, marginBottom: 50}}  backgroundColor="transparent" borderRadius={2} icon={{name: 'delete', color: "#787878"}}
-onPress={() => Alert.alert("Are you sure?", null, [{text: "Delete", onPress: ()=> purgeCommentsForCode(state.params.id)}, {text: "Cancel"} ])}
-title="Delete comments"
+<Button 
+  large 
+  color="#787878" 
+  buttonStyle={{marginTop: 50, marginBottom: 50}}  
+  backgroundColor="transparent" borderRadius={2} 
+  icon={{name: 'delete', color: "#787878"}}
+  type="clear"
+  onPress={() => Alert.alert("Are you sure?", null, [{text: "Delete", onPress: ()=> purgeCommentsForCode(state.params.id)}, {text: "Cancel"} ])}
+  title="Delete all comments"
 />
 
-</KeyboardAvoidingView>
+</KeyboardAwareScrollView>
 </ScrollView>
 );
   }

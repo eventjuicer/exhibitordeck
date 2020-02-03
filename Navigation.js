@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+
 import { Icon, Image } from 'react-native-elements';
 
 import NavCompanyImage from './components/NavCompanyImage'
@@ -9,6 +11,8 @@ import HomePage from './scenes/HomePage'
 import Scanned from './scenes/Scanned'
 import Options from './scenes/Options'
 import User from './scenes/User'
+import Comments from './scenes/Comments'
+import NavButton from './components/NavButton'
 
 const styles = StyleSheet.create({
     
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
 
 });
 
-const CustomDrawerNavigation = (props) => {
+const CustomDrawer = (props) => {
     //console.log(props);
     return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -48,7 +52,31 @@ const CustomDrawerNavigation = (props) => {
     );
 }
 
-const Drawer = createDrawerNavigator({
+const StackNavigation = createStackNavigator({
+
+  People: {
+    screen: Scanned,
+    navigationOptions : ({navigation}) => ({
+       title : "Your last 20 scans",
+       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>,
+       headerShown : false
+    })
+  },
+  Comments: {
+    screen: Comments,
+    navigationOptions : ({navigation}) => ({
+       title : `${navigation.state.params.user}`,
+       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
+    
+    })
+  }
+},{
+  mode : "card",
+  headerMode: "screen",
+});
+
+
+const DrawerNavigation = createDrawerNavigator({
     Home: {
       screen: HomePage,
       navigationOptions: {
@@ -57,7 +85,7 @@ const Drawer = createDrawerNavigator({
       }
     },
     Scanned: {
-      screen: Scanned,
+      screen: StackNavigation,
       navigationOptions: {
         drawerLabel : "Scanned Visitors",
         title: 'Scanned Visitors'
@@ -80,11 +108,11 @@ const Drawer = createDrawerNavigator({
   },
     {
       drawerPosition: 'left',
-      contentComponent: CustomDrawerNavigation,
+      contentComponent: CustomDrawer,
       drawerOpenRoute: 'DrawerOpen',
       drawerCloseRoute: 'DrawerClose',
       drawerToggleRoute: 'DrawerToggle',
       //drawerWidth: (width / 3) * 2
     });
 
-export default createAppContainer(Drawer)
+export default createAppContainer(DrawerNavigation)
