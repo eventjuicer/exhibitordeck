@@ -61,13 +61,8 @@ export const GetScannedCount = createSelector(
   scanned => Object.keys(scanned).length
 )
 
-export const ParticipantsKeyedByCodeSelector = createSelector(
-  Selectors.getParticipants,
-  participants => keyBy(participants, "code")
-)
-
 export const GetRecentScannedParticipantsSelector = createSelector(
-  ParticipantsKeyedByCodeSelector,
+  Selectors.getParticipants,
   Selectors.getComments,
   GetRecentScannedCodesSelector,
   (participants, comments, codes) => codes.map(({code, ts}) => ({

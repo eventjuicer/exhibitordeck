@@ -39,14 +39,14 @@ const CustomDrawer = (props) => {
     <DrawerItems {...props} />
     </ScrollView>
     <View style={{ alignItems: "center", bottom: 20 }}>
-    <View style={{ flexDirection: 'row' }}>
+    {/* <View style={{ flexDirection: 'row' }}>
     <View style={{ flexDirection: 'column', marginRight: 15 }}>
     <Icon name="menu" style={{ fontSize: 24 }} onPress={() => console.log("Tıkladın")} />
     </View>
     <View style={{ flexDirection: 'column' }}>
     <Icon name="menu" style={{ fontSize: 24 }} onPress={() => console.log("Tıkladın")} />
     </View>
-    </View>
+    </View> */}
     </View>
     </SafeAreaView>
     );

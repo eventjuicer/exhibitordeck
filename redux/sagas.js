@@ -1,21 +1,25 @@
 
 import { Alert, Vibration } from 'react-native';
-import {Font} from 'expo';
+import {
+//  Font, 
+  Updates
+} from 'expo';
+
 import * as Permissions from 'expo-permissions';
 import { all, call, put, take, fork, select, takeEvery, takeLatest, throttle} from 'redux-saga/effects';
 import Types from "./types";
-import {timestamp, isString} from '../helpers'
+import {timestamp, isString, keyByCode} from '../helpers'
 
 import {
   authenticated,
   unauthenticated,
+  getCompanies,
   cameraPermission,
   participantsFetch,
   participantsFetched,
   recentlyScannedCode,
   synced,
   participantUnknown,
-  getCompanies,
   setCompanies,
   setCompany,
   participantScannedNew,
@@ -76,7 +80,7 @@ function* handleScanned(action){
   
   const {payload} = action;
   const ts = timestamp();
-  
+
   const last = yield select(RecentlyScannedCodeSelector)
   const scanned = yield select(getScanned)
 
@@ -129,7 +133,7 @@ function* handleParticipantsFetch(){
   const url = `${config.api_public}/participants-by-code`;
   const {response, error} = yield call(getJson, url);
   if (!error){
-   yield put(participantsFetched(response.data))
+   yield put(participantsFetched(keyByCode(response.data)))
    console.log("handleParticipantsFetch OK");
   } else {
    console.log("handleParticipantsFetch ERROR", error);

@@ -27,6 +27,10 @@ export const slug = (str) => {
 
 }
 
+export const keyById = (arr) => Array.isArray(arr) ? keyBy(arr, "id") : {} 
+
+export const keyByCode = (arr) => Array.isArray(arr) ? keyBy(arr, "code") : {} 
+
 export const isString = (str) => ((typeof str === 'string' || str instanceof String) && str.length)
 
 export const removeFileExtension = (filename) => filename.split('.').slice(0, -1).join('.')

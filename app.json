@@ -1,22 +1,22 @@
 {
   "expo": {
-    "name": "E-commerce Berlin Expo Exhibitor",
+    "name": "E-commerce Berlin Exhibitor",
     "description" : "Allows exhibitors to scan visitors' badges and fetch their contact details.",
     "slug": "ebe-exhibitor",
     "privacy": "public",
-    "owner" : "adam zygadlewicz",
+    "owner" : "eventjuicer",
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "2.1.5",
+    "version": "2.1.6",
     "orientation": "portrait",
-    "icon": "./assets/app.png",
+    "icon": "./assets/ebe_black.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffd700",
+      "backgroundColor": "#000000",
       "hideExponentText" : true
     },
     "updates": {
@@ -25,18 +25,20 @@
       "fallbackToCacheTimeout": 300000
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/*.png","assets/*.ttf"
     ],
     "scheme" : "ebe-exhibitor",
-    "primaryColor" : "#8a1719",
-    "androidStatusBarColor" : "#8a1719",
+    "primaryColor" : "#ffd700",
+    "androidStatusBarColor" : "#ffd700",
     "ios": {
       "bundleIdentifier": "com.eventjuicer.ebe.exhibitors",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.1"
     },
     "android": {
       "package": "com.eventjuicer.ebe.exhibitors",
-      "permissions" : ["CAMERA"]
+      "permissions" : ["CAMERA"],
+      "versionCode": 1
     },
     "hooks": {
       "postPublish": [
