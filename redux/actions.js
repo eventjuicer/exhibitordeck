@@ -129,16 +129,16 @@ export const participantsFetched = data => ({
     payload: data,
 });
 
-
-
 export const purgeScanned = () => ({
   type : Types.PURGE_SCANNED
 });
 
+export const syncRequest = () => ({
+    type: Types.SYNC_REQUEST
+});
 
-
-export const syncRequest = payload => ({
-    type: Types.SYNC_REQUEST,
+export const syncing = payload => ({
+    type: Types.SYNCING,
     payload : payload
 });
 
@@ -146,6 +146,12 @@ export const synced = payload => ({
     type: Types.SYNCED,
     payload : payload
 });
+
+export const participantsFromSync = payload => ({
+    type: Types.PARTICIPANTS_FROM_SYNC,
+    payload : payload
+});
+
 
 export const changeAppState = payload => ({
     type : Types.APPSTATE,

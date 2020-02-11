@@ -18,17 +18,25 @@ import {
   participantsFetch,
   participantsFetched,
   recentlyScannedCode,
+  syncRequest,
+  syncing,
   synced,
   participantUnknown,
   setCompanies,
   setCompany,
   participantScannedNew,
-  participantScanError
+  participantScanError,
+  participantsFromSync
 } from "./actions";
 
-import {RecentlyScannedCodeSelector} from './reselect'
+import {
+  RecentlyScannedCodeSelector, 
+  LastSyncSelector,
+  AuthenticatedRepSelector
+} from './reselect'
 
-import {config, 
+import {
+  config, 
   postJson, 
   getJson, 
   api_restricted, 
@@ -38,13 +46,10 @@ import {config,
 
 import NavigationService from '../services/NavigationService'
 
-import {
-  getAuth, 
+import { 
   getParticipants, 
   getScanned, 
   getComments, 
-  getOptions, 
-  getRuntime 
 } from './selectors';
 
 function* handleGetCompanies(){
@@ -63,12 +68,16 @@ function* handleAuthenticateByCredentials({payload}){
   if(response && "data" in response){
     if("id" in response.data && response.data.id){
       yield put(setCompany(response.data))
-   //   yield call(NavigationService.navigate, "Home", {})
     }else{
       Vibration.vibrate();
       Alert.alert("Bad credentials")
     }
   }
+}
+
+function* handleRepSelect(){
+    yield put(participantsFetch())
+    yield call(NavigationService.navigate, "Home", {})
 }
 
 function* handleCameraAskPermission(){
@@ -109,6 +118,15 @@ function* handleScannedNew(action){
     yield put(participantUnknown())
   }
 
+  //AUTO SYNC EVERY 15 MINUTES?
+
+  const lastSync = yield select(LastSyncSelector)
+  const now = + new Date();
+
+  if((now - lastSync)/1000 > 60 * 15 ){
+    yield put(syncRequest());
+  }
+
   Vibration.vibrate();
 }
 
@@ -145,18 +163,49 @@ function* handleParticipantsFetch(){
 /** OLD */
 
 
-const handleSyncFn = function* handleSync(action)
-{
-  const url = `${config.api_services}/scanners/${action.payload.auth.code}/sync`;
-  const {response, error} = yield call(postJson, url, action.payload);
-  if (!error){
-   yield put(synced(response.data))
-   console.log("handleSync OK", response);
-  } else {
-   yield put(synced(null))
-   console.log("handleSync ERROR", error);
+function* handleSync(action){
+
+  const currentUser = yield select(AuthenticatedRepSelector)
+  const comments = yield select(getComments)
+  const scanned = yield select(getScanned)
+  const sync = + new Date();
+  
+  if( "mobileappcode" in currentUser ){
+
+     yield put(syncing(sync));
+
+     const url = `${api_services}/scanners/${currentUser.mobileappcode}/sync`;
+     const {response, error} = yield call(postJson, url, {comments, scanned});
+
+    if (!error){
+      yield put(participantsFromSync(response.data))
+      console.log("handleSync OK", url, response);
+    } else {
+      console.log("handleSync ERROR", url, error);
+    }
+
+    yield put(synced())
+
   }
+
+  //yield put(participantsFetch())
+
+  //SELECT CURRENT USERRRRR!!!!
+
+  /**
+   *  const {auth, scanned, comments, syncRequest, participantsFetch}   = this.props;
+    const lastSync = + new Date();
+
+    ({scanned, comments, auth, lastSync});
+    
+   */
+
+
+ 
 }
+
+
+
 
 // const handleAuthenticateFn = function* handleAuthenticate(action)
 // {
@@ -233,12 +282,14 @@ const rootSaga = function * root() {
         takeEvery(Types.PARTICIPANT_UNKNOWN, handleParticipantUnknown),
         takeEvery(Types.PARTICIPANT_SCAN_ERROR, handleParticipantScanError),
         takeEvery(Types.PARTICIPANTS_FETCH, handleParticipantsFetch),
+        takeEvery(Types.SYNC_REQUEST, handleSync),
+        takeEvery(Types.SELECT_REP, handleRepSelect)
+
 
         // takeEvery(Types.LOGOUT, handleLogoutFn),
         // takeEvery(Types.UNAUTHENTICATED, handleUnauthenticatedFn),
         // takeEvery(Types.AUTH_CHECK, handleAuthCheckFn),
         // takeEvery(Types.AUTHENTICATE, handleAuthenticateFn),
-        // takeEvery(Types.SYNC_REQUEST, handleSyncFn)
   ];
 
   yield all(sagaIndex);

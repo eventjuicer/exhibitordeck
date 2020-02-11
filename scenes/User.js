@@ -52,12 +52,12 @@ class User extends React.Component {
 
   render() {
 
-    const { auth, navigation, authenticateByCredentials } = this.props;
+    const { auth, authenticateByCredentials } = this.props;
 
     return (
 
     <View style={{flex:1}}>
-    <Header navigation={navigation} />
+    <Header />
     <View style={{flex:1, marginTop: 20}}>
     {auth ? <CompanyReps /> : <Formik
         initialValues={{ 

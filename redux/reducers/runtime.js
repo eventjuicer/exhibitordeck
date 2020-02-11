@@ -13,9 +13,10 @@ export default function (state = initialState, action){
       return Object.assign({}, state, {cameraVisible: true});
     break;
 
-    case Types.SYNC_REQUEST:
-      return Object.assign({}, state, {isSyncing: true, lastSync : action.payload.lastSync});
+    case Types.SYNCING:
+      return Object.assign({}, state, {isSyncing: true, lastSync : action.payload});
     break;
+
 
     case Types.SYNCED:
       return Object.assign({}, state, {isSyncing: false});

@@ -8,7 +8,9 @@ const silent = [
 
 const removeFromStore = [
   "_persist", 
-  "participants"
+  "participants",
+  "scanned",
+  "comments"
 ]
 
 const logger = store => next => action => {
@@ -31,7 +33,7 @@ const logger = store => next => action => {
           storeContents[name] = value.splice(1)
         }
       })
-      console.info("Store", storeContents);
+     console.info("Store", storeContents);
       console.groupEnd();
     }
 

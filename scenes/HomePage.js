@@ -15,12 +15,12 @@ class HomePage extends React.Component {
 
   render() {
 
-      const {cameraPermission, navigation} = this.props
+      const {cameraPermission} = this.props
 
       return (
           <View style={styles.container}>
-              <Header navigation={navigation} />        
-                {cameraPermission===true ?  <Scanner /> : <NoCameraPermission />  } 
+              <Header />        
+                {cameraPermission ?  <Scanner /> : <NoCameraPermission />  } 
           </View>
       );
   }

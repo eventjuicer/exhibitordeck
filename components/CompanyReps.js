@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import {Button, Icon, ListItem} from 'react-native-elements';
 import { connect } from 'react-redux';
 import get from 'lodash/get'
@@ -10,6 +10,15 @@ import {
     AuthenticatedCompanySelector,
     AuthenticatedRepSelector
 } from '../redux'
+
+
+const styles = StyleSheet.create({
+    infobox : {
+        textAlign: 'center', 
+        fontWeight: 'bold',
+        fontSize: 18,
+    }
+})
 
 class CompanyReps extends React.Component {
 
@@ -27,7 +36,7 @@ class CompanyReps extends React.Component {
             
                 <View style={{flex: 3}}>
              
-                <Text>sss</Text>  
+                <Text styles={styles.infobox}>Choose User</Text>  
 
                 {auth.reps.map((rep) => {
                     

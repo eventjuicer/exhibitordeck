@@ -4,6 +4,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native'
 import {Header, Icon } from 'react-native-elements'
 import HeaderCompany from './HeaderCompany'
+import {withNavigation} from 'react-navigation'
 
 const MyHeader = ({navigation}) => {
 
@@ -22,4 +23,4 @@ const MyHeader = ({navigation}) => {
 }
 
 
-export default MyHeader;
+export default withNavigation(MyHeader);

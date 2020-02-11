@@ -52,14 +52,13 @@ render () {
 
     const {     
       templates, 
-      changeActionLabels, 
-      navigation
+      changeActionLabels
     } = this.props;     
     
     return (
 
       <View>
-      <Header navigation={navigation} />
+      <Header  />
       <ScrollView style={styles.container}>
       <View style={styles.title}>
         <Text h4 >Options</Text>

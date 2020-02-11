@@ -91,5 +91,11 @@ export const AppStateSelector = createSelector(
 
 export const IsAppSyncingSelector = createSelector(
   Selectors.getRuntime,
-  runtime => runtime.isSyncing
+  runtime => "isSyncing" in runtime ? runtime.isSyncing : false
 )
+
+export const LastSyncSelector = createSelector(
+  Selectors.getRuntime,
+  runtime => "lastSync" in runtime ? runtime.lastSync : 0
+)
+

@@ -23,7 +23,7 @@ class SelectCompany extends React.Component {
 
     const { id, name, image } = item;
 
-    if(image){
+    if(image && image.indexOf("http")>-1){
       return (<Image
         source={{ uri: image }}
         style={{ width: 300, height: 100 }}

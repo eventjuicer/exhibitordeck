@@ -1,17 +1,16 @@
 
 import React, {Component} from 'react';
 import {Button, Icon} from 'react-native-elements';
+import {withNavigation} from 'react-navigation'
 
-class NavButton extends Component {
+const NavButton = ({navigation, screen}) => (
 
-  render()
-  {
+  <Icon iconStyle={{marginRight: 15}} name="settings" onPress={() =>  navigation.navigate(screen) }  />
 
-    return (
-      <Icon iconStyle={{marginRight: 15}} name="settings" onPress={() =>  this.props.navigate('Options') }  />
-    );
-  }
+) 
 
+NavButton.defaultProps = {
+  screen : "Options"
 }
 
-export default NavButton;
+export default withNavigation(NavButton);

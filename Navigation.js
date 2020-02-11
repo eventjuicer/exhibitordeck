@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, View, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
+import { Icon } from 'react-native-elements';
 
-import { Icon, Image } from 'react-native-elements';
 
+//custom
 import NavCompanyImage from './components/NavCompanyImage'
 import HomePage from './scenes/HomePage'
 import Scanned from './scenes/Scanned'
@@ -13,8 +14,15 @@ import Options from './scenes/Options'
 import User from './scenes/User'
 import Comments from './scenes/Comments'
 import NavButton from './components/NavButton'
+import HeaderCompany from './components/HeaderCompany'
 
 const styles = StyleSheet.create({
+
+  container : { 
+    height: 250, 
+    backgroundColor: '#d2d2d2', 
+    opacity: 0.9 
+  },
     
   headerImage : {
       height: 50, 
@@ -26,13 +34,13 @@ const styles = StyleSheet.create({
 });
 
 const CustomDrawer = (props) => {
-    //console.log(props);
+  
     return (
     <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ height: 250, backgroundColor: '#d2d2d2', opacity: 0.9 }}>
+    <View style={styles.container}>
     <NavCompanyImage />
     <View style={styles.headerImage}>
-    <Text>John Doe</Text>
+    <HeaderCompany />
     </View>
     </View>
     <ScrollView>
@@ -58,7 +66,7 @@ const StackNavigation = createStackNavigator({
     screen: Scanned,
     navigationOptions : ({navigation}) => ({
        title : "Your last 20 scans",
-       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>,
+       headerRight :  () => <NavButton title="Logout"  />,
        headerShown : false
     })
   },
@@ -66,7 +74,7 @@ const StackNavigation = createStackNavigator({
     screen: Comments,
     navigationOptions : ({navigation}) => ({
        title : `${navigation.state.params.user}`,
-       headerRight :  <NavButton title="Logout" navigate={navigation.navigate}/>
+       headerRight : () => <NavButton title="Logout" />
     
     })
   }

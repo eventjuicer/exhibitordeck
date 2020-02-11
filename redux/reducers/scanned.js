@@ -4,7 +4,7 @@ const participantScanned = (state = [], action) => {
 
   switch (action.type) {
 
-    case Types.SYNCED:
+    case Types.PARTICIPANTS_FROM_SYNC:
 
       //merge only when not empty!?
       if(action.payload && ("scanned" in action.payload) && Object.keys(action.payload.scanned).length)

@@ -11,7 +11,7 @@ class HeaderCompany extends React.Component {
         const {current} = this.props;
         return (
             <View style={{display: 'flex', flexDirection : 'row'}}>
-                  <Text>{current ? getFullname(current) : `Unathenticated`}</Text> 
+                  <Text>{current ? getFullname(current) : `Unauthenticated`}</Text> 
                   <BadgeCounterScanned />
             </View>
         )
@@ -24,7 +24,6 @@ HeaderCompany.defaultProps = {
 }
 
 export default connect((state, props) => ({
-    current : AuthenticatedRepSelector(state, props),
-    runtime : state.runtime
+    current : AuthenticatedRepSelector(state, props)
 }), {})(HeaderCompany);
   

@@ -38,8 +38,7 @@ class Admin extends Component {
 //   this.handleAndroidBackButton();
 // }
 
-  handleAndroidBackButton = () =>
-  {
+  handleAndroidBackButton = () => {
     const {navigation} = this.props;
 
     BackHandler.addEventListener('hardwareBackPress', function()
