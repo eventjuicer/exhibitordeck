@@ -170,7 +170,7 @@ function* handleSync(action){
   const scanned = yield select(getScanned)
   const sync = + new Date();
   
-  if( "mobileappcode" in currentUser ){
+  if( currentUser && "mobileappcode" in currentUser ){
 
      yield put(syncing(sync));
 

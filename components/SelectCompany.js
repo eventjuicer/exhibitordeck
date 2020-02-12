@@ -81,8 +81,8 @@ class SelectCompany extends React.Component {
           autoCapitalize="none"
           autoCorrect={false}
           containerStyle={styles.autocompleteContainer}
-     //     listContainerStyle={styles.listContainerStyle}
-       //   listStyle={styles.listStyle}
+          listContainerStyle={styles.listContainerStyle}
+          listStyle={styles.listStyle}
           data={films.length === 1 && comp(query, films[0].name) ? [] : films}
           defaultValue={query}
           onChangeText={ text => this.handleChange(text) }
@@ -94,8 +94,8 @@ class SelectCompany extends React.Component {
              const {id, name} = item;
 
              return (
-                <TouchableOpacity onPress={() => this.handleChange(name, id) }>
-                 <View>
+                <TouchableOpacity style={styles.touchableListItem} onPress={() => this.handleChange(name, id) }>
+                 <View style={{flex:1}}>
                    <Text style={styles.itemText}>
                     {name}
                   </Text>
@@ -134,11 +134,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems : 'center',
     width: '100%',
-    zIndex: 100
+    zIndex: 900
   },
   listStyle : {
+    backgroundColor: '#ffffff',
   },
   listContainerStyle : {
+    backgroundColor: '#ffffff',
+  },
+  touchableListItem: {
+    backgroundColor: '#ffffff',
   },
   autocompleteContainer: {...{
     width: '90%',
@@ -150,7 +155,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: 1
+    zIndex: 1000
   } : {})},
   itemText: {
     backgroundColor: '#ffffff',

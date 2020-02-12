@@ -15,6 +15,7 @@ import {
 import SyncingScrollView from '../components/SyncingScrollView'
 import Header from '../components/MyHeader'
 import ScannedParticipant from '../components/ScannedParticipant'
+import WarningUnauthenticated from '../components/WarningUnauthenticated'
 
 class Scanned extends Component {
 
@@ -29,13 +30,17 @@ render () {
 
     if(!scanned || !scanned.length){
       return (
-      <View style={{marginTop: 50, paddingHorizontal: 30}}>
+      <View>
+        <Header />
+        <WarningUnauthenticated />
+        <View style={{marginTop: 50, paddingHorizontal: 30}}>
         <Text style={{fontSize: 16, textAlign: "center"}}>
-          No data at the moment. Pull down to sync.
+          No data at the moment. Pull down to force a sync.
         </Text>
         <Text style={{fontSize: 16, textAlign: "center", marginTop: 20}}>
           Scan some badges.
         </Text>
+        </View>
       </View>
       )
    }
@@ -44,6 +49,7 @@ render () {
       <View>
         
         <Header />
+        <WarningUnauthenticated />
         <SyncingScrollView>
         {scanned.map(item => <ScannedParticipant key={item.code} {...item} /> )}
         </SyncingScrollView>

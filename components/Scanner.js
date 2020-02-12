@@ -5,7 +5,7 @@ import { StyleSheet, View, Text } from 'react-native';
 //import { Button } from 'react-native-elements';
 import { withNavigationFocus } from 'react-navigation';
 import compose from 'recompose/compose'
-
+import WarningUnauthenticated from './WarningUnauthenticated'
 import {
   participantScanned
 } from '../redux';
@@ -15,7 +15,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection : 'column'
+    flexDirection : 'column',
+    width : '100%',
+    margin: 0,
+    padding: 0
   },
   subcontainer : {
     justifyContent: 'center',
@@ -40,10 +43,11 @@ const Scanner = ({participantScanned, isFocused}) => {
       
       return (<BarCodeScanner 
         onBarCodeScanned={({data}) => participantScanned(data)} 
-        style={[StyleSheet.absoluteFill, styles.container]}>
+        style={[styles.container]}>
         <View style={styles.subcontainer}>
         <Text style={styles.description}>Scan Visitor Badge</Text>
         </View>
+        <WarningUnauthenticated inverted={true} />
         </BarCodeScanner>
       )
     }

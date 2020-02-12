@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View, Text, Platform } from 'react-native'; 
 import { connect } from 'react-redux';
-import  {askCameraPermission } from '../redux'
 
 const styles = StyleSheet.create({
     container : {
@@ -26,14 +25,14 @@ const styles = StyleSheet.create({
 class NoCameraPermission extends React.Component {
 
     render(){
+
         return (
 
             <View style={styles.container}>
                 
-         
                 <Text style={styles.alert}>You must enable Camera Permission in order to scan QR codes</Text>
-                <Text style={styles.help}>{Platform.OS === "ios" ? `Go to Settings > E-commerce Berlin Exhibitor > Camera (Enable)` : ``}</Text>
-            
+                
+                {Platform.OS === "android" ? null : <Text style={styles.help}>Go to Settings > E-commerce Berlin Exhibitor > Camera (Enable)</Text> }
 
             </View>
         )

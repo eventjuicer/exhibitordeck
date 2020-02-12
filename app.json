@@ -10,7 +10,7 @@
       "ios",
       "android"
     ],
-    "version": "2.1.8",
+    "version": "2.1.9",
     "orientation": "portrait",
     "icon": "./assets/ebe_black.png",
     "splash": {
@@ -22,7 +22,7 @@
     "updates": {
       "enabled" : true,
       "checkAutomatically" : "ON_ERROR_RECOVERY",
-      "fallbackToCacheTimeout": 300000
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "assets/*.png","assets/*.ttf"
@@ -33,12 +33,15 @@
     "ios": {
       "bundleIdentifier": "com.eventjuicer.ebe.exhibitors",
       "supportsTablet": true,
-      "buildNumber": "1.0.2"
+      "buildNumber": "1.0.3",
+      "infoPlist": {
+        "NSCameraUsageDescription": "We use camera to scan QR codes from visitors' badges."
+      }
     },
     "android": {
       "package": "com.eventjuicer.ebe.exhibitors",
       "permissions" : ["CAMERA"],
-      "versionCode": 2
+      "versionCode": 3
     },
     "hooks": {
       "postPublish": [
